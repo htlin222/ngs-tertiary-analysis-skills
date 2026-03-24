@@ -10,6 +10,57 @@ suppressPackageStartupMessages({
 })
 
 # ══════════════════════════════════════════════════════════════════════════════
+# API Response Cache — disk-backed cache for resilience and resume
+# ══════════════════════════════════════════════════════════════════════════════
+
+#' Get or create the API cache directory
+#' @param sample_id Sample ID for per-sample caching
+#' @return Path to cache directory
+api_cache_dir <- function(sample_id = NULL) {
+  base <- Sys.getenv("API_CACHE_DIR",
+                     unset = file.path(here::here(), ".api_cache"))
+  if (!is.null(sample_id)) base <- file.path(base, sample_id)
+  if (!dir.exists(base)) dir.create(base, recursive = TRUE)
+  base
+}
+
+#' Cache-wrapped API call — returns cached result if available, otherwise calls fn
+#' @param cache_key Unique key for this API call (e.g., "oncokb_BRAF_V600E_NSCLC")
+#' @param fn Function to call if cache miss
+#' @param sample_id Sample ID for cache partitioning
+#' @param ttl_hours Cache TTL in hours (default: 168 = 7 days)
+#' @return Cached or fresh result
+cached_api_call <- function(cache_key, fn, sample_id = NULL, ttl_hours = 168) {
+  cache_file <- file.path(api_cache_dir(sample_id),
+                          paste0(gsub("[^a-zA-Z0-9_-]", "_", cache_key), ".rds"))
+
+  # Check cache
+
+  if (file.exists(cache_file)) {
+    age_hours <- as.numeric(difftime(Sys.time(), file.info(cache_file)$mtime,
+                                     units = "hours"))
+    if (age_hours < ttl_hours) {
+      log_debug("Cache hit: {cache_key} (age: {round(age_hours, 1)}h)")
+      return(readRDS(cache_file))
+    }
+    log_debug("Cache expired: {cache_key} (age: {round(age_hours, 1)}h)")
+  }
+
+  # Cache miss — call the function
+  result <- fn()
+
+  # Save to cache
+  tryCatch({
+    saveRDS(result, cache_file)
+    log_debug("Cached: {cache_key}")
+  }, error = function(e) {
+    log_warn("Failed to cache {cache_key}: {e$message}")
+  })
+
+  result
+}
+
+# ══════════════════════════════════════════════════════════════════════════════
 # OncoKB API
 # Docs: https://api.oncokb.org/
 # ══════════════════════════════════════════════════════════════════════════════
@@ -34,16 +85,20 @@ oncokb_request <- function(endpoint) {
 #' @param protein_change Protein change (e.g., "V600E")
 #' @param tumor_type OncoKB tumor type (e.g., "NSCLC", "MEL")
 #' @return List with oncogenic, mutationEffect, treatments, levels
-oncokb_annotate_mutation <- function(hugo_symbol, protein_change, tumor_type) {
-  log_info("OncoKB: annotating {hugo_symbol} {protein_change} in {tumor_type}")
+oncokb_annotate_mutation <- function(hugo_symbol, protein_change, tumor_type,
+                                     sample_id = NULL) {
+  cache_key <- glue("oncokb_mut_{hugo_symbol}_{protein_change}_{tumor_type}")
 
-  resp <- oncokb_request("/annotate/mutations/byProteinChange") |>
-    req_url_query(
-      hugoSymbol = hugo_symbol,
-      alteration = protein_change,
-      tumorType = tumor_type
-    ) |>
-    req_perform()
+  cached_api_call(cache_key, function() {
+    log_info("OncoKB: annotating {hugo_symbol} {protein_change} in {tumor_type}")
+
+    resp <- oncokb_request("/annotate/mutations/byProteinChange") |>
+      req_url_query(
+        hugoSymbol = hugo_symbol,
+        alteration = protein_change,
+        tumorType = tumor_type
+      ) |>
+      req_perform()
 
   result <- resp_body_json(resp)
 
@@ -58,6 +113,7 @@ oncokb_annotate_mutation <- function(hugo_symbol, protein_change, tumor_type) {
     treatments = parse_oncokb_treatments(result$treatments %||% list()),
     raw = result
   )
+  }, sample_id = sample_id)
 }
 
 #' Annotate a copy number alteration via OncoKB
@@ -65,8 +121,12 @@ oncokb_annotate_mutation <- function(hugo_symbol, protein_change, tumor_type) {
 #' @param cna_type "AMPLIFICATION" or "DELETION"
 #' @param tumor_type OncoKB tumor type
 #' @return Annotation result list
-oncokb_annotate_cna <- function(hugo_symbol, cna_type, tumor_type) {
-  log_info("OncoKB: annotating {hugo_symbol} {cna_type} in {tumor_type}")
+oncokb_annotate_cna <- function(hugo_symbol, cna_type, tumor_type,
+                                sample_id = NULL) {
+  cache_key <- glue("oncokb_cna_{hugo_symbol}_{cna_type}_{tumor_type}")
+
+  cached_api_call(cache_key, function() {
+    log_info("OncoKB: annotating {hugo_symbol} {cna_type} in {tumor_type}")
 
   valid_types <- c("AMPLIFICATION", "DELETION", "GAIN", "LOSS")
   cna_type <- toupper(cna_type)
@@ -93,6 +153,7 @@ oncokb_annotate_cna <- function(hugo_symbol, cna_type, tumor_type) {
     treatments = parse_oncokb_treatments(result$treatments %||% list()),
     raw = result
   )
+  }, sample_id = sample_id)
 }
 
 #' Annotate a structural variant / fusion via OncoKB
@@ -102,8 +163,11 @@ oncokb_annotate_cna <- function(hugo_symbol, cna_type, tumor_type) {
 #' @param sv_type Structural variant type (default: "FUSION")
 #' @return Annotation result list
 oncokb_annotate_fusion <- function(gene_a, gene_b, tumor_type,
-                                   sv_type = "FUSION") {
-  log_info("OncoKB: annotating {gene_a}::{gene_b} {sv_type} in {tumor_type}")
+                                   sv_type = "FUSION", sample_id = NULL) {
+  cache_key <- glue("oncokb_fusion_{gene_a}_{gene_b}_{tumor_type}")
+
+  cached_api_call(cache_key, function() {
+    log_info("OncoKB: annotating {gene_a}::{gene_b} {sv_type} in {tumor_type}")
 
   resp <- oncokb_request("/annotate/structuralVariants") |>
     req_url_query(
@@ -126,6 +190,7 @@ oncokb_annotate_fusion <- function(gene_a, gene_b, tumor_type,
     treatments = parse_oncokb_treatments(result$treatments %||% list()),
     raw = result
   )
+  }, sample_id = sample_id)
 }
 
 #' Parse OncoKB treatments list into a tidy tibble

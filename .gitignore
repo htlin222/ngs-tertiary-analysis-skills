@@ -13,6 +13,9 @@ testdata/*.bai
 # R targets cache
 _targets/
 
+# API response cache
+.api_cache/
+
 # Tools directory (GATK, VEP)
 tools/
 

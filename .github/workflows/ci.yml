@@ -1,0 +1,106 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 4.5
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev
+
+      - name: Cache R packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.local/share/R/library
+          key: ${{ runner.os }}-r-${{ hashFiles('**/DESCRIPTION') }}
+          restore-keys: |
+            ${{ runner.os }}-r-
+
+      - name: Install R packages
+        run: |
+          Rscript -e "install.packages(c('testthat', 'yaml', 'dplyr', 'glue', 'stringr', 'purrr', 'tidyr', 'fs', 'here', 'logger', 'httr2', 'jsonlite', 'gt', 'withr'), repos='https://cloud.r-project.org')"
+
+      - name: Install BiocManager
+        run: |
+          Rscript -e "install.packages('BiocManager', repos='https://cloud.r-project.org')"
+
+      - name: Install Bioconductor packages
+        continue-on-error: true
+        run: |
+          Rscript -e "BiocManager::install('Rsamtools', ask=FALSE)"
+
+      - name: Run tests
+        continue-on-error: false
+        run: |
+          Rscript -e 'testthat::test_dir("tests")'
+
+  docker-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        continue-on-error: true
+        run: |
+          docker build -t ngs-tertiary .
+
+  check-structure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify critical files exist
+        run: |
+          set -e
+
+          files=(
+            "_targets.R"
+            "R/utils.R"
+            "R/api_clients.R"
+            "R/esmo_helpers.R"
+            "config/default.yaml"
+            "config/tso500_panel.bed"
+            "08-report/clinical_report.qmd"
+            "08-report/ama.csl"
+            ".claude/skills/ngs-tertiary-analysis/SKILL.md"
+          )
+
+          missing_files=()
+
+          for file in "${files[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "ERROR: Missing critical file: $file"
+              missing_files+=("$file")
+            else
+              echo "OK: $file"
+            fi
+          done
+
+          if [ ${#missing_files[@]} -gt 0 ]; then
+            echo ""
+            echo "FAILED: ${#missing_files[@]} critical file(s) missing"
+            exit 1
+          fi
+
+          echo ""
+          echo "SUCCESS: All critical files present"

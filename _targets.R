@@ -23,10 +23,12 @@ tar_source("08-report/")
 tar_option_set(
   packages = c(
     "dplyr", "tidyr", "purrr", "stringr", "glue", "fs",
-    "yaml", "logger", "jsonlite", "httr2",
+    "yaml", "logger", "jsonlite", "httr2", "here",
     "VariantAnnotation", "GenomicRanges", "Rsamtools"
   ),
-  error = "stop"
+  # "null" skips errored targets, allowing downstream to check and continue
+  # Use "stop" for strict mode: error = "stop"
+  error = "null"
 )
 
 # ── Target definitions ───────────────────────────────────────────────────────
@@ -49,6 +51,11 @@ list(
     sid <- Sys.getenv("SAMPLE_ID", unset = config$sample$id)
     if (is.null(sid) || nchar(sid) == 0) sid <- "SAMPLE_001"
     sid
+  }),
+
+  tar_target(input_validation, {
+    source(here::here("R/validate_inputs.R"))
+    validate_pipeline_inputs(bam_path, config)
   }),
 
   # ── Stage 0: Quality Control ───────────────────────────────────────────────
