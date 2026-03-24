@@ -1,0 +1,88 @@
+# NGS Tertiary Analysis Pipeline Configuration
+# TSO500 Panel Settings
+
+sample:
+  id: "SAMPLE_001"
+  tumor_type: "NSCLC"  # OncoKB tumor type code
+
+reference:
+  genome: "GRCh38"
+  fasta: "/path/to/GRCh38.fa"
+  fasta_index: "/path/to/GRCh38.fa.fai"
+  dict: "/path/to/GRCh38.dict"
+  panel_bed: "config/tso500_panel.bed"
+
+qc:
+  min_mean_coverage: 200
+  min_tumor_purity: 0.10
+  min_mapping_quality: 30
+  min_on_target_rate: 0.80
+  fail_on_low_coverage: false
+
+variant_calling:
+  caller: "mutect2"
+  min_vaf: 0.05
+  min_alt_reads: 5
+  min_base_quality: 20
+  mutect2_extra_args: "--max-reads-per-alignment-start 0"
+  gnomad_resource: "/path/to/af-only-gnomad.hg38.vcf.gz"
+  panel_of_normals: "/path/to/pon.vcf.gz"
+
+annotation:
+  vep_cache_dir: "/path/to/vep/cache"
+  vep_assembly: "GRCh38"
+  vep_species: "homo_sapiens"
+  gnomad_af_threshold: 0.01
+  include_clinvar: true
+  include_cosmic: true
+
+cnv:
+  method: "hybrid"
+  min_log2_gain: 0.58    # ~1.5x copy gain
+  min_log2_loss: -1.0    # ~0.5x copy loss
+  amplification_threshold: 2.0  # log2 ratio for high-level amp
+  reference_cnn: "/path/to/reference.cnn"
+
+fusions:
+  caller: "manta"
+  min_supporting_reads: 5
+  known_fusions_db: "config/known_fusions.tsv"
+
+biomarkers:
+  tmb:
+    panel_coding_size_mb: 1.94  # TSO500 coding region
+    min_vaf_for_tmb: 0.05
+    exclude_synonymous: true
+    exclude_known_drivers: false
+  msi:
+    sites_bed: "config/msi_sites.bed"
+    msi_h_threshold: 20.0  # percent unstable for MSI-H classification
+  hrd:
+    enabled: true
+    score_threshold: 42
+
+clinical_annotation:
+  oncokb:
+    base_url: "https://www.oncokb.org/api/v1"
+    cache_results: true
+    cache_dir: "reports/.oncokb_cache"
+  escat:
+    include_tier_v: false
+
+literature:
+  pubmed:
+    max_results: 10
+    date_range_years: 5
+  scopus:
+    max_results: 10
+  unpaywall:
+    enabled: true
+
+report:
+  format: "html"
+  esmo_version: "2024"
+  include_vus: true
+  include_literature: true
+  institution: "Institution Name"
+  lab_director: "Lab Director Name"
+  output_dir: "reports"

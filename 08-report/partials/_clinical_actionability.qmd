@@ -1,0 +1,92 @@
+```{r clinical-actionability-display, results='asis'}
+if (is.null(escat)) {
+  cat("\n::: {.callout-warning}\nESCAT classification data not available.\n:::\n")
+} else {
+  # Extract the enriched ESCAT results tibble
+  escat_data <- if (is.data.frame(escat)) {
+    escat
+  } else if ("escat_results" %in% names(escat)) {
+    escat$escat_results
+  } else {
+    NULL
+  }
+
+  if (is.null(escat_data) || nrow(escat_data) == 0) {
+    cat("\n::: {.callout-note}\nNo alterations classified by ESCAT.\n:::\n")
+  } else {
+    # Count actionable (tier I-III)
+    n_actionable <- sum(escat_data$escat_tier %in% c("I", "II", "III"))
+
+    # Summary box
+    cat(glue('
+::: {{.callout-tip}}
+## Actionability Summary
+**{n_actionable} actionable alteration(s)** identified (ESCAT Tiers I--III).
+{if (n_actionable > 0) "See table below for matched therapies and evidence levels." else "No standard-of-care or investigational targets with strong evidence identified."}
+:::
+'))
+    cat("\n\n")
+  }
+}
+```
+
+```{r clinical-actionability-table}
+if (!is.null(escat_data) && nrow(escat_data) > 0) {
+  # ESCAT tier color mapping (matches esmo_helpers.R)
+  tier_colors <- c(
+    "I"    = "#d32f2f",
+    "I-R"  = "#e57373",
+    "II"   = "#f57c00",
+    "II-R" = "#ffb74d",
+    "III"  = "#fbc02d",
+    "IV"   = "#7cb342",
+    "V"    = "#42a5f5",
+    "X"    = "#9e9e9e"
+  )
+
+  # Build display table
+  action_display <- escat_data |>
+    mutate(
+      tier_badge = glue(
+        '<span class="escat-badge" style="background-color:{tier_colors[escat_tier] %||% "#9e9e9e"}">ESCAT {escat_tier}</span>'
+      ),
+      oncokb_level = coalesce(sensitive_level, "") |>
+        str_replace("LEVEL_", "Level ")
+    ) |>
+    select(
+      Gene            = gene,
+      Alteration      = alteration,
+      `ESCAT Tier`    = tier_badge,
+      `OncoKB Level`  = oncokb_level,
+      `Matched Therapies` = any_of(c("drugs", "treatments")),
+      `FDA Approved`  = any_of(c("fda_approved"))
+    ) |>
+    arrange(match(escat_data$escat_tier, names(tier_colors)))
+
+  action_display |>
+    gt() |>
+    tab_header(
+      title = md("**Clinical Actionability — ESCAT Classification**"),
+      subtitle = md("*Sorted by ESCAT tier (highest actionability first)*")
+    ) |>
+    fmt_markdown(columns = `ESCAT Tier`) |>
+    cols_align(align = "center", columns = any_of(c("ESCAT Tier", "OncoKB Level", "FDA Approved"))) |>
+    sub_missing(missing_text = "—") |>
+    tab_style(
+      style = cell_text(weight = "bold"),
+      locations = cells_body(columns = Gene)
+    ) |>
+    tab_style(
+      style = cell_fill(color = "#fafafa"),
+      locations = cells_body(rows = seq(1, nrow(action_display), by = 2))
+    ) |>
+    tab_options(
+      table.width = pct(100),
+      table.font.size = px(12),
+      heading.align = "left",
+      table.border.top.color = "#1565c0",
+      table.border.top.width = px(3),
+      data_row.padding = px(6)
+    )
+}
+```

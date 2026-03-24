@@ -1,0 +1,52 @@
+```{r patient-info-table}
+# Extract patient/sample metadata from config and QC results
+patient_data <- tibble(
+  Field = c(
+    "Sample ID",
+    "Tumor Type",
+    "Institution",
+    "Laboratory Director",
+    "Report Date",
+    "Panel",
+    "Specimen Type"
+  ),
+  Value = c(
+    sample_id,
+    config$sample$tumor_type %||% "Not specified",
+    config$sample$institution %||% "Not specified",
+    config$sample$lab_director %||% "Not specified",
+    format(Sys.Date(), "%B %d, %Y"),
+    config$panel$name %||% "TSO500",
+    config$sample$specimen_type %||% "FFPE"
+  )
+)
+
+patient_data |>
+  gt() |>
+  tab_header(
+    title = md("**Patient & Specimen Details**")
+  ) |>
+  cols_label(
+    Field = "Parameter",
+    Value = "Details"
+  ) |>
+  cols_width(
+    Field ~ pct(35),
+    Value ~ pct(65)
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold", color = "#37474f"),
+    locations = cells_body(columns = Field)
+  ) |>
+  tab_style(
+    style = cell_fill(color = "#f5f5f5"),
+    locations = cells_body(rows = seq(1, nrow(patient_data), by = 2))
+  ) |>
+  tab_options(
+    table.width = pct(70),
+    table.font.size = px(13),
+    heading.align = "left",
+    table.border.top.color = "#1565c0",
+    table.border.top.width = px(3)
+  )
+```

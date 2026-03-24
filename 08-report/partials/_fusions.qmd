@@ -1,0 +1,47 @@
+```{r fusions-display-table}
+if (is.null(fusions) || nrow(fusions) == 0) {
+  cat("\n::: {.callout-note}\nNo gene fusions detected in this sample.\n:::\n")
+} else {
+  fusions_display <- fusions |>
+    mutate(
+      # ESMO notation: double-colon separator (gene_a::gene_b)
+      fusion_name = case_when(
+        "fusion_name" %in% names(fusions) ~ fusion_name,
+        all(c("gene_a", "gene_b") %in% names(fusions)) ~
+          paste0(gene_a, "::", gene_b),
+        TRUE ~ alteration %||% "Unknown"
+      )
+    ) |>
+    select(
+      `Fusion`           = fusion_name,
+      `Type`             = any_of(c("type", "fusion_type", "event_type")),
+      `Breakpoint 5'`    = any_of(c("breakpoint_a", "breakpoint_5prime", "bp1")),
+      `Breakpoint 3'`    = any_of(c("breakpoint_b", "breakpoint_3prime", "bp2")),
+      `Supporting Reads` = any_of(c("supporting_reads", "split_reads", "read_count")),
+      `Known Fusion`     = any_of(c("known_fusion", "is_known", "cosmic_fusion"))
+    )
+
+  fusions_display |>
+    gt() |>
+    tab_header(
+      title = md("**Gene Fusions**"),
+      subtitle = md(glue("*{nrow(fusions_display)} fusion(s) detected*"))
+    ) |>
+    cols_align(align = "center", columns = any_of(c("Supporting Reads", "Known Fusion"))) |>
+    tab_style(
+      style = cell_text(weight = "bold", font = "monospace"),
+      locations = cells_body(columns = Fusion)
+    ) |>
+    tab_style(
+      style = cell_fill(color = "#fafafa"),
+      locations = cells_body(rows = seq(1, nrow(fusions_display), by = 2))
+    ) |>
+    tab_options(
+      table.width = pct(85),
+      table.font.size = px(13),
+      heading.align = "left",
+      table.border.top.color = "#1565c0",
+      table.border.top.width = px(3)
+    )
+}
+```

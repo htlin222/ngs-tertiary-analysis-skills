@@ -1,0 +1,80 @@
+```{r literature-narratives, results='asis'}
+if (is.null(literature)) {
+  cat("\n::: {.callout-note}\nLiterature narrative data not available for this sample.\n:::\n")
+} else {
+  # literature can be a list of narrative entries or a tibble
+  lit_entries <- if (is.data.frame(literature)) {
+    # Convert tibble rows to list
+    split(literature, seq_len(nrow(literature)))
+  } else if (is.list(literature)) {
+    literature
+  } else {
+    list()
+  }
+
+  if (length(lit_entries) == 0) {
+    cat("\n::: {.callout-note}\nNo literature narratives generated for this sample.\n:::\n")
+  } else {
+    for (entry in lit_entries) {
+      gene <- entry$gene %||% entry$Gene %||% "Unknown Gene"
+      alteration <- entry$alteration %||% entry$Alteration %||% ""
+      narrative <- entry$narrative %||% entry$text %||% entry$summary %||% ""
+      references <- entry$references %||% entry$refs %||% entry$pmids %||% list()
+
+      # Section header for each variant
+      cat(glue("\n### {gene} {alteration}\n\n"))
+
+      # Narrative paragraph
+      if (nchar(narrative) > 0) {
+        cat(narrative)
+        cat("\n\n")
+      }
+
+      # References with PubMed links
+      if (length(references) > 0) {
+        cat("**References:**\n\n")
+        for (i in seq_along(references)) {
+          ref <- references[[i]]
+          if (is.list(ref)) {
+            pmid <- ref$pmid %||% ref$PMID %||% ""
+            title <- ref$title %||% ref$Title %||% ""
+            authors <- ref$authors %||% ref$Authors %||% ""
+            journal <- ref$journal %||% ref$Journal %||% ""
+            year <- ref$year %||% ref$Year %||% ""
+
+            # Format: Author et al. (Year). Title. Journal. [PubMed]
+            author_display <- if (nchar(authors) > 0) {
+              paste0(str_extract(authors, "^[^,]+"), " et al.")
+            } else {
+              ""
+            }
+
+            citation <- paste0(
+              i, ". ",
+              if (nchar(author_display) > 0) paste0(author_display, " ") else "",
+              if (nchar(year) > 0) paste0("(", year, "). ") else "",
+              if (nchar(title) > 0) paste0("*", title, "* ") else "",
+              if (nchar(journal) > 0) paste0(journal, ". ") else "",
+              if (nchar(pmid) > 0) {
+                paste0("[PubMed:", pmid, "](https://pubmed.ncbi.nlm.nih.gov/", pmid, ")")
+              } else { "" }
+            )
+            cat(citation, "\n")
+          } else if (is.character(ref)) {
+            # Simple PMID string
+            pmid <- gsub("[^0-9]", "", ref)
+            if (nchar(pmid) > 0) {
+              cat(glue("{i}. [PubMed:{pmid}](https://pubmed.ncbi.nlm.nih.gov/{pmid})"), "\n")
+            } else {
+              cat(glue("{i}. {ref}"), "\n")
+            }
+          }
+        }
+        cat("\n")
+      }
+
+      cat("\n---\n\n")
+    }
+  }
+}
+```

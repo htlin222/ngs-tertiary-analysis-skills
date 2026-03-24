@@ -1,0 +1,376 @@
+---
+title: "Comprehensive Genomic Profiling Report"
+subtitle: "TruSight Oncology 500 — ESMO 2024 Compliant"
+date: today
+format:
+  html:
+    theme:
+      light: cosmo
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    embed-resources: true
+    page-layout: article
+    code-fold: true
+    code-summary: "Show analysis code"
+    fig-align: center
+    number-sections: true
+    smooth-scroll: true
+    mainfont: system-ui
+csl: ama.csl
+params:
+  sample_id: "SAMPLE_001"
+  config_path: "config/default.yaml"
+  reports_dir: "reports"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(gt)
+  library(glue)
+  library(ggplot2)
+  library(purrr)
+  library(stringr)
+  library(jsonlite)
+  library(here)
+})
+
+# Load all stage data from RDS
+data_dir <- file.path(params$reports_dir, params$sample_id, "08-report", "data")
+config <- readRDS(file.path(data_dir, "config.rds"))
+qc <- readRDS(file.path(data_dir, "qc_results.rds"))
+variants <- readRDS(file.path(data_dir, "merged_annotations.rds"))
+cnv_data <- readRDS(file.path(data_dir, "parsed_cnv.rds"))
+fusions_data <- readRDS(file.path(data_dir, "parsed_fusions.rds"))
+tmb <- readRDS(file.path(data_dir, "tmb_result.rds"))
+msi <- readRDS(file.path(data_dir, "msi_result.rds"))
+hrd <- readRDS(file.path(data_dir, "hrd_result.rds"))
+oncokb <- readRDS(file.path(data_dir, "oncokb_results.rds"))
+escat <- readRDS(file.path(data_dir, "escat_tiers.rds"))
+literature <- readRDS(file.path(data_dir, "literature_results.rds"))
+
+tumor_type_label <- "High-Grade Serous Ovarian Carcinoma (HGSOC)"
+```
+
+::: {.callout-note appearance="minimal"}
+**Sample:** `r params$sample_id` | **Tumor:** `r tumor_type_label` | **Panel:** TSO500 (523 genes, 1.94 Mb) | **Source:** EGA EGAD50000001451
+:::
+
+# Patient & Sample Information
+
+```{r patient-info}
+tibble(
+  Field = c("Sample ID", "Tumor Type", "Panel", "Specimen Type",
+            "Sequencing Platform", "Reference Genome", "Institution", "Report Date"),
+  Value = c(params$sample_id, tumor_type_label, "TruSight Oncology 500 (TSO500)",
+            "FFPE Tumor Tissue", "Illumina NovaSeq X", "GRCh38 (hg38)",
+            config$report$institution %||% "Research Institution",
+            format(Sys.time(), "%Y-%m-%d"))
+) |>
+  gt() |>
+  cols_width(Field ~ px(200)) |>
+  tab_style(style = cell_text(weight = "bold"), locations = cells_body(columns = Field)) |>
+  tab_options(table.width = pct(100))
+```
+
+# Quality Control
+
+```{r qc-summary}
+qc_df <- tibble(
+  Metric = c("Total Reads", "Mapped Reads", "Mapping Rate", "Mean Coverage",
+             "On-Target Rate", "Duplicate Rate", "Tumor Purity"),
+  Value = c(
+    format(qc$summary$total_reads, big.mark = ","),
+    format(qc$summary$mapped_reads, big.mark = ","),
+    paste0(round(qc$summary$mapping_rate * 100, 1), "%"),
+    paste0(qc$summary$mean_coverage, "x"),
+    paste0(round(qc$summary$on_target_rate * 100, 1), "%"),
+    paste0(round(qc$summary$duplicate_rate * 100, 1), "%"),
+    paste0(round(qc$summary$tumor_purity * 100, 0), "%")
+  ),
+  Threshold = c("-", "-", ">95%", ">200x", ">80%", "<30%", ">10%"),
+  Status = c("-", "-",
+    ifelse(qc$summary$mapping_rate > 0.95, "PASS", "FAIL"),
+    ifelse(qc$summary$mean_coverage > 200, "PASS", "FAIL"),
+    ifelse(qc$summary$on_target_rate > 0.80, "PASS", "FAIL"),
+    ifelse(qc$summary$duplicate_rate < 0.30, "PASS", "FAIL"),
+    ifelse(qc$summary$tumor_purity > 0.10, "PASS", "FAIL"))
+)
+
+qc_df |>
+  gt() |>
+  tab_style(
+    style = cell_fill(color = "#c8e6c9"),
+    locations = cells_body(columns = Status, rows = Status == "PASS")
+  ) |>
+  tab_style(
+    style = cell_fill(color = "#ffcdd2"),
+    locations = cells_body(columns = Status, rows = Status == "FAIL")
+  ) |>
+  tab_header(
+    title = glue("Overall QC: {if (qc$pass) 'PASS' else 'FAIL'}")
+  ) |>
+  tab_options(table.width = pct(100))
+```
+
+## Annotation Methodology
+
+```{r annotation-methods}
+tibble(
+  Component = c("Variant Calling", "Variant Annotation", "Transcript Database",
+                "Functional Prediction", "Population Frequency", "Clinical Databases",
+                "Clinical Actionability", "Nomenclature", "CNV Detection", "Fusion Detection"),
+  `Tool / Database` = c("GATK Mutect2 v4.6.1", "Ensembl VEP (GRCh38)",
+    "Ensembl / GENCODE canonical", "SIFT + PolyPhen-2", "gnomAD v4.0",
+    "ClinVar + COSMIC", "OncoKB API (live)", "HGVS (varnomen.hgvs.org)",
+    "CNVkit (hybrid mode)", "Manta SV caller"),
+  Details = c("Tumor-only mode, panel intervals", "--everything --pick --canonical --hgvs",
+    "One consequence per variant via --pick", "Missense protein impact prediction",
+    "Germline filtering at AF >1%", "Pathogenicity + somatic mutation catalogs",
+    "Therapeutic levels → ESCAT tiers", "Protein (p.) and coding (c.) notation",
+    "Panel-optimized copy number segmentation", "Structural variants for gene fusions")
+) |>
+  gt() |>
+  tab_style(style = cell_text(weight = "bold"), locations = cells_body(columns = Component)) |>
+  tab_options(table.width = pct(100))
+```
+
+# Somatic Variants
+
+`r nrow(variants |> filter(consequence != "amplification"))` somatic variants detected. Annotated with Ensembl VEP (GRCh38) using canonical transcripts and [HGVS nomenclature](https://varnomen.hgvs.org/).
+
+```{r somatic-variants}
+variants |>
+  filter(consequence != "amplification") |>
+  mutate(
+    Gene_display = ifelse(!is.na(transcript_id),
+      glue("{gene}\n{transcript_id}"), gene),
+    VAF_display = ifelse(!is.na(vaf),
+      glue("{round(vaf*100,1)}%\n({alt_depth}/{total_depth})"), "N/A"),
+    Functional = ifelse(!is.na(sift_prediction),
+      glue("{sift_prediction}\n{polyphen_prediction}"), "-")
+  ) |>
+  select(
+    Gene = Gene_display, `HGVS Protein` = hgvsp, `HGVS Coding` = hgvsc,
+    VAF = VAF_display, Consequence = consequence, Impact = impact,
+    `SIFT / PolyPhen` = Functional, ClinVar = clinvar_significance,
+    Classification = pathogenicity
+  ) |>
+  gt() |>
+  tab_style(
+    style = cell_fill(color = "#ffebee"),
+    locations = cells_body(rows = Classification %in% c("pathogenic", "likely_pathogenic"))
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_body(columns = Gene)
+  ) |>
+  fmt_missing(everything(), missing_text = "-") |>
+  tab_options(table.width = pct(100), table.font.size = "small")
+```
+
+## Mutation Confidence Ranking
+
+Variants ranked by call confidence based on VAF relative to detection threshold (`r round(config$variant_calling$min_vaf * 100, 0)`%), sequencing depth, and database concordance.
+
+```{r confidence-ranking}
+if ("confidence" %in% names(variants)) {
+  variants |>
+    filter(consequence != "amplification", !is.na(confidence)) |>
+    select(Gene = gene, Alteration = hgvsp, Confidence = confidence,
+           Rationale = confidence_reason) |>
+    gt() |>
+    tab_style(
+      style = cell_fill(color = "#c8e6c9"),
+      locations = cells_body(columns = Confidence, rows = Confidence == "High confidence")
+    ) |>
+    tab_style(
+      style = cell_fill(color = "#fff9c4"),
+      locations = cells_body(columns = Confidence, rows = Confidence == "Uncertain")
+    ) |>
+    tab_style(
+      style = cell_fill(color = "#ffcdd2"),
+      locations = cells_body(columns = Confidence, rows = str_detect(Confidence, "Questionable"))
+    ) |>
+    tab_style(style = cell_text(weight = "bold"), locations = cells_body(columns = Gene)) |>
+    tab_footnote("Questionable variants should be confirmed by orthogonal methods (Sanger, ddPCR).") |>
+    tab_options(table.width = pct(100), table.font.size = "small")
+}
+```
+
+# Copy Number Alterations
+
+```{r cnv-table}
+cnv_data |>
+  select(Gene = gene, Type = type, `Log2 Ratio` = log2_ratio,
+         `Copy Number` = copy_number, Chromosome = chromosome,
+         Start = start, End = end) |>
+  gt() |>
+  tab_style(
+    style = cell_text(color = "#c62828", weight = "bold"),
+    locations = cells_body(columns = Type, rows = Type == "AMPLIFICATION")
+  ) |>
+  tab_style(
+    style = cell_text(color = "#1565c0", weight = "bold"),
+    locations = cells_body(columns = Type, rows = Type == "DELETION")
+  ) |>
+  fmt_number(columns = `Log2 Ratio`, decimals = 2) |>
+  fmt_integer(columns = c(Start, End)) |>
+  tab_options(table.width = pct(100))
+```
+
+# Gene Fusions
+
+```{r fusions-table}
+fusions_data |>
+  mutate(
+    Fusion = glue("{gene_a}::{gene_b}"),
+    Exons = glue("exon {exon_a}::exon {exon_b}"),
+    Breakpoints = glue("{chr_a}:{format(pos_a, big.mark=',')} — {chr_b}:{format(pos_b, big.mark=',')}")
+  ) |>
+  select(Fusion, Exons, Breakpoints, `Supporting Reads` = supporting_reads,
+         Type = fusion_type, `Known Fusion` = known_fusion) |>
+  gt() |>
+  tab_style(style = cell_text(weight = "bold"), locations = cells_body(columns = Fusion)) |>
+  tab_options(table.width = pct(100))
+```
+
+# Genomic Biomarkers {.panel-tabset}
+
+## TMB
+
+::: {.callout-tip appearance="simple"}
+**`r tmb$tmb_score` mutations/Mb — `r tmb$tmb_class`**
+:::
+
+- Variant count: `r tmb$variant_count` non-synonymous coding variants
+- Panel coding size: `r tmb$panel_size_mb` Mb (TSO500)
+- Classification: TMB-High ≥10, TMB-Intermediate 6–10, TMB-Low <6
+
+## MSI
+
+::: {.callout-tip appearance="simple"}
+**`r msi$msi_score`% — `r msi$msi_status`**
+:::
+
+- Unstable sites: `r msi$unstable_sites` / `r msi$total_sites`
+- Threshold: ≥`r config$biomarkers$msi$msi_h_threshold`% for MSI-H
+
+## HRD
+
+::: {.callout-tip appearance="simple"}
+**Score `r hrd$hrd_score` — `r hrd$hrd_status`**
+:::
+
+- LOH: `r hrd$loh_score` | TAI: `r hrd$tai_score` | LST: `r hrd$lst_score`
+- Threshold: ≥`r config$biomarkers$hrd$score_threshold` for HRD-positive
+- *Note: Panel-based estimation — confirm with dedicated HRD assay for clinical decisions.*
+
+# Clinical Actionability (ESCAT)
+
+```{r escat-summary}
+actionable_n <- nrow(escat |> filter(escat_tier %in% c("I", "II", "III")))
+```
+
+::: {.callout-important}
+**`r actionable_n` actionable alteration(s) identified** (ESCAT Tier I–III) across `r nrow(escat)` total classified alterations.
+:::
+
+```{r escat-table}
+escat_colors <- c("I" = "#d32f2f", "II" = "#f57c00", "III" = "#fbc02d",
+                  "IV" = "#7cb342", "X" = "#9e9e9e")
+
+escat |>
+  select(`ESCAT Tier` = escat_tier, Gene = gene, Alteration = alteration,
+         Type = type, Oncogenic = oncogenic, Level = sensitive_level,
+         Description = escat_description) |>
+  gt() |>
+  tab_style(
+    style = list(cell_fill(color = "#ffebee"), cell_text(weight = "bold")),
+    locations = cells_body(rows = `ESCAT Tier` == "I")
+  ) |>
+  tab_style(
+    style = list(cell_fill(color = "#fff3e0"), cell_text(weight = "bold")),
+    locations = cells_body(rows = `ESCAT Tier` == "II")
+  ) |>
+  tab_style(
+    style = cell_fill(color = "#fffde7"),
+    locations = cells_body(rows = `ESCAT Tier` == "III")
+  ) |>
+  fmt_missing(everything(), missing_text = "-") |>
+  tab_options(table.width = pct(100), table.font.size = "small")
+```
+
+# Treatment-Focused Literature Evidence
+
+Literature search identified **`r if (is.data.frame(literature$pubmed)) nrow(literature$pubmed) else 0`** PubMed and **`r if (is.data.frame(literature$scopus)) nrow(literature$scopus) else 0`** Scopus articles. Each narrative below focuses on **therapeutic implications and recommended treatment strategies** for the identified alterations.
+
+```{r literature-narratives, results='asis'}
+if (length(literature$narratives) > 0) {
+  for (key in names(literature$narratives)) {
+    gene_name <- str_extract(key, "^[^_]+")
+    text <- literature$narratives[[key]]
+    cat(glue("\n\n## {gene_name}\n\n{text}\n\n"))
+  }
+}
+```
+
+```{r literature-references, results='asis'}
+# Build AMA-style reference list from PubMed hits
+if (is.data.frame(literature$pubmed) && nrow(literature$pubmed) > 0) {
+  cat("\n\n## References\n\n")
+  refs <- literature$pubmed |>
+    distinct(pmid, .keep_all = TRUE) |>
+    head(25)
+
+  for (i in seq_len(nrow(refs))) {
+    r <- refs[i, ]
+    # AMA format: Author(s). Title. Journal. Year;Volume:Pages. doi:
+    first_author <- str_extract(r$authors, "^[^,]+")
+    if (is.na(first_author)) first_author <- "Unknown"
+    author_count <- str_count(r$authors, ",") + 1
+    author_str <- if (author_count > 3) paste0(first_author, ", et al") else r$authors
+
+    cat(glue("{i}. {author_str}. {r$title}. *{r$journal}*. {r$year}. ",
+             "PMID: [{r$pmid}](https://pubmed.ncbi.nlm.nih.gov/{r$pmid}/)\n\n"))
+  }
+}
+```
+
+# Coverage Gaps
+
+```{r coverage-gaps}
+gap_genes <- qc$per_gene_coverage |> filter(mean_coverage < 200)
+
+if (nrow(gap_genes) > 0) {
+  knitr::asis_output(glue(
+    '::: {{.callout-warning}}\n',
+    '**{nrow(gap_genes)} gene(s)** did not meet the minimum 200x coverage threshold. ',
+    'Results for these genes should be interpreted with caution.\n',
+    ':::\n'))
+
+  gap_genes |>
+    arrange(mean_coverage) |>
+    select(Gene = gene, `Mean Coverage` = mean_coverage,
+           `Min Coverage` = min_coverage, `% ≥200x` = pct_above_200x) |>
+    gt() |>
+    tab_style(
+      style = cell_fill(color = "#ffcdd2"),
+      locations = cells_body(columns = `Mean Coverage`)
+    ) |>
+    tab_options(table.width = pct(100))
+} else {
+  knitr::asis_output('::: {.callout-tip appearance="simple"}\nAll genes met the minimum 200x coverage threshold.\n:::')
+}
+```
+
+---
+
+::: {.callout-note appearance="minimal"}
+**Disclaimer:** This report is generated for research purposes following ESMO 2024 guidelines. Clinical decisions should be confirmed by a certified molecular pathology laboratory. OncoKB annotations provided under academic license. ESCAT classifications per Mateo et al., *Ann Oncol*, 2018.
+
+**Pipeline:** ngs-tertiary-analysis v0.1.0 | **Reference:** GRCh38 | **Panel:** TSO500 (523 genes, 1.94 Mb coding)
+:::

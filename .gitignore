@@ -1,0 +1,38 @@
+# Patient data - NEVER commit
+reports/
+
+# Test data (large BAM files)
+testdata/*.bam
+testdata/*.bam.bai
+testdata/*.bai
+
+# Environment
+.env
+.env.*
+
+# R targets cache
+_targets/
+
+# Tools directory (GATK, VEP)
+tools/
+
+# renv library (lockfile is committed)
+renv/library/
+renv/staging/
+renv/cellar/
+renv/sandbox/
+
+# R artifacts
+.Rhistory
+.Rdata
+.RData
+*.Rproj.user
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Quarto render artifacts
+*_files/
+*.html
+!08-report/partials/*.qmd

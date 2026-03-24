@@ -1,0 +1,412 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   ESMO Clinical Report Styles — NGS Tertiary Analysis Pipeline
+   Professional medical genomics report styling
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Typography ────────────────────────────────────────────────────────────── */
+
+$font-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  "Helvetica Neue", Arial, sans-serif;
+$font-mono: "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+  monospace;
+
+$color-primary: #1565c0;
+$color-primary-dark: #0d47a1;
+$color-accent: #37474f;
+$color-text: #212121;
+$color-text-light: #616161;
+$color-border: #e0e0e0;
+$color-bg-alt: #fafafa;
+$color-bg-white: #ffffff;
+
+/* ESCAT Tier Colors (matching esmo_helpers.R) */
+$escat-I: #d32f2f;
+$escat-I-R: #e57373;
+$escat-II: #f57c00;
+$escat-II-R: #ffb74d;
+$escat-III: #fbc02d;
+$escat-IV: #7cb342;
+$escat-V: #42a5f5;
+$escat-X: #9e9e9e;
+
+body {
+  font-family: $font-primary;
+  color: $color-text;
+  line-height: 1.6;
+  background-color: $color-bg-white;
+}
+
+/* ── Report Header ─────────────────────────────────────────────────────────── */
+
+.quarto-title {
+  border-bottom: 3px solid $color-primary;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+.quarto-title .title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: $color-primary-dark;
+  letter-spacing: -0.02em;
+}
+
+.quarto-title .subtitle {
+  font-size: 1rem;
+  color: $color-text-light;
+  font-weight: 400;
+  margin-top: 0.25rem;
+}
+
+/* ── Section Headings ──────────────────────────────────────────────────────── */
+
+h2 {
+  color: $color-primary-dark;
+  font-weight: 600;
+  font-size: 1.4rem;
+  border-bottom: 2px solid $color-primary;
+  padding-bottom: 0.4rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  color: $color-accent;
+  font-weight: 600;
+  font-size: 1.15rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+h4 {
+  color: $color-accent;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+/* ── Section Dividers ──────────────────────────────────────────────────────── */
+
+hr {
+  border: none;
+  border-top: 1px solid $color-border;
+  margin: 2rem 0;
+}
+
+/* ── Tables (gt overrides) ─────────────────────────────────────────────────── */
+
+.gt_table {
+  border-collapse: collapse;
+  margin: 1rem 0 1.5rem;
+  font-size: 0.85rem;
+}
+
+/* Zebra striping */
+.gt_row:nth-child(even) {
+  background-color: $color-bg-alt;
+}
+
+.gt_col_heading {
+  background-color: $color-primary !important;
+  color: white !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.04em;
+  padding: 0.6rem 0.8rem !important;
+}
+
+.gt_row {
+  padding: 0.45rem 0.8rem !important;
+  border-bottom: 1px solid #eeeeee;
+}
+
+/* ── ESCAT Tier Badges ─────────────────────────────────────────────────────── */
+
+.escat-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: #ffffff;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+/* Individual tier classes for CSS-only usage */
+.escat-tier-I    { background-color: $escat-I; color: #fff; }
+.escat-tier-I-R  { background-color: $escat-I-R; color: #fff; }
+.escat-tier-II   { background-color: $escat-II; color: #fff; }
+.escat-tier-II-R { background-color: $escat-II-R; color: #333; }
+.escat-tier-III  { background-color: $escat-III; color: #333; }
+.escat-tier-IV   { background-color: $escat-IV; color: #fff; }
+.escat-tier-V    { background-color: $escat-V; color: #fff; }
+.escat-tier-X    { background-color: $escat-X; color: #fff; }
+
+/* ── Status Badges (PASS/FAIL, High/Low) ───────────────────────────────────── */
+
+.badge-pass,
+.badge-low {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  background-color: #2e7d32;
+  color: #ffffff;
+}
+
+.badge-fail,
+.badge-high {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  background-color: #c62828;
+  color: #ffffff;
+}
+
+.badge-intermediate {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  background-color: #f57c00;
+  color: #ffffff;
+}
+
+.badge-na {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  background-color: #e0e0e0;
+  color: #616161;
+}
+
+/* ── Biomarker Cards Grid ──────────────────────────────────────────────────── */
+
+.biomarker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.biomarker-card {
+  background: $color-bg-white;
+  border: 1px solid $color-border;
+  border-top: 4px solid $color-primary;
+  border-radius: 6px;
+  padding: 1.25rem;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.biomarker-icon {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: $color-primary;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+.biomarker-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: $color-accent;
+  margin: 0 0 0.5rem;
+}
+
+.biomarker-score {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: $color-text;
+  margin: 0.5rem 0;
+  font-family: $font-mono;
+}
+
+.biomarker-badge {
+  display: inline-block;
+  padding: 4px 16px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin: 0.5rem 0;
+}
+
+.biomarker-interp {
+  font-size: 0.8rem;
+  color: $color-text-light;
+  line-height: 1.5;
+  margin-top: 0.75rem;
+  text-align: left;
+}
+
+/* ── Callout Overrides ─────────────────────────────────────────────────────── */
+
+.callout-tip {
+  border-left-color: #2e7d32 !important;
+}
+
+.callout-warning {
+  border-left-color: #e65100 !important;
+}
+
+.callout-note {
+  border-left-color: $color-primary !important;
+}
+
+/* ── Report Footer ─────────────────────────────────────────────────────────── */
+
+.report-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid $color-primary;
+  font-size: 0.85rem;
+
+  h3 {
+    font-size: 1rem;
+    color: $color-accent;
+    border-bottom: none;
+    margin-bottom: 0.75rem;
+  }
+}
+
+.disclaimer {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  background-color: #fff8e1;
+  border: 1px solid #ffe082;
+  border-left: 4px solid #ffa000;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  color: #5d4037;
+  line-height: 1.6;
+
+  strong {
+    color: #e65100;
+  }
+}
+
+/* ── TOC Styling ───────────────────────────────────────────────────────────── */
+
+#TOC {
+  font-size: 0.85rem;
+  border-left: 3px solid $color-primary;
+  padding-left: 1rem;
+
+  a {
+    color: $color-accent;
+    text-decoration: none;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+}
+
+/* ── Print Styles ──────────────────────────────────────────────────────────── */
+
+@media print {
+  body {
+    font-size: 10pt;
+    color: #000;
+  }
+
+  .quarto-title {
+    border-bottom: 2px solid #000;
+  }
+
+  .quarto-title .title {
+    color: #000;
+    font-size: 16pt;
+  }
+
+  h2 {
+    color: #000;
+    border-bottom-color: #000;
+    page-break-after: avoid;
+    font-size: 13pt;
+  }
+
+  h3 {
+    page-break-after: avoid;
+    font-size: 11pt;
+  }
+
+  .gt_table {
+    page-break-inside: avoid;
+    font-size: 8pt;
+  }
+
+  .gt_col_heading {
+    background-color: #333 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .biomarker-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .biomarker-card {
+    border: 1px solid #ccc;
+    box-shadow: none;
+    page-break-inside: avoid;
+  }
+
+  .escat-badge,
+  .badge-pass, .badge-fail,
+  .badge-high, .badge-low,
+  .badge-intermediate {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .disclaimer {
+    border: 1px solid #999;
+    background-color: #f5f5f5 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  #TOC {
+    display: none;
+  }
+
+  .report-footer {
+    page-break-before: always;
+  }
+
+  a[href]::after {
+    content: none;
+  }
+}
+
+/* ── Responsive Tables ─────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .gt_table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .biomarker-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quarto-title .title {
+    font-size: 1.4rem;
+  }
+}

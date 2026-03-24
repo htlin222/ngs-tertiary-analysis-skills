@@ -1,0 +1,97 @@
+```{r coverage-gaps-display, results='asis'}
+# Extract coverage data from QC results
+coverage_data <- if (!is.null(qc) && !is.null(qc$gene_coverage)) {
+  qc$gene_coverage
+} else if (!is.null(qc) && !is.null(qc$coverage_gaps)) {
+  qc$coverage_gaps
+} else {
+  NULL
+}
+
+# Coverage threshold per ESMO Level A recommendation
+min_coverage <- config$qc$min_gene_coverage %||%
+                config$report$min_coverage %||%
+                200
+
+if (is.null(coverage_data)) {
+  cat("\n::: {.callout-note}\nPer-gene coverage data not available. Unable to assess coverage gaps.\n:::\n")
+} else {
+  # Filter genes below threshold
+  gaps <- if (is.data.frame(coverage_data)) {
+    coverage_data |>
+      filter(
+        (mean_coverage %||% coverage %||% mean_depth) < min_coverage
+      ) |>
+      mutate(
+        required_coverage = min_coverage,
+        status = "BELOW THRESHOLD"
+      ) |>
+      select(
+        Gene              = any_of(c("gene", "gene_symbol", "Gene")),
+        `Mean Coverage`   = any_of(c("mean_coverage", "coverage", "mean_depth")),
+        `Required Coverage` = required_coverage,
+        Status            = status
+      ) |>
+      arrange(`Mean Coverage`)
+  } else {
+    tibble()
+  }
+
+  if (nrow(gaps) > 0) {
+    # Warning banner
+    cat(glue('
+::: {{.callout-warning}}
+## Coverage Gaps Detected
+**{nrow(gaps)} gene(s)** fall below the ESMO Level A minimum coverage requirement
+of {min_coverage}x. Variants in these regions may not be reliably detected.
+Results for these genes should be interpreted with caution, and reflex testing
+may be warranted.
+:::
+'))
+    cat("\n\n")
+  } else {
+    cat(glue('
+::: {{.callout-tip}}
+## Coverage Adequate
+All panel genes meet the minimum coverage requirement of {min_coverage}x.
+:::
+'))
+    cat("\n\n")
+  }
+}
+```
+
+```{r coverage-gaps-table}
+if (exists("gaps") && is.data.frame(gaps) && nrow(gaps) > 0) {
+  gaps |>
+    gt() |>
+    tab_header(
+      title = md("**Genes Below Coverage Threshold**"),
+      subtitle = md(glue("*ESMO Level A requirement: \u2265{min_coverage}x mean coverage*"))
+    ) |>
+    cols_align(align = "center", columns = c(`Mean Coverage`, `Required Coverage`, Status)) |>
+    fmt_number(columns = `Mean Coverage`, decimals = 0) |>
+    tab_style(
+      style = list(
+        cell_text(weight = "bold", color = "#ffffff"),
+        cell_fill(color = "#e65100")
+      ),
+      locations = cells_body(columns = Status)
+    ) |>
+    tab_style(
+      style = cell_text(weight = "bold"),
+      locations = cells_body(columns = Gene)
+    ) |>
+    tab_style(
+      style = cell_fill(color = "#fff3e0"),
+      locations = cells_body(rows = seq(1, nrow(gaps), by = 2))
+    ) |>
+    tab_options(
+      table.width = pct(70),
+      table.font.size = px(13),
+      heading.align = "left",
+      table.border.top.color = "#e65100",
+      table.border.top.width = px(3)
+    )
+}
+```

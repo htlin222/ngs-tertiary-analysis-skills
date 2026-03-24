@@ -1,0 +1,77 @@
+```{r somatic-variants-table}
+if (is.null(variants) || nrow(variants) == 0) {
+  cat("\n::: {.callout-note}\nNo somatic variants detected in this sample.\n:::\n")
+} else {
+  # Prepare the display table
+  # Sort by clinical significance: Pathogenic > Likely Pathogenic > VUS > Benign
+  pathogenicity_order <- c(
+    "Pathogenic", "Likely_pathogenic", "Likely pathogenic",
+    "Uncertain_significance", "Uncertain significance", "VUS",
+    "Likely_benign", "Likely benign",
+    "Benign",
+    NA_character_
+  )
+
+  variants_display <- variants |>
+    mutate(
+      pathogenicity_rank = match(
+        coalesce(pathogenicity, clinvar_significance, ""),
+        pathogenicity_order,
+        nomatch = 99
+      ),
+      vaf_pct = if ("vaf" %in% names(variants)) round(vaf * 100, 1) else NA_real_
+    ) |>
+    arrange(pathogenicity_rank, desc(vaf_pct)) |>
+    select(
+      Gene         = any_of(c("gene", "gene_symbol", "SYMBOL")),
+      `HGVS Protein` = any_of(c("hgvsp", "hgvs_protein", "HGVSp_Short")),
+      `HGVS Coding`  = any_of(c("hgvsc", "hgvs_coding", "HGVSc")),
+      `VAF (%)`    = any_of(c("vaf_pct")),
+      Consequence  = any_of(c("consequence", "Consequence")),
+      Impact       = any_of(c("impact", "IMPACT")),
+      ClinVar      = any_of(c("clinvar_significance", "clinvar", "CLIN_SIG")),
+      COSMIC       = any_of(c("cosmic_id", "cosmic", "COSMIC_ID")),
+      Pathogenicity = any_of(c("pathogenicity", "classification"))
+    )
+
+  # Determine which rows are pathogenic for highlighting
+  pathogenic_rows <- which(
+    grepl("pathogenic", tolower(variants_display$Pathogenicity %||% ""), fixed = FALSE) &
+    !grepl("benign", tolower(variants_display$Pathogenicity %||% ""), fixed = FALSE)
+  )
+
+  gt_table <- variants_display |>
+    gt() |>
+    tab_header(
+      title = md("**Somatic Variants Detected**"),
+      subtitle = md(glue("*{nrow(variants_display)} variant(s) identified*"))
+    ) |>
+    cols_align(align = "center", columns = any_of(c("VAF (%)", "Impact"))) |>
+    tab_options(
+      table.width = pct(100),
+      table.font.size = px(12),
+      heading.align = "left",
+      table.border.top.color = "#1565c0",
+      table.border.top.width = px(3),
+      data_row.padding = px(5)
+    ) |>
+    tab_style(
+      style = cell_fill(color = "#fafafa"),
+      locations = cells_body(rows = seq(1, nrow(variants_display), by = 2))
+    )
+
+  # Highlight pathogenic variants
+  if (length(pathogenic_rows) > 0) {
+    gt_table <- gt_table |>
+      tab_style(
+        style = list(
+          cell_fill(color = "#ffebee"),
+          cell_text(weight = "bold")
+        ),
+        locations = cells_body(rows = pathogenic_rows)
+      )
+  }
+
+  gt_table
+}
+```
