@@ -35,4 +35,5 @@ Thumbs.db
 # Quarto render artifacts
 *_files/
 *.html
+!docs/demo/index.html
 !08-report/partials/*.qmd
