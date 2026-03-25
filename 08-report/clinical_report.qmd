@@ -32,11 +32,15 @@ suppressPackageStartupMessages({
   library(gt)
   library(glue)
   library(ggplot2)
+  library(ggiraph)
+  library(plotly)
   library(purrr)
   library(stringr)
   library(jsonlite)
   library(here)
 })
+
+source(here::here("R/plot_helpers.R"))
 
 # Load all stage data from RDS
 data_dir <- file.path(params$reports_dir, params$sample_id, "08-report", "data")
@@ -218,6 +222,16 @@ if ("confidence" %in% names(variants)) {
 }
 ```
 
+## VAF Distribution
+
+```{r vaf-distribution, fig.width=8, fig.height=5}
+vaf_df <- variants |>
+  filter(consequence != "amplification", !is.na(vaf)) |>
+  select(gene, hgvsp, vaf, consequence, pathogenicity)
+
+plot_vaf_distribution(vaf_df, config$variant_calling$min_vaf)
+```
+
 # Copy Number Alterations
 
 ```{r cnv-table}
@@ -239,6 +253,20 @@ cnv_data |>
   tab_options(table.width = pct(100))
 ```
 
+## Genome-Wide CNV Profile
+
+```{r cnv-genome-interactive, fig.width=10, fig.height=5}
+plot_cnv_genome_interactive(cnv_data)
+```
+
+## Genomic Overview (Circos)
+
+```{r circos-plot, eval=nrow(cnv_data) > 0 || nrow(fusions_data) > 0, fig.width=8, fig.height=8}
+circos_file <- file.path(tempdir(), paste0(params$sample_id, "_circos.png"))
+plot_circos(cnv_data, fusions_data, output_file = circos_file)
+knitr::include_graphics(circos_file)
+```
+
 # Gene Fusions
 
 ```{r fusions-table}
@@ -255,9 +283,23 @@ fusions_data |>
   tab_options(table.width = pct(100))
 ```
 
-# Genomic Biomarkers {.panel-tabset}
+## Fusion Visualization
 
-## TMB
+```{r fusion-arcs, fig.width=8, fig.height=4}
+fusion_plot_df <- fusions_data |>
+  select(gene_a, gene_b, supporting_reads, fusion_type, known_fusion)
+plot_fusion_arcs(fusion_plot_df)
+```
+
+# Genomic Biomarkers
+
+```{r biomarker-gauges, fig.width=10, fig.height=4}
+plot_biomarker_gauges(tmb, msi, hrd)
+```
+
+## Details {.panel-tabset}
+
+### TMB
 
 ::: {.callout-tip appearance="simple"}
 **`r tmb$tmb_score` mutations/Mb — `r tmb$tmb_class`**
@@ -267,7 +309,7 @@ fusions_data |>
 - Panel coding size: `r tmb$panel_size_mb` Mb (TSO500)
 - Classification: TMB-High ≥10, TMB-Intermediate 6–10, TMB-Low <6
 
-## MSI
+### MSI
 
 ::: {.callout-tip appearance="simple"}
 **`r msi$msi_score`% — `r msi$msi_status`**
@@ -276,7 +318,7 @@ fusions_data |>
 - Unstable sites: `r msi$unstable_sites` / `r msi$total_sites`
 - Threshold: ≥`r config$biomarkers$msi$msi_h_threshold`% for MSI-H
 
-## HRD
+### HRD
 
 ::: {.callout-tip appearance="simple"}
 **Score `r hrd$hrd_score` — `r hrd$hrd_status`**
@@ -414,6 +456,14 @@ if (is.data.frame(literature$pubmed) && nrow(literature$pubmed) > 0) {
 ```
 
 # Coverage Gaps
+
+## Per-Gene Coverage
+
+```{r gene-coverage-plot, eval=!isTRUE(qc$skipped), fig.width=8, fig.height=8}
+if (!is.null(qc$per_gene_coverage) && nrow(qc$per_gene_coverage) > 0) {
+  plot_gene_coverage(qc$per_gene_coverage, 200)
+}
+```
 
 ```{r coverage-gaps}
 if (qc_skipped) {
