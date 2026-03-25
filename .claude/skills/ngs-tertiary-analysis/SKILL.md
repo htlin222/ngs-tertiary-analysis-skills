@@ -1,95 +1,130 @@
 ---
 name: ngs-tertiary-analysis
 description: >
-  Run NGS tertiary analysis pipeline from BAM to ESMO-compliant clinical HTML report.
-  Use when user has a cancer panel BAM file (TSO500) and needs somatic variant calling,
-  annotation, OncoKB clinical actionability, ESCAT classification, literature evidence,
-  and a publication-quality genomics report.
+  Run NGS tertiary analysis pipeline from BAM/VCF to ESMO-compliant clinical HTML report.
+  Use when user has a cancer panel BAM/VCF file (TSO500) and needs somatic variant calling,
+  annotation, OncoKB + CiVIC clinical actionability, ESCAT + AMP/ASCO/CAP classification,
+  interactive visualizations, literature evidence, and a publication-quality genomics report.
+  Two modes: /ngs-quick (one-shot) or /ngs-interactive (step-by-step with choices).
 ---
 
-## Overview
+## Two Modes
 
-End-to-end NGS tertiary analysis pipeline for cancer genomics. Takes a BAM file from
-TSO500 (or similar comprehensive genomic profiling panel) and produces an HTML clinical
-report following ESMO 2024 guidelines.
+This skill has two invocation modes. Choose based on context:
 
-## Quick Start
+### `/ngs-quick` — One-Shot Pipeline Run
+Use when the user already knows what they want. No questions asked — just run the pipeline and deliver the report.
+
+**Trigger**: User provides a BAM/VCF path + tumor type, or says "run the pipeline"
+
+**Behavior**:
+1. Validate inputs (BAM/VCF exists, config valid, API keys present)
+2. Run `targets::tar_make()` end-to-end
+3. Report results summary + path to HTML report
+4. No questions, no choices — just execute
+
+### `/ngs-interactive` — Step-by-Step with Choices
+Use when exploring data, learning the pipeline, or when the user wants control over each stage.
+
+**Trigger**: User says "analyze this sample", "help me interpret", or asks about specific genes/variants
+
+**Behavior**:
+1. Ask about input (BAM or VCF?)
+2. Ask about tumor type (with suggestions)
+3. Run QC and show results — ask if acceptable
+4. Show variants and let user select which to investigate
+5. Present OncoKB + CiVIC findings per gene
+6. Show AMP/ASCO/CAP classification and discuss
+7. Generate visualizations on demand
+8. Render final report with user's chosen options
+
+---
+
+## Pipeline Overview (v0.2.0)
+
+| Stage | Module | What it Does |
+|-------|--------|-------------|
+| 0 | QC | Coverage stats, purity, on-target rate |
+| 1 | Variant Calling | GATK Mutect2 somatic SNV/indel calling |
+| 2 | Annotation | VEP + ClinVar + COSMIC + gnomAD |
+| 3 | CNV | CNVkit copy number detection |
+| 4 | Fusions | Manta structural variant / fusion calling |
+| 5 | Biomarkers | TMB, MSI, HRD calculation |
+| 6a | OncoKB | Clinical actionability + ESCAT tiers |
+| 6b | CiVIC | Community evidence + AMP/ASCO/CAP assertions |
+| 6c | AMP | Automated oncogenicity four-tier classification |
+| 7 | Literature | PubMed + Scopus + treatment narratives |
+| 8 | Report | ESMO 2024 HTML report with interactive plots |
+
+## Knowledge Sources
+
+| Source | Type | API Key Required |
+|--------|------|-----------------|
+| OncoKB | Clinical actionability | Yes (ONCOKB_API_KEY) |
+| CiVIC | Community evidence + AMP assertions | No (free) |
+| ClinVar | Pathogenicity | Via VEP |
+| COSMIC | Somatic mutation catalog | Via VEP |
+| gnomAD | Population frequency | Via VEP |
+| PubMed | Literature evidence | Optional (PUBMED_API_KEY) |
+| Scopus | Citation-ranked literature | Yes (SCOPUS_API_KEY) |
+| Unpaywall | Open access PDFs | Yes (UNPAYWALL_EMAIL) |
+
+## Interactive Visualizations (v0.2.0)
+
+| Plot | Library | Interactive |
+|------|---------|------------|
+| VAF distribution | ggiraph | Hover: gene, variant, VAF%, classification |
+| Gene coverage | ggiraph | Hover: mean/min coverage, % above threshold |
+| CNV genome view | plotly | Zoom, pan, hover across all chromosomes |
+| Circos plot | circlize | Static PNG at 300 DPI (publication quality) |
+| Fusion arcs | ggiraph | Known vs novel, supporting reads |
+| Biomarker gauges | ggiraph | TMB/MSI/HRD with threshold indicators |
+
+## Classification Systems
+
+### ESCAT (from OncoKB)
+- Tier I: Standard of care (LEVEL_1/2)
+- Tier II: Investigational with strong evidence (LEVEL_3A)
+- Tier III: Other tumor types (LEVEL_3B)
+- Tier IV: Preclinical (LEVEL_4)
+- Tier X: No actionability
+
+### AMP/ASCO/CAP (from OncoKB + CiVIC + VEP + ClinVar)
+- Tier I Level A: FDA-approved / guideline-concordant
+- Tier I Level B: Well-powered studies
+- Tier II Level C: Different tumor type evidence
+- Tier II Level D: Preclinical / oncogenic + HIGH impact
+- Tier III: VUS (insufficient evidence)
+- Tier IV: Benign / likely benign
+
+## Report Security
+
+Set `report.password` in config or `REPORT_PASSWORD` env var to encrypt the HTML report with a password gate (browser-native Web Crypto API).
+
+## Quick Reference
 
 ```r
-# Set BAM path and sample config
-Sys.setenv(BAM_PATH = "path/to/tumor.bam")
-Sys.setenv(SAMPLE_ID = "PATIENT_001")
+# Full pipeline from BAM
+BAM_PATH=tumor.bam SAMPLE_ID=P001 Rscript -e 'targets::tar_make()'
 
-# Run full pipeline
-targets::tar_make()
+# From VCF (skips QC, calling, CNV, fusions, MSI)
+VCF_PATH=somatic.vcf.gz SAMPLE_ID=P001 Rscript -e 'targets::tar_make()'
 
-# Or run specific stages
-targets::tar_make(names = c("qc_results"))
-targets::tar_make(names = c("oncokb_results"))
+# E2E test with mock ovarian cancer data
+Rscript run_e2e_test.R
+
+# Run specific targets
+targets::tar_make(names = c("civic_results"))
+targets::tar_make(names = c("amp_results"))
 ```
 
-## Pipeline Stages
+## Supporting Files
 
-| Stage | Dir | Input | Output |
-|-------|-----|-------|--------|
-| QC | `00-qc/` | BAM | coverage stats, purity estimate |
-| Variant Calling | `01-variant-calling/` | BAM | filtered somatic VCF |
-| Annotation | `02-annotation/` | VCF | annotated VCF (VEP, ClinVar, COSMIC) |
-| CNV | `03-cnv/` | BAM | copy number segments |
-| Fusions | `04-fusions/` | BAM | fusion calls |
-| Biomarkers | `05-biomarkers/` | VCF, BAM | TMB, MSI, HRD |
-| Clinical | `06-clinical-annotation/` | all variants | OncoKB + ESCAT tiers |
-| Literature | `07-literature/` | key variants | PubMed/Scopus narratives |
-| Report | `08-report/` | all above | ESMO HTML report |
-
-## Configuration
-
-Edit `config/default.yaml` to customize:
-- `sample.tumor_type`: OncoKB tumor type (e.g., "NSCLC", "COAD", "BRCA")
-- `qc.min_mean_coverage`: minimum acceptable coverage (default: 200x)
-- `variant_calling.min_vaf`: VAF threshold (default: 0.05)
-- `biomarkers.tmb.panel_coding_size_mb`: panel coding size for TMB denominator
-
-## API Keys Required
-
-Set in `.env` file:
-- `ONCOKB_API_KEY` - OncoKB API token (https://www.oncokb.org/apiAccess)
-- `PUBMED_API_KEY` - NCBI E-utilities API key
-- `SCOPUS_API_KEY` - Elsevier Scopus API key
-- `UNPAYWALL_EMAIL` - Email for Unpaywall API
-- `EMBASE_API_KEY` - Embase API key (optional)
-
-## Output Structure
-
-All outputs go to `reports/{sample_id}/` (gitignored for patient privacy):
-
-```
-reports/PATIENT_001/
-├── 00-qc/           # Coverage stats, QC plots
-├── 01-variant-calling/  # VCF files
-├── ...              # One dir per stage
-└── 08-report/
-    └── clinical_report.html  # Final ESMO report
-```
-
-## System Dependencies
-
-Run `make setup-all` or use Docker:
-- GATK 4.x, samtools, bcftools
-- Ensembl VEP with GRCh38 cache
-- CNVkit
-- Quarto CLI
-
-## Troubleshooting
-
-- **OncoKB 401**: Check ONCOKB_API_KEY in .env, ensure approved account
-- **VEP not found**: Run `make setup-vep` or use Docker
-- **Low coverage warning**: Check BAM quality, may need to adjust `qc.min_mean_coverage`
-- **Rate limiting**: Pipeline uses httr2 retry; increase wait in `R/api_clients.R`
-
-## Reference Files
-
-- `reference.md` - Full API docs, ESMO report requirements, config schema
-- `examples.md` - Example runs, sample outputs, common configurations
-- `R/api_clients.R` - OncoKB/PubMed/Scopus API wrapper functions
-- `R/esmo_helpers.R` - ESCAT classification and ESMO formatting logic
+- `reference.md` — API docs, ESMO requirements, config schema
+- `examples.md` — Example runs and tumor-specific configurations
+- `R/api_clients.R` — OncoKB, PubMed, Scopus API wrappers
+- `R/civic_client.R` — CiVIC GraphQL API client
+- `R/amp_classification.R` — AMP/ASCO/CAP four-tier logic
+- `R/plot_helpers.R` — Interactive visualization functions
+- `R/esmo_helpers.R` — ESCAT classification and formatting
+- `R/report_security.R` — Password-protected HTML encryption
