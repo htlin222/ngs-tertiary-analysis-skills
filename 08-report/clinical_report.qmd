@@ -52,6 +52,12 @@ oncokb <- readRDS(file.path(data_dir, "oncokb_results.rds"))
 escat <- readRDS(file.path(data_dir, "escat_tiers.rds"))
 literature <- readRDS(file.path(data_dir, "literature_results.rds"))
 
+civic <- tryCatch(
+  readRDS(file.path(data_dir, "civic.rds")),
+  error = function(e) list(variant_evidence = tibble(), gene_summaries = list(), assertions = tibble())
+)
+has_civic <- nrow(civic$variant_evidence) > 0 || nrow(civic$assertions) > 0
+
 tumor_type_label <- "High-Grade Serous Ovarian Carcinoma (HGSOC)"
 ```
 
@@ -294,10 +300,24 @@ actionable_n <- nrow(escat |> filter(escat_tier %in% c("I", "II", "III")))
 escat_colors <- c("I" = "#d32f2f", "II" = "#f57c00", "III" = "#fbc02d",
                   "IV" = "#7cb342", "X" = "#9e9e9e")
 
-escat |>
+# Determine evidence sources for each alteration
+escat_display <- escat |>
+  mutate(
+    civic_match = if (has_civic && nrow(civic$variant_evidence) > 0) {
+      gene %in% civic$variant_evidence$query_gene
+    } else {
+      FALSE
+    },
+    Sources = case_when(
+      civic_match ~ "OncoKB + CiVIC",
+      TRUE ~ "OncoKB"
+    )
+  )
+
+escat_display |>
   select(`ESCAT Tier` = escat_tier, Gene = gene, Alteration = alteration,
          Type = type, Oncogenic = oncogenic, Level = sensitive_level,
-         Description = escat_description) |>
+         Sources, Description = escat_description) |>
   gt() |>
   tab_style(
     style = list(cell_fill(color = "#ffebee"), cell_text(weight = "bold")),
@@ -313,6 +333,48 @@ escat |>
   ) |>
   fmt_missing(everything(), missing_text = "-") |>
   tab_options(table.width = pct(100), table.font.size = "small")
+```
+
+## Community Evidence (CiVIC)
+
+```{r civic-evidence}
+if (has_civic && nrow(civic$variant_evidence) > 0) {
+  civic$variant_evidence |>
+    select(Gene = query_gene, Variant = query_variant,
+           Type = evidence_type, Level = evidence_level,
+           Direction = evidence_direction, Significance = significance,
+           Disease = disease, Therapies = therapies,
+           Source = source_citation) |>
+    gt() |>
+    tab_style(style = cell_text(weight = "bold"), locations = cells_body(columns = Gene)) |>
+    fmt_missing(everything(), missing_text = "-") |>
+    tab_header(title = "CiVIC Variant Evidence Items") |>
+    tab_footnote("Evidence from CiVIC (civicdb.org) — community-curated variant interpretations.") |>
+    tab_options(table.width = pct(100), table.font.size = "small")
+} else {
+  knitr::asis_output('::: {.callout-note appearance="simple"}\nNo CiVIC community evidence found for the identified variants.\n:::')
+}
+```
+
+### CiVIC AMP/ASCO/CAP Assertions
+
+```{r civic-assertions}
+if (has_civic && nrow(civic$assertions) > 0) {
+  civic$assertions |>
+    select(Gene = gene, Variant = variant_name, `AMP Level` = amp_level,
+           Type = assertion_type, Direction = assertion_direction,
+           Significance = significance, Disease = disease,
+           Therapies = therapies, `NCCN Guideline` = nccn_guideline,
+           `FDA Companion Test` = fda_companion_test) |>
+    gt() |>
+    tab_style(style = cell_text(weight = "bold"), locations = cells_body(columns = Gene)) |>
+    fmt_missing(everything(), missing_text = "-") |>
+    tab_header(title = "CiVIC AMP/ASCO/CAP Assertions") |>
+    tab_footnote("AMP/ASCO/CAP tier assertions curated by the CiVIC community.") |>
+    tab_options(table.width = pct(100), table.font.size = "small")
+} else {
+  knitr::asis_output('::: {.callout-note appearance="simple"}\nNo CiVIC AMP/ASCO/CAP assertions found for the identified genes.\n:::')
+}
 ```
 
 # Treatment-Focused Literature Evidence

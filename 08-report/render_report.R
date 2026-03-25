@@ -49,7 +49,8 @@ render_report <- function(sample_id,
                           hrd,
                           oncokb,
                           escat,
-                          literature) {
+                          literature,
+                          civic = NULL) {
   log_info("Rendering clinical report for sample: {sample_id}")
 
 
@@ -71,7 +72,8 @@ render_report <- function(sample_id,
     hrd        = hrd,
     oncokb     = oncokb,
     escat      = escat,
-    literature = literature
+    literature = literature,
+    civic      = civic
   )
 
   for (name in names(datasets)) {

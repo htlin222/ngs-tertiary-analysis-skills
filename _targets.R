@@ -192,6 +192,16 @@ list(
     classify_escat(oncokb_results, config, sample_id)
   }),
 
+  tar_target(civic_results, {
+    query_civic(
+      variants = merged_annotations,
+      cnv = parsed_cnv,
+      fusions = parsed_fusions,
+      config = config,
+      sample_id = sample_id
+    )
+  }),
+
   # Stage 7: Literature
   tar_target(literature_results, {
     generate_narrative(
@@ -219,7 +229,8 @@ list(
       hrd = hrd_result,
       oncokb = oncokb_results,
       escat = escat_tiers,
-      literature = literature_results
+      literature = literature_results,
+      civic = civic_results
     )
   }, format = "file")
 )

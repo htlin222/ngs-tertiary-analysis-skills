@@ -66,6 +66,9 @@ clinical_annotation:
     base_url: "https://www.oncokb.org/api/v1"
     cache_results: true
     cache_dir: "reports/.oncokb_cache"
+  civic:
+    enabled: true
+    cache_ttl_hours: 168
   escat:
     include_tier_v: false
 
