@@ -419,6 +419,40 @@ if (has_civic && nrow(civic$assertions) > 0) {
 }
 ```
 
+# Oncogenicity Classification (AMP/ASCO/CAP)
+
+```{r amp-table}
+amp_data <- tryCatch(
+  readRDS(file.path(data_dir, "amp.rds")),
+  error = function(e) NULL
+)
+
+if (!is.null(amp_data) && nrow(amp_data) > 0) {
+  amp_data |>
+    select(Gene = gene, Alteration = hgvsp, `AMP Tier` = amp_tier,
+           `AMP Level` = amp_level, Evidence = amp_evidence) |>
+    gt() |>
+    tab_header(title = "AMP/ASCO/CAP Somatic Variant Classification") |>
+    tab_style(
+      style = list(cell_fill(color = "#ffebee"), cell_text(weight = "bold")),
+      locations = cells_body(rows = `AMP Tier` == "Tier I")
+    ) |>
+    tab_style(
+      style = cell_fill(color = "#fff3e0"),
+      locations = cells_body(rows = `AMP Tier` == "Tier II")
+    ) |>
+    tab_style(
+      style = cell_fill(color = "#fffde7"),
+      locations = cells_body(rows = `AMP Tier` == "Tier III")
+    ) |>
+    sub_missing(everything(), missing_text = "-") |>
+    tab_footnote("Classification per Li et al., J Mol Diagn 2017; 19(1):4-23") |>
+    tab_options(table.width = pct(100), table.font.size = "small")
+} else {
+  knitr::asis_output('::: {.callout-note appearance="simple"}\nAMP/ASCO/CAP classification not available.\n:::')
+}
+```
+
 # Treatment-Focused Literature Evidence
 
 Literature search identified **`r if (is.data.frame(literature$pubmed)) nrow(literature$pubmed) else 0`** PubMed and **`r if (is.data.frame(literature$scopus)) nrow(literature$scopus) else 0`** Scopus articles. Each narrative below focuses on **therapeutic implications and recommended treatment strategies** for the identified alterations.

@@ -202,6 +202,30 @@ list(
     )
   }),
 
+  # AMP/ASCO/CAP Oncogenicity Classification
+  tar_target(amp_results, {
+    source(here::here("R/amp_classification.R"))
+    civic_assertions <- if (!is.null(civic_results$assertions) &&
+                            nrow(civic_results$assertions) > 0) {
+      civic_results$assertions
+    } else {
+      NULL
+    }
+    # Build variants with OncoKB data for classification
+    variants_enriched <- merged_annotations |>
+      left_join(
+        bind_rows(
+          map_dfr(oncokb_results$mutations %||% list(), function(m) {
+            tibble(gene = m$gene, alteration = m$alteration,
+                   oncogenic = m$oncogenic,
+                   sensitive_level = m$highest_sensitive_level)
+          })
+        ),
+        by = c("gene", "hgvsp" = "alteration")
+      )
+    classify_all_amp(variants_enriched, civic_assertions)
+  }),
+
   # Stage 7: Literature
   tar_target(literature_results, {
     generate_narrative(
@@ -230,7 +254,8 @@ list(
       oncokb = oncokb_results,
       escat = escat_tiers,
       literature = literature_results,
-      civic = civic_results
+      civic = civic_results,
+      amp = amp_results
     )
   }, format = "file")
 )

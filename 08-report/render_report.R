@@ -26,6 +26,8 @@ source(here::here("R/utils.R"))
 #' @param oncokb List. OncoKB annotation results from stage 06.
 #' @param escat List. ESCAT classification results from stage 06.
 #' @param literature List or tibble. Literature narratives from stage 07.
+#' @param civic List. CiVIC community evidence results (default NULL).
+#' @param amp Tibble. AMP/ASCO/CAP classification results (default NULL).
 #'
 #' @return Character. Path to the rendered HTML report.
 #'
@@ -50,7 +52,8 @@ render_report <- function(sample_id,
                           oncokb,
                           escat,
                           literature,
-                          civic = NULL) {
+                          civic = NULL,
+                          amp = NULL) {
   log_info("Rendering clinical report for sample: {sample_id}")
 
 
@@ -73,7 +76,8 @@ render_report <- function(sample_id,
     oncokb     = oncokb,
     escat      = escat,
     literature = literature,
-    civic      = civic
+    civic      = civic,
+    amp        = amp
   )
 
   for (name in names(datasets)) {
