@@ -2,7 +2,9 @@
 
 R-based pipeline for cancer genomics: **BAM &rarr; ESMO 2024-compliant HTML clinical report**.
 
-Annotates somatic variants with OncoKB, classifies clinical actionability using ESCAT tiers, retrieves treatment-focused literature from PubMed/Scopus, and renders a publication-quality Quarto report with AMA-style citations.
+Annotates somatic variants with [OncoKB](https://www.oncokb.org/) + [CiVIC](https://civicdb.org/), classifies clinical actionability using ESCAT and [AMP/ASCO/CAP](https://doi.org/10.1016/j.jmoldx.2016.10.002) four-tier systems, generates interactive visualizations, retrieves treatment-focused literature from PubMed/Scopus, and renders a publication-quality Quarto report.
+
+**[Live demo report](https://htlin222.github.io/ngs-tertiary-analysis-skills/)** (mock ovarian cancer case)
 
 ## Pipeline Overview
 
@@ -18,9 +20,9 @@ BAM file (TSO500 panel)          VCF file (pre-called variants)
   +-- 03-cnv/           CNVkit (BAM only, skipped for VCF)
   +-- 04-fusions/       Manta (BAM only, skipped for VCF)
   +-- 05-biomarkers/    TMB (both), MSI (BAM only), HRD (BAM only)
-  +-- 06-clinical/      OncoKB API + ESCAT classification
+  +-- 06-clinical/      OncoKB + CiVIC + ESCAT + AMP/ASCO/CAP classification
   +-- 07-literature/    PubMed & Scopus, treatment narratives, AMA citations
-  +-- 08-report/        Quarto HTML report (ESMO 2024 compliant)
+  +-- 08-report/        Quarto HTML report with interactive plots (ESMO 2024)
   |
   v
 reports/{sample_id}/08-report/clinical_report.html
@@ -111,7 +113,7 @@ reports/PATIENT_001/
   03-cnv/                 cnvkit_segments.tsv, cnv_plot.png
   04-fusions/             fusions.tsv
   05-biomarkers/          tmb_result.json, msi_result.json, hrd_result.json
-  06-clinical-annotation/ oncokb_results.json, escat_tiers.csv
+  06-clinical-annotation/ oncokb_results.json, escat_tiers.csv, civic_results.rds
   07-literature/          pubmed_hits.json, scopus_hits.json, narratives.json
   08-report/              clinical_report.html   <-- final report
 ```
@@ -122,17 +124,35 @@ The HTML report follows [ESMO 2024 NGS reporting guidelines](https://www.annalso
 
 - **Patient & sample info** with sequencing platform and specimen details
 - **QC dashboard** with pass/fail thresholds for coverage, mapping, purity
-- **Annotation methodology** table (VEP, SIFT, PolyPhen-2, gnomAD, ClinVar)
-- **Somatic variants** with HGVS nomenclature (p. and c.), Ensembl transcript IDs, VAF, read depth
-- **Mutation confidence ranking** (High / Uncertain / Questionable) based on VAF vs detection threshold
-- **Copy number alterations** with log2 ratios and copy number estimates
-- **Gene fusions** in ESMO notation (geneA::geneB with exon numbers)
-- **Biomarker panel** (TMB, MSI, HRD as tabbed cards)
-- **ESCAT clinical actionability** with color-coded tiers and matched therapies
-- **Treatment-focused literature** with therapeutic recommendations and AMA-style references
-- **Coverage gaps** (ESMO Level A requirement)
+- **Annotation methodology** table (VEP, SIFT, PolyPhen-2, gnomAD, ClinVar, CiVIC, AMP)
+- **Somatic variants** with HGVS nomenclature, Ensembl transcript IDs, VAF, read depth
+- **Interactive VAF distribution** (hover for gene, variant, classification)
+- **Mutation confidence ranking** based on VAF vs detection threshold
+- **Copy number alterations** with interactive genome-wide CNV plot (plotly zoom/pan)
+- **Circos plot** showing CNV tracks + fusion arcs (publication quality, 300 DPI)
+- **Gene fusions** with interactive visualization (known vs novel)
+- **Biomarker gauges** for TMB, MSI, HRD with threshold indicators
+- **ESCAT clinical actionability** with color-coded tiers, OncoKB + CiVIC sources
+- **AMP/ASCO/CAP oncogenicity classification** (four-tier system per Li et al. 2017)
+- **CiVIC community evidence** with variant evidence and AMP assertions
+- **Treatment-focused literature** with AMA-style references
+- **Per-gene coverage** interactive heatmap (ESMO Level A requirement)
+- **Password protection** (optional, browser-native access control)
 
-Rendered with Quarto (cosmo theme, left-side TOC, `gt` tables, self-contained HTML).
+Rendered with Quarto (cosmo theme, left-side TOC, `gt` tables, ggiraph/plotly/circlize plots, self-contained HTML).
+
+## Knowledge Sources
+
+| Source | Type | API Key |
+|--------|------|---------|
+| [OncoKB](https://www.oncokb.org/) | Clinical actionability, ESCAT tiers | Required |
+| [CiVIC](https://civicdb.org/) | Community evidence, AMP/ASCO/CAP assertions | Free (no key) |
+| [ClinVar](https://www.ncbi.nlm.nih.gov/clinvar/) | Pathogenicity classification | Via VEP |
+| [COSMIC](https://cancer.sanger.ac.uk/cosmic) | Somatic mutation catalog | Via VEP |
+| [gnomAD](https://gnomad.broadinstitute.org/) | Population allele frequency | Via VEP |
+| [PubMed](https://pubmed.ncbi.nlm.nih.gov/) | Literature evidence | Optional |
+| [Scopus](https://www.scopus.com/) | Citation-ranked literature | Required |
+| [Unpaywall](https://unpaywall.org/) | Open access PDF links | Required |
 
 ## Configuration
 
@@ -147,6 +167,8 @@ Edit `config/default.yaml` to customize:
 | `biomarkers.msi.msi_h_threshold` | `20.0` | % unstable sites for MSI-H |
 | `biomarkers.hrd.score_threshold` | `42` | HRD-positive threshold |
 | `literature.pubmed.max_results` | `10` | Max PubMed articles per variant |
+| `clinical_annotation.civic.enabled` | `true` | Enable CiVIC community evidence |
+| `report.password` | `null` | Password-protect the HTML report |
 
 ## Project Structure
 
@@ -154,13 +176,17 @@ Edit `config/default.yaml` to customize:
 R/                      Shared utilities
   utils.R               Config loading, logging, .env, external tool wrappers
   api_clients.R         OncoKB, PubMed, Scopus, Unpaywall API wrappers
+  civic_client.R        CiVIC GraphQL API client (free, no key)
   esmo_helpers.R        ESCAT tier classification, ESMO formatting
+  amp_classification.R  AMP/ASCO/CAP four-tier oncogenicity classification
+  plot_helpers.R        Interactive visualizations (ggiraph, plotly, circlize)
+  report_security.R     Password-protected HTML report
 
 00-qc/ .. 08-report/    Pipeline stage scripts (one dir per stage)
 config/                 Pipeline config (default.yaml, panel BED)
-tests/                  testthat unit tests
-docs/                   SETUP.md, ESMO_GUIDELINES.md
-.claude/skills/         Claude Code skill (ngs-tertiary-analysis)
+tests/                  testthat unit tests (169 pass, 0 fail)
+docs/                   SETUP.md, ESMO_GUIDELINES.md, live demo report
+.claude/skills/         Claude Code skills (ngs-quick, ngs-interactive)
 
 _targets.R              Pipeline DAG definition
 Makefile                System dependency setup + pipeline commands
@@ -192,7 +218,7 @@ make test
 Rscript -e 'testthat::test_dir("tests")'
 ```
 
-Tests cover: utility functions, ESCAT mapping, OncoKB response parsing, PubMed XML parsing. API tests are skipped unless keys are set.
+Tests cover: utility functions, ESCAT mapping, OncoKB response parsing, CiVIC API, AMP/ASCO/CAP classification, interactive visualizations, report encryption. API tests are skipped unless keys are set.
 
 ## Docker
 
@@ -210,6 +236,7 @@ docker run -v $(pwd)/reports:/app/reports \
 | API | Purpose | Endpoint |
 |-----|---------|----------|
 | [OncoKB](https://www.oncokb.org/) | Mutation/CNA/fusion clinical actionability | `www.oncokb.org/api/v1/annotate/*` |
+| [CiVIC](https://civicdb.org/) | Community variant evidence + AMP assertions | `civicdb.org/api/graphql` |
 | [PubMed](https://www.ncbi.nlm.nih.gov/home/develop/api/) | Literature search (E-utilities) | `eutils.ncbi.nlm.nih.gov` |
 | [Scopus](https://dev.elsevier.com/) | Citation-ranked literature | `api.elsevier.com/content/search/scopus` |
 | [Unpaywall](https://unpaywall.org/products/api) | Open access PDF links | `api.unpaywall.org/v2/{doi}` |
@@ -219,6 +246,8 @@ docker run -v $(pwd)/reports:/app/reports \
 - [ESMO 2024 NGS Recommendations](https://www.annalsofoncology.org/article/S0923-7534(24)00111-X/fulltext) — Recommendations for NGS use in advanced cancer
 - [ESMO Clinical Reporting Guidelines](https://www.annalsofoncology.org/article/S0923-7534(24)01011-1/fulltext) — How to report NGS results
 - [ESCAT Classification](https://www.annalsofoncology.org/article/S0923-7534(19)34179-1/fulltext) — Scale for Clinical Actionability of molecular Targets
+- [AMP/ASCO/CAP Guidelines](https://doi.org/10.1016/j.jmoldx.2016.10.002) — Li et al., J Mol Diagn 2017; somatic variant classification
+- [CiVIC Knowledgebase](https://civicdb.org/) — Open-access community clinical interpretation
 - [HGVS Nomenclature](https://varnomen.hgvs.org/) — Variant naming standards
 - [OncoKB API Docs](https://api.oncokb.org/) — Precision oncology knowledge base
 
