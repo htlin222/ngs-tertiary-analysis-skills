@@ -7,6 +7,11 @@
 #' page shows a password prompt; correct password reveals the original report.
 #' Uses PBKDF2 key derivation + SHA-256 hash verification in the browser.
 #'
+#' @note This provides access control via password verification, NOT cryptographic
+#' encryption. The report content is base64-encoded (recoverable without password).
+#' For HIPAA-compliant protection, use filesystem encryption or a secure document
+#' management system in addition to this access gate.
+#'
 #' @param html_path Path to the HTML report
 #' @param password Password string. If NULL or empty, returns unchanged.
 #' @param output_path Optional output path. Defaults to same as input.
@@ -15,7 +20,7 @@
 encrypt_html_report <- function(html_path, password = NULL, output_path = NULL) {
   # ── Guard: no password means no encryption ──────────────────────────────
 
-if (is.null(password) || !nzchar(password)) {
+  if (is.null(password) || !nzchar(password)) {
     return(html_path)
   }
 

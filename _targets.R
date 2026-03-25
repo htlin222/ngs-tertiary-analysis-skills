@@ -204,7 +204,6 @@ list(
 
   # AMP/ASCO/CAP Oncogenicity Classification
   tar_target(amp_results, {
-    source(here::here("R/amp_classification.R"))
     civic_assertions <- if (!is.null(civic_results$assertions) &&
                             nrow(civic_results$assertions) > 0) {
       civic_results$assertions

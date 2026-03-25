@@ -287,9 +287,15 @@ civic_get_gene_summary <- function(gene) {
 civic_get_assertions <- function(gene) {
   log_debug("CiVIC: fetching assertions for {gene}")
 
+  # Fetch assertions sorted by evidence count without gene filter, then filter
+
+  # in R. CiVIC has ~200 accepted assertions total, so fetching 100 is safe.
   query <- '
-    query GetAssertions($geneName: String!) {
-      assertions(molecularProfileName: $geneName, first: 50) {
+    query GetAssertions {
+      assertions(
+        sortBy: { column: EVIDENCE_ITEM_COUNT, direction: DESC }
+        first: 100
+      ) {
         nodes {
           id
           ampLevel
@@ -298,7 +304,12 @@ civic_get_assertions <- function(gene) {
           significance
           disease { name }
           therapies { name }
-          molecularProfile { name }
+          molecularProfile {
+            name
+            variants {
+              feature { name }
+            }
+          }
           description
           nccnGuideline { name }
           regulatoryApproval
@@ -310,7 +321,7 @@ civic_get_assertions <- function(gene) {
   '
 
   result <- tryCatch(
-    civic_graphql(query, list(geneName = gene)),
+    civic_graphql(query),
     error = function(e) {
       log_warn("CiVIC assertions fetch failed for {gene}: {e$message}")
       return(NULL)
@@ -333,6 +344,16 @@ civic_get_assertions <- function(gene) {
 
   # Filter to accepted assertions only
   nodes <- Filter(function(n) (n$status %||% "") == "accepted", nodes)
+
+  # Filter by gene: check if any variant's gene matches the requested gene
+  if (!is.null(gene)) {
+    nodes <- Filter(function(a) {
+      variants <- a$molecularProfile$variants %||% list()
+      any(sapply(variants, function(v) {
+        (v$feature$name %||% "") == gene
+      }))
+    }, nodes)
+  }
   if (length(nodes) == 0) return(empty_tbl)
 
   map_dfr(nodes, function(node) {
