@@ -66,6 +66,40 @@ test_that("plot_fusion_arcs handles empty input", {
   expect_s3_class(plot_fusion_arcs(empty), "girafe")
 })
 
+test_that("plot_gene_coverage handles empty input", {
+  empty <- tibble(gene=character(), mean_coverage=numeric(),
+                  min_coverage=numeric(), pct_above_200x=numeric())
+  expect_s3_class(plot_gene_coverage(empty, 200), "girafe")
+})
+
+test_that("plot_circos handles empty CNV and empty fusions", {
+  empty_cnv <- tibble(chromosome=character(), start=integer(), end=integer(),
+                      gene=character(), log2_ratio=numeric(), type=character())
+  empty_fusions <- tibble(gene_a=character(), gene_b=character(),
+                          chr_a=character(), pos_a=integer(),
+                          chr_b=character(), pos_b=integer(),
+                          supporting_reads=integer())
+  tmp <- tempfile(fileext=".png")
+  plot_circos(empty_cnv, empty_fusions, output_file=tmp)
+  expect_true(file.exists(tmp))
+  expect_gt(file.size(tmp), 1000)
+  unlink(tmp)
+})
+
+test_that("plot_biomarker_gauges handles all NULL/NA values", {
+  tmb_null <- list(tmb_score=NULL, tmb_class=NULL, variant_count=NULL)
+  msi_null <- list(msi_score=NULL, msi_status=NULL, unstable_sites=NULL, total_sites=NULL)
+  hrd_null <- list(hrd_score=NULL, hrd_status=NULL, loh_score=NULL, tai_score=NULL, lst_score=NULL)
+  result <- plot_biomarker_gauges(tmb_null, msi_null, hrd_null)
+  expect_s3_class(result, "girafe")
+
+  tmb_na <- list(tmb_score=NA, tmb_class=NA, variant_count=NA)
+  msi_na <- list(msi_score=NA, msi_status=NA, unstable_sites=NA, total_sites=NA)
+  hrd_na <- list(hrd_score=NA, hrd_status=NA, loh_score=NA, tai_score=NA, lst_score=NA)
+  result2 <- plot_biomarker_gauges(tmb_na, msi_na, hrd_na)
+  expect_s3_class(result2, "girafe")
+})
+
 test_that("plot_biomarker_gauges returns girafe", {
   tmb <- list(tmb_score=12.5, tmb_class="TMB-High", variant_count=24)
   msi <- list(msi_score=25, msi_status="MSI-H", unstable_sites=5, total_sites=20)

@@ -356,26 +356,52 @@ plot_fusion_arcs <- function(fusions) {
 #' @param hrd HRD result list with hrd_score, hrd_status, loh_score, tai_score, lst_score
 #' @return girafe object
 plot_biomarker_gauges <- function(tmb, msi, hrd) {
+  `%||%` <- function(a, b) if (is.null(a) || length(a) == 0 || is.na(a)) b else a
+
+  # Extract scores with safe defaults
+
+  tmb_score    <- tmb$tmb_score %||% 0
+  tmb_class    <- tmb$tmb_class %||% "N/A"
+  tmb_variants <- tmb$variant_count %||% 0
+  msi_score    <- msi$msi_score %||% 0
+  msi_status   <- msi$msi_status %||% "N/A"
+  msi_unstable <- msi$unstable_sites %||% 0
+  msi_total    <- msi$total_sites %||% 0
+  hrd_score    <- hrd$hrd_score %||% 0
+  hrd_status   <- hrd$hrd_status %||% "N/A"
+  loh_score    <- hrd$loh_score %||% 0
+  tai_score    <- hrd$tai_score %||% 0
+  lst_score    <- hrd$lst_score %||% 0
+
+  # If all scores are effectively empty, return a message plot
+  if (tmb_score == 0 && msi_score == 0 && hrd_score == 0) {
+    p <- ggplot() +
+      annotate("text", x = 0.5, y = 0.5, label = "No biomarker data",
+               size = 5, color = "grey50") +
+      theme_void()
+    return(girafe(ggobj = p))
+  }
+
   df <- tibble(
     biomarker = c("TMB", "MSI", "HRD"),
-    value = c(tmb$tmb_score, msi$msi_score, hrd$hrd_score),
+    value = c(tmb_score, msi_score, hrd_score),
     threshold = c(10, 20, 42),
-    status = c(tmb$tmb_class, msi$msi_status, hrd$hrd_status),
+    status = c(tmb_class, msi_status, hrd_status),
     tooltip = c(
-      glue("<b>TMB: {tmb$tmb_score} mut/Mb</b><br>",
-           "Class: {tmb$tmb_class}<br>",
-           "Variants: {tmb$variant_count}<br>",
+      glue("<b>TMB: {tmb_score} mut/Mb</b><br>",
+           "Class: {tmb_class}<br>",
+           "Variants: {tmb_variants}<br>",
            "Threshold: 10 mut/Mb"),
-      glue("<b>MSI: {msi$msi_score}%</b><br>",
-           "Status: {msi$msi_status}<br>",
-           "Unstable sites: {msi$unstable_sites}/{msi$total_sites}<br>",
+      glue("<b>MSI: {msi_score}%</b><br>",
+           "Status: {msi_status}<br>",
+           "Unstable sites: {msi_unstable}/{msi_total}<br>",
            "Threshold: 20%"),
-      glue("<b>HRD Score: {hrd$hrd_score}</b><br>",
-           "Status: {hrd$hrd_status}<br>",
-           "LOH: {hrd$loh_score} | TAI: {hrd$tai_score} | LST: {hrd$lst_score}<br>",
+      glue("<b>HRD Score: {hrd_score}</b><br>",
+           "Status: {hrd_status}<br>",
+           "LOH: {loh_score} | TAI: {tai_score} | LST: {lst_score}<br>",
            "Threshold: 42")
     ),
-    above = c(tmb$tmb_score >= 10, msi$msi_score >= 20, hrd$hrd_score >= 42)
+    above = c(tmb_score >= 10, msi_score >= 20, hrd_score >= 42)
   ) |>
     mutate(
       fill_color = ifelse(above, "#c62828", "#2e7d32"),
