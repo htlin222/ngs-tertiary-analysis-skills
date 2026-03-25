@@ -41,7 +41,7 @@ test_that("civic_get_evidence returns evidence items", {
   search <- civic_search_variant("BRAF", "V600E")
   skip_if(nrow(search) == 0, "BRAF V600E not found in CiVIC")
 
-  result <- civic_get_evidence(search$variant_id[1], search$molecular_profile_id[1])
+  result <- civic_get_evidence(search$molecular_profile_id[1])
 
   expect_s3_class(result, "tbl_df")
   expect_true("evidence_id" %in% names(result))

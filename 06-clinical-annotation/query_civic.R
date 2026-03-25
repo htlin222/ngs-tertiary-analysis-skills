@@ -1,7 +1,8 @@
 # 06-clinical-annotation/query_civic.R — CiVIC API querying for community variant evidence
 
 suppressPackageStartupMessages({
-  library(tidyverse)
+  library(dplyr)
+  library(stringr)
   library(jsonlite)
   library(glue)
   library(logger)

@@ -347,7 +347,7 @@ if (has_civic && nrow(civic$variant_evidence) > 0) {
            Source = source_citation) |>
     gt() |>
     tab_style(style = cell_text(weight = "bold"), locations = cells_body(columns = Gene)) |>
-    fmt_missing(everything(), missing_text = "-") |>
+    sub_missing(everything(), missing_text = "-") |>
     tab_header(title = "CiVIC Variant Evidence Items") |>
     tab_footnote("Evidence from CiVIC (civicdb.org) — community-curated variant interpretations.") |>
     tab_options(table.width = pct(100), table.font.size = "small")
@@ -368,7 +368,7 @@ if (has_civic && nrow(civic$assertions) > 0) {
            `FDA Companion Test` = fda_companion_test) |>
     gt() |>
     tab_style(style = cell_text(weight = "bold"), locations = cells_body(columns = Gene)) |>
-    fmt_missing(everything(), missing_text = "-") |>
+    sub_missing(everything(), missing_text = "-") |>
     tab_header(title = "CiVIC AMP/ASCO/CAP Assertions") |>
     tab_footnote("AMP/ASCO/CAP tier assertions curated by the CiVIC community.") |>
     tab_options(table.width = pct(100), table.font.size = "small")

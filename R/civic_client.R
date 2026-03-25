@@ -40,7 +40,10 @@ civic_graphql <- function(query, variables = list()) {
   if (!is.null(result$errors)) {
     error_msgs <- paste(map_chr(result$errors, ~ .x$message %||% "Unknown error"),
                         collapse = "; ")
-    log_warn("CiVIC GraphQL errors: {error_msgs}")
+    if (is.null(result$data)) {
+      stop("CiVIC GraphQL errors: ", error_msgs)
+    }
+    log_warn("CiVIC GraphQL partial errors: {error_msgs}")
   }
 
   result
@@ -124,14 +127,13 @@ civic_search_variant <- function(gene, variant) {
 
 #' Get evidence items for a variant from CiVIC
 #'
-#' @param variant_id Integer. CiVIC variant ID.
 #' @param molecular_profile_id Integer. CiVIC molecular profile ID.
 #' @return Tibble with evidence_id, evidence_type, evidence_level,
 #'   evidence_direction, significance, disease, therapies, source_citation,
 #'   source_url, description. Empty tibble if no results.
 #' @export
-civic_get_evidence <- function(variant_id, molecular_profile_id) {
-  log_debug("CiVIC: fetching evidence for variant_id={variant_id}, mp_id={molecular_profile_id}")
+civic_get_evidence <- function(molecular_profile_id) {
+  log_debug("CiVIC: fetching evidence for mp_id={molecular_profile_id}")
 
   query <- '
     query GetEvidence($molecularProfileId: Int!) {
@@ -399,7 +401,7 @@ civic_annotate_variants <- function(variants, sample_id = "unknown") {
     if (is.na(best$molecular_profile_id)) return(tibble())
 
     evidence <- tryCatch(
-      civic_get_evidence(best$variant_id, best$molecular_profile_id),
+      civic_get_evidence(best$molecular_profile_id),
       error = function(e) {
         log_warn("CiVIC evidence fetch failed for {gene} {variant}: {e$message}")
         return(tibble())
