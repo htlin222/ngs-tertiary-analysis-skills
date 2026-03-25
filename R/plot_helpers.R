@@ -356,22 +356,24 @@ plot_fusion_arcs <- function(fusions) {
 #' @param hrd HRD result list with hrd_score, hrd_status, loh_score, tai_score, lst_score
 #' @return girafe object
 plot_biomarker_gauges <- function(tmb, msi, hrd) {
-  `%||%` <- function(a, b) if (is.null(a) || length(a) == 0 || is.na(a)) b else a
+  safe_val <- function(a, b) {
+    if (is.null(a) || length(a) == 0 || (length(a) == 1 && is.na(a))) b else a
+  }
 
   # Extract scores with safe defaults
 
-  tmb_score    <- tmb$tmb_score %||% 0
-  tmb_class    <- tmb$tmb_class %||% "N/A"
-  tmb_variants <- tmb$variant_count %||% 0
-  msi_score    <- msi$msi_score %||% 0
-  msi_status   <- msi$msi_status %||% "N/A"
-  msi_unstable <- msi$unstable_sites %||% 0
-  msi_total    <- msi$total_sites %||% 0
-  hrd_score    <- hrd$hrd_score %||% 0
-  hrd_status   <- hrd$hrd_status %||% "N/A"
-  loh_score    <- hrd$loh_score %||% 0
-  tai_score    <- hrd$tai_score %||% 0
-  lst_score    <- hrd$lst_score %||% 0
+  tmb_score    <- safe_val(tmb$tmb_score, 0)
+  tmb_class    <- safe_val(tmb$tmb_class, "N/A")
+  tmb_variants <- safe_val(tmb$variant_count, 0)
+  msi_score    <- safe_val(msi$msi_score, 0)
+  msi_status   <- safe_val(msi$msi_status, "N/A")
+  msi_unstable <- safe_val(msi$unstable_sites, 0)
+  msi_total    <- safe_val(msi$total_sites, 0)
+  hrd_score    <- safe_val(hrd$hrd_score, 0)
+  hrd_status   <- safe_val(hrd$hrd_status, "N/A")
+  loh_score    <- safe_val(hrd$loh_score, 0)
+  tai_score    <- safe_val(hrd$tai_score, 0)
+  lst_score    <- safe_val(hrd$lst_score, 0)
 
   # If all scores are effectively empty, return a message plot
   if (tmb_score == 0 && msi_score == 0 && hrd_score == 0) {
