@@ -163,6 +163,67 @@ setup_logging <- function(level = "INFO", log_file = NULL) {
   log_info("Pipeline logging initialized at {level} level")
 }
 
+# ── Input detection ──────────────────────────────────────────────────────────
+
+#' Detect input file type (BAM or VCF)
+#' @param input_path Path to input file
+#' @return "bam" or "vcf"
+detect_input_type <- function(input_path) {
+  ext <- tolower(path_ext(input_path))
+  # Handle .vcf.gz, .vcf, .bam
+  if (ext == "gz") {
+    base_ext <- tolower(path_ext(path_ext_remove(input_path)))
+    if (base_ext == "vcf") return("vcf")
+    if (base_ext == "bam") return("bam")  # unlikely but handle
+  }
+  if (ext == "vcf") return("vcf")
+  if (ext == "bam") return("bam")
+
+  # Fallback: check magic bytes
+  con <- file(input_path, "rb")
+  on.exit(close(con))
+  magic <- readBin(con, "raw", n = 4)
+
+  # BAM magic: 42 41 4d 01
+  if (length(magic) >= 4 && identical(magic[1:3], charToRaw("BAM"))) return("bam")
+
+  # VCF magic: ##fileformat (text) or gzip magic 1f 8b
+  if (length(magic) >= 2 && magic[1] == as.raw(0x1f) && magic[2] == as.raw(0x8b)) {
+    return("vcf")  # gzipped, assume VCF if not BAM
+  }
+  if (length(magic) >= 2 && identical(magic[1:2], charToRaw("##"))) return("vcf")
+
+  stop(glue("Cannot detect input type for: {input_path}. Expected .bam or .vcf/.vcf.gz"))
+}
+
+#' Resolve pipeline input — accepts BAM_PATH or VCF_PATH env vars
+#' @return List with: path, type ("bam" or "vcf")
+resolve_input <- function() {
+  bam <- Sys.getenv("BAM_PATH", unset = "")
+  vcf <- Sys.getenv("VCF_PATH", unset = "")
+  input <- Sys.getenv("INPUT_PATH", unset = "")  # generic
+
+  # Priority: INPUT_PATH > VCF_PATH > BAM_PATH
+  if (nchar(input) > 0) {
+    if (!file.exists(input)) stop(glue("INPUT_PATH not found: {input}"))
+    path <- normalizePath(input)
+    type <- detect_input_type(path)
+  } else if (nchar(vcf) > 0) {
+    if (!file.exists(vcf)) stop(glue("VCF_PATH not found: {vcf}"))
+    path <- normalizePath(vcf)
+    type <- "vcf"
+  } else if (nchar(bam) > 0) {
+    if (!file.exists(bam)) stop(glue("BAM_PATH not found: {bam}"))
+    path <- normalizePath(bam)
+    type <- "bam"
+  } else {
+    stop("No input file specified. Set BAM_PATH, VCF_PATH, or INPUT_PATH env var.")
+  }
+
+  log_info("Input detected: {type} — {path}")
+  list(path = path, type = type)
+}
+
 # ── Variant helpers ──────────────────────────────────────────────────────────
 
 #' Format HGVS protein notation

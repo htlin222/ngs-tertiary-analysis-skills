@@ -7,17 +7,20 @@ Annotates somatic variants with OncoKB, classifies clinical actionability using 
 ## Pipeline Overview
 
 ```
-BAM file (TSO500 panel)
-  |
-  +-- 00-qc/           QC metrics, coverage stats, tumor purity
-  +-- 01-variant-calling/   GATK Mutect2 somatic variant calling
-  +-- 02-annotation/    Ensembl VEP annotation (HGVS, ClinVar, COSMIC, gnomAD)
-  +-- 03-cnv/           CNVkit copy number detection
-  +-- 04-fusions/       Manta gene fusion detection
-  +-- 05-biomarkers/    TMB, MSI, HRD calculation
-  +-- 06-clinical-annotation/   OncoKB API annotation + ESCAT classification
-  +-- 07-literature/    PubMed & Scopus literature search, treatment narratives
-  +-- 08-report/        Quarto HTML report (ESMO 2024 compliant, AMA citations)
+BAM file (TSO500 panel)          VCF file (pre-called variants)
+  |                                |
+  +-- 00-qc/        (BAM only)    |
+  +-- 01-calling/   (BAM only)    |
+  |                                |
+  +------------ OR ----------------+
+  |                                |
+  +-- 02-annotation/    Ensembl VEP (HGVS, ClinVar, COSMIC, gnomAD)
+  +-- 03-cnv/           CNVkit (BAM only, skipped for VCF)
+  +-- 04-fusions/       Manta (BAM only, skipped for VCF)
+  +-- 05-biomarkers/    TMB (both), MSI (BAM only), HRD (BAM only)
+  +-- 06-clinical/      OncoKB API + ESCAT classification
+  +-- 07-literature/    PubMed & Scopus, treatment narratives, AMA citations
+  +-- 08-report/        Quarto HTML report (ESMO 2024 compliant)
   |
   v
 reports/{sample_id}/08-report/clinical_report.html
@@ -56,18 +59,35 @@ EMBASE_API_KEY=your-embase-key
 - **PubMed**: Get key at [ncbi.nlm.nih.gov/account/settings](https://www.ncbi.nlm.nih.gov/account/settings/)
 - **Scopus**: Apply at [dev.elsevier.com](https://dev.elsevier.com/)
 
-### 3. Run the full pipeline
+### 3. Run the pipeline
+
+**From BAM** (full pipeline — stages 0-8):
 
 ```bash
 BAM_PATH=path/to/tumor.bam SAMPLE_ID=PATIENT_001 make run
+```
+
+**From VCF** (skips QC + calling — stages 2-8):
+
+```bash
+VCF_PATH=path/to/somatic.vcf.gz SAMPLE_ID=PATIENT_001 make run
+```
+
+**Auto-detect** (BAM or VCF):
+
+```bash
+INPUT_PATH=path/to/file SAMPLE_ID=PATIENT_001 make run
 ```
 
 Or in R:
 
 ```r
 Sys.setenv(BAM_PATH = "path/to/tumor.bam", SAMPLE_ID = "PATIENT_001")
+# or: Sys.setenv(VCF_PATH = "path/to/somatic.vcf.gz", SAMPLE_ID = "PATIENT_001")
 targets::tar_make()
 ```
+
+When VCF is provided, the pipeline auto-skips QC, variant calling, CNV, fusion, and MSI stages (which require BAM), and enters at annotation. TMB is still calculated from the VCF.
 
 ### 4. Run the demo (no BAM needed)
 

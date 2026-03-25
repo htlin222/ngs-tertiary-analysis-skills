@@ -130,19 +130,29 @@ generate_standalone_report <- function(sample_id, config, qc, variants, cnv,
   </table>')
 
   # 4. QC Section
-  qc_pass <- if (qc$pass) status_badge("PASS", "pass") else status_badge("FAIL", "fail")
-  qc_section <- glue('
-  <h2 id="qc">2. Quality Control</h2>
-  <p>Overall QC Status: {qc_pass}</p>
-  <table>
-    <tr><th>Metric</th><th>Value</th><th>Threshold</th><th>Status</th></tr>
-    <tr><td>Total Reads</td><td>{format(qc$summary$total_reads, big.mark=",")}</td><td>-</td><td>-</td></tr>
-    <tr><td>Mapped Reads</td><td>{format(qc$summary$mapped_reads, big.mark=",")} ({round(qc$summary$mapping_rate*100,1)}%)</td><td>&gt;95%</td><td>{if(qc$summary$mapping_rate>0.95) "PASS" else "FAIL"}</td></tr>
-    <tr><td>Mean Coverage</td><td>{qc$summary$mean_coverage}x</td><td>&gt;200x</td><td>{if(qc$summary$mean_coverage>200) "PASS" else "FAIL"}</td></tr>
-    <tr><td>On-Target Rate</td><td>{round(qc$summary$on_target_rate*100,1)}%</td><td>&gt;80%</td><td>{if(qc$summary$on_target_rate>0.80) "PASS" else "FAIL"}</td></tr>
-    <tr><td>Duplicate Rate</td><td>{round(qc$summary$duplicate_rate*100,1)}%</td><td>&lt;30%</td><td>{if(qc$summary$duplicate_rate<0.30) "PASS" else "FAIL"}</td></tr>
-    <tr><td>Estimated Tumor Purity</td><td>{round(qc$summary$tumor_purity*100,0)}%</td><td>&gt;10%</td><td>{if(qc$summary$tumor_purity>0.10) "PASS" else "FAIL"}</td></tr>
-  </table>')
+  qc_skipped <- isTRUE(qc$skipped)
+  if (qc_skipped) {
+    qc_section <- '
+    <h2 id="qc">2. Quality Control</h2>
+    <div class="warning-box">
+      <strong>QC skipped</strong> — Input was a VCF file. BAM-level quality metrics are not available.
+      To get full QC, provide a BAM file as input.
+    </div>'
+  } else {
+    qc_pass <- if (qc$pass) status_badge("PASS", "pass") else status_badge("FAIL", "fail")
+    qc_section <- glue('
+    <h2 id="qc">2. Quality Control</h2>
+    <p>Overall QC Status: {qc_pass}</p>
+    <table>
+      <tr><th>Metric</th><th>Value</th><th>Threshold</th><th>Status</th></tr>
+      <tr><td>Total Reads</td><td>{format(qc$summary$total_reads, big.mark=",")}</td><td>-</td><td>-</td></tr>
+      <tr><td>Mapped Reads</td><td>{format(qc$summary$mapped_reads, big.mark=",")} ({round(qc$summary$mapping_rate*100,1)}%)</td><td>&gt;95%</td><td>{if(qc$summary$mapping_rate>0.95) "PASS" else "FAIL"}</td></tr>
+      <tr><td>Mean Coverage</td><td>{qc$summary$mean_coverage}x</td><td>&gt;200x</td><td>{if(qc$summary$mean_coverage>200) "PASS" else "FAIL"}</td></tr>
+      <tr><td>On-Target Rate</td><td>{round(qc$summary$on_target_rate*100,1)}%</td><td>&gt;80%</td><td>{if(qc$summary$on_target_rate>0.80) "PASS" else "FAIL"}</td></tr>
+      <tr><td>Duplicate Rate</td><td>{round(qc$summary$duplicate_rate*100,1)}%</td><td>&lt;30%</td><td>{if(qc$summary$duplicate_rate<0.30) "PASS" else "FAIL"}</td></tr>
+      <tr><td>Estimated Tumor Purity</td><td>{round(qc$summary$tumor_purity*100,0)}%</td><td>&gt;10%</td><td>{if(qc$summary$tumor_purity>0.10) "PASS" else "FAIL"}</td></tr>
+    </table>')
+  }
 
   # 4b. Annotation Methodology
   annotation_section <- '

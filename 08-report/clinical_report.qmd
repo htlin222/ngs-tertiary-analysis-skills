@@ -79,6 +79,16 @@ tibble(
 # Quality Control
 
 ```{r qc-summary}
+qc_skipped <- isTRUE(qc$skipped)
+if (qc_skipped) {
+  knitr::asis_output(paste0(
+    '::: {.callout-note}\n',
+    '**QC skipped** — Input was a VCF file. BAM-level quality metrics are not available. ',
+    'To get full QC, provide a BAM file as input.\n',
+    ':::\n'))
+}
+
+if (!qc_skipped) {
 qc_df <- tibble(
   Metric = c("Total Reads", "Mapped Reads", "Mapping Rate", "Mean Coverage",
              "On-Target Rate", "Duplicate Rate", "Tumor Purity"),
@@ -114,6 +124,7 @@ qc_df |>
     title = glue("Overall QC: {if (qc$pass) 'PASS' else 'FAIL'}")
   ) |>
   tab_options(table.width = pct(100))
+} # end if (!qc_skipped)
 ```
 
 ## Annotation Methodology
@@ -343,6 +354,9 @@ if (is.data.frame(literature$pubmed) && nrow(literature$pubmed) > 0) {
 # Coverage Gaps
 
 ```{r coverage-gaps}
+if (qc_skipped) {
+  knitr::asis_output('::: {.callout-note appearance="simple"}\nCoverage gap analysis not available — input was VCF (no BAM-level data).\n:::')
+} else {
 gap_genes <- qc$per_gene_coverage |> filter(mean_coverage < 200)
 
 if (nrow(gap_genes) > 0) {
@@ -365,6 +379,7 @@ if (nrow(gap_genes) > 0) {
 } else {
   knitr::asis_output('::: {.callout-tip appearance="simple"}\nAll genes met the minimum 200x coverage threshold.\n:::')
 }
+} # end if (!qc_skipped) for coverage
 ```
 
 ---
