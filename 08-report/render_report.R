@@ -145,7 +145,15 @@ render_report <- function(sample_id,
     }
   }
 
-  # ── 5. Return final path ───────────────────────────────────────────────────
+  # ── 5. Optional encryption ─────────────────────────────────────────────
+  report_password <- config$report$password %||% Sys.getenv("REPORT_PASSWORD", unset = "")
+  if (nchar(report_password) > 0) {
+    source(here::here("R/report_security.R"))
+    final_path <- encrypt_html_report(as.character(final_path), password = report_password)
+    log_info("Report encrypted with password protection")
+  }
+
+  # ── 6. Return final path ───────────────────────────────────────────────────
   log_info("Clinical report rendered successfully: {final_path}")
   as.character(final_path)
 }

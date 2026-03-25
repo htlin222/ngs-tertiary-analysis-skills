@@ -88,4 +88,5 @@ report:
   include_literature: true
   institution: "Institution Name"
   lab_director: "Lab Director Name"
+  password: null  # Set a password to encrypt the HTML report; or use REPORT_PASSWORD env var
   output_dir: "reports"
