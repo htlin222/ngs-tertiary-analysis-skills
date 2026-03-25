@@ -63,11 +63,43 @@ civic_graphql <- function(query, variables = list()) {
 civic_search_variant <- function(gene, variant) {
   log_debug("CiVIC: searching variant {gene} {variant}")
 
-  query <- '
-    query SearchVariants($geneName: String!, $variantName: String) {
+  empty_tbl <- tibble(
+    variant_id = integer(), gene = character(),
+    variant_name = character(), evidence_count = integer(),
+    molecular_profile_id = integer()
+  )
+
+  # Step 1: resolve gene symbol to CiVIC gene ID
+  gene_query <- '
+    query GetGeneId($symbols: [String!]) {
+      genes(entrezSymbols: $symbols, first: 1) {
+        nodes { id name }
+      }
+    }
+  '
+
+  gene_result <- tryCatch(
+    civic_graphql(gene_query, list(symbols = list(gene))),
+    error = function(e) {
+      log_warn("CiVIC gene lookup failed for {gene}: {e$message}")
+      return(NULL)
+    }
+  )
+
+  if (is.null(gene_result) || is.null(gene_result$data$genes$nodes) ||
+      length(gene_result$data$genes$nodes) == 0) {
+    log_debug("CiVIC: gene {gene} not found")
+    return(empty_tbl)
+  }
+
+  gene_id <- as.integer(gene_result$data$genes$nodes[[1]]$id)
+
+  # Step 2: search variants by geneId + name
+  var_query <- '
+    query SearchVariants($geneId: Int, $name: String) {
       variants(
-        geneNames: [$geneName]
-        variantName: $variantName
+        geneId: $geneId
+        name: $name
         first: 10
       ) {
         nodes {
@@ -80,29 +112,21 @@ civic_search_variant <- function(gene, variant) {
             }
           }
           feature {
-            ... on Gene {
-              name
-            }
+            name
           }
         }
       }
     }
   '
 
-  variables <- list(geneName = gene, variantName = variant)
+  variables <- list(geneId = gene_id, name = variant)
 
   result <- tryCatch(
-    civic_graphql(query, variables),
+    civic_graphql(var_query, variables),
     error = function(e) {
       log_warn("CiVIC variant search failed for {gene} {variant}: {e$message}")
       return(NULL)
     }
-  )
-
-  empty_tbl <- tibble(
-    variant_id = integer(), gene = character(),
-    variant_name = character(), evidence_count = integer(),
-    molecular_profile_id = integer()
   )
 
   if (is.null(result) || is.null(result$data$variants$nodes)) return(empty_tbl)
@@ -219,15 +243,15 @@ civic_get_gene_summary <- function(gene) {
   log_debug("CiVIC: fetching gene summary for {gene}")
 
   query <- '
-    query GetGene($name: String!) {
-      genes(name: $name) {
-        nodes { id name description officialName }
+    query GetGene($symbols: [String!]) {
+      genes(entrezSymbols: $symbols, first: 1) {
+        nodes { id name description fullName }
       }
     }
   '
 
   result <- tryCatch(
-    civic_graphql(query, list(name = gene)),
+    civic_graphql(query, list(symbols = list(gene))),
     error = function(e) {
       log_warn("CiVIC gene summary failed for {gene}: {e$message}")
       return(NULL)
@@ -245,7 +269,7 @@ civic_get_gene_summary <- function(gene) {
     gene_id = as.integer(node$id %||% NA_integer_),
     gene = node$name %||% gene,
     description = node$description %||% NA_character_,
-    official_name = node$officialName %||% NA_character_
+    official_name = node$fullName %||% NA_character_
   )
 }
 
@@ -265,7 +289,7 @@ civic_get_assertions <- function(gene) {
 
   query <- '
     query GetAssertions($geneName: String!) {
-      assertions(geneNames: [$geneName], first: 50) {
+      assertions(molecularProfileName: $geneName, first: 50) {
         nodes {
           id
           ampLevel

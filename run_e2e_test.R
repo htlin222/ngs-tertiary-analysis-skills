@@ -25,6 +25,9 @@ suppressPackageStartupMessages({
 source(here("R/utils.R"))
 source(here("R/api_clients.R"))
 source(here("R/esmo_helpers.R"))
+source(here("R/civic_client.R"))
+source(here("R/amp_classification.R"))
+source(here("R/plot_helpers.R"))
 
 # ── Setup ────────────────────────────────────────────────────────────────────
 
@@ -387,6 +390,53 @@ for (i in seq_len(nrow(tier_counts))) {
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
+# STAGE 6b: CiVIC Community Evidence (REAL API CALLS)
+# ══════════════════════════════════════════════════════════════════════════════
+
+log_info("=== Stage 6b: CiVIC Community Evidence (REAL API) ===")
+
+# Build variant table for CiVIC
+civic_input <- merged_annotations |>
+  filter(!is.na(hgvsp), consequence != "amplification") |>
+  mutate(variant = str_remove(hgvsp, "^p\\.")) |>
+  select(gene, variant)
+
+civic_results <- tryCatch({
+  civic_annotate_variants(civic_input, SAMPLE_ID)
+}, error = function(e) {
+  log_warn("CiVIC annotation failed: {e$message}")
+  list(variant_evidence = tibble(), gene_summaries = list(), assertions = tibble())
+})
+
+log_info("CiVIC: {nrow(civic_results$variant_evidence)} evidence items, {nrow(civic_results$assertions)} assertions")
+
+# ══════════════════════════════════════════════════════════════════════════════
+# STAGE 6c: AMP/ASCO/CAP Classification
+# ══════════════════════════════════════════════════════════════════════════════
+
+log_info("=== Stage 6c: AMP/ASCO/CAP Classification ===")
+
+# Build enriched variants with OncoKB data
+variants_enriched <- merged_annotations |>
+  left_join(
+    map_dfr(oncokb_results$mutations %||% list(), function(m) {
+      tibble(gene = m$gene, alteration = paste0("p.", m$alteration),
+             oncogenic = m$oncogenic, sensitive_level = m$highest_sensitive_level)
+    }),
+    by = c("gene", "hgvsp" = "alteration")
+  )
+
+civic_assertions <- civic_results$assertions
+amp_results <- classify_all_amp(variants_enriched, civic_assertions)
+log_info("AMP classification: {nrow(amp_results)} variants classified")
+if (nrow(amp_results) > 0) {
+  for (tier in unique(amp_results$amp_tier)) {
+    n <- sum(amp_results$amp_tier == tier)
+    log_info("  {tier}: {n} variants")
+  }
+}
+
+# ══════════════════════════════════════════════════════════════════════════════
 # STAGE 7: Literature Search (REAL API CALLS)
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -422,7 +472,9 @@ for (i in seq_along(key_genes)) {
   Sys.sleep(0.5)
 }
 
-pubmed_results <- distinct(pubmed_results, pmid, .keep_all = TRUE)
+if (nrow(pubmed_results) > 0 && "pmid" %in% names(pubmed_results)) {
+  pubmed_results <- distinct(pubmed_results, pmid, .keep_all = TRUE)
+}
 write_json(pubmed_results, file.path(out_lit, "pubmed_hits.json"),
            auto_unbox = TRUE, pretty = TRUE)
 log_info("PubMed: {nrow(pubmed_results)} unique articles found")
@@ -454,7 +506,9 @@ for (i in seq_along(key_genes)) {
   Sys.sleep(0.5)
 }
 
-scopus_results <- distinct(scopus_results, scopus_id, .keep_all = TRUE)
+if (nrow(scopus_results) > 0 && "scopus_id" %in% names(scopus_results)) {
+  scopus_results <- distinct(scopus_results, scopus_id, .keep_all = TRUE)
+}
 write_json(scopus_results, file.path(out_lit, "scopus_hits.json"),
            auto_unbox = TRUE, pretty = TRUE)
 log_info("Scopus: {nrow(scopus_results)} unique articles found")
@@ -584,6 +638,8 @@ saveRDS(oncokb_results, file.path(data_dir, "oncokb_results.rds"))
 saveRDS(escat_tiers, file.path(data_dir, "escat_tiers.rds"))
 saveRDS(literature_results, file.path(data_dir, "literature_results.rds"))
 saveRDS(config, file.path(data_dir, "config.rds"))
+saveRDS(civic_results, file.path(data_dir, "civic.rds"))
+saveRDS(amp_results, file.path(data_dir, "amp.rds"))
 
 log_info("All stage data saved to {data_dir}")
 
