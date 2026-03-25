@@ -42,7 +42,8 @@ test_that("parse_oncokb_treatments parses treatments", {
   result <- parse_oncokb_treatments(mock_treatments)
 
   expect_equal(nrow(result), 2)
-  expect_true("Vemurafenib" %in% result$drugs[1] || "Dabrafenib" %in% result$drugs[1])
+  # Drug names come from mock — first treatment has both Vemurafenib + Dabrafenib
+  expect_true(grepl("Vemurafenib", result$drugs[1]) || grepl("Dabrafenib", result$drugs[1]))
   expect_equal(result$level[1], "LEVEL_1")
   expect_equal(result$level[2], "LEVEL_3A")
 

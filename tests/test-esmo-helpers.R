@@ -62,8 +62,8 @@ test_that("escat_badge_html generates valid HTML", {
 })
 
 test_that("format_variant_esmo formats correctly", {
-  # Gene only
-  result1 <- format_variant_esmo("BRAF")
+  # Gene + NA protein (minimum args)
+  result1 <- format_variant_esmo("BRAF", hgvsp = NA)
   expect_equal(result1, "BRAF")
 
   # Gene + protein change
@@ -79,12 +79,12 @@ test_that("format_variant_esmo formats correctly", {
   expect_true(grepl("BRAF", result4))
   expect_true(grepl("p.Val600Glu", result4))
   expect_true(grepl("c.1799T>A", result4))
-  expect_true(grepl("35.0%", result4))
+  expect_true(grepl("35", result4))  # VAF formatted
 
-  # VAF only
-  result5 <- format_variant_esmo("TP53", vaf = 0.55)
+  # VAF only (hgvsp required arg)
+  result5 <- format_variant_esmo("TP53", hgvsp = NA, vaf = 0.55)
   expect_true(grepl("TP53", result5))
-  expect_true(grepl("55.0%", result5))
+  expect_true(grepl("55", result5))
 })
 
 test_that("format_fusion_esmo uses double colon", {

@@ -27,7 +27,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.local/share/R/library
-          key: ${{ runner.os }}-r-${{ hashFiles('**/DESCRIPTION') }}
+          key: ${{ runner.os }}-r-${{ hashFiles('renv.lock') }}
           restore-keys: |
             ${{ runner.os }}-r-
 
@@ -47,7 +47,7 @@ jobs:
       - name: Run tests
         continue-on-error: false
         run: |
-          Rscript -e 'testthat::test_dir("tests")'
+          Rscript -e 'testthat::test_dir("tests", reporter = "summary", stop_on_failure = TRUE)'
 
   docker-build:
     runs-on: ubuntu-latest
