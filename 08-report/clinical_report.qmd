@@ -143,16 +143,20 @@ qc_df |>
 tibble(
   Component = c("Variant Calling", "Variant Annotation", "Transcript Database",
                 "Functional Prediction", "Population Frequency", "Clinical Databases",
-                "Clinical Actionability", "Nomenclature", "CNV Detection", "Fusion Detection"),
+                "Clinical Actionability", "Nomenclature", "CNV Detection", "Fusion Detection",
+                "Community Evidence", "Oncogenicity Classification"),
   `Tool / Database` = c("GATK Mutect2 v4.6.1", "Ensembl VEP (GRCh38)",
     "Ensembl / GENCODE canonical", "SIFT + PolyPhen-2", "gnomAD v4.0",
     "ClinVar + COSMIC", "OncoKB API (live)", "HGVS (varnomen.hgvs.org)",
-    "CNVkit (hybrid mode)", "Manta SV caller"),
+    "CNVkit (hybrid mode)", "Manta SV caller",
+    "CiVIC (civicdb.org)", "AMP/ASCO/CAP Four-Tier System"),
   Details = c("Tumor-only mode, panel intervals", "--everything --pick --canonical --hgvs",
     "One consequence per variant via --pick", "Missense protein impact prediction",
     "Germline filtering at AF >1%", "Pathogenicity + somatic mutation catalogs",
     "Therapeutic levels → ESCAT tiers", "Protein (p.) and coding (c.) notation",
-    "Panel-optimized copy number segmentation", "Structural variants for gene fusions")
+    "Panel-optimized copy number segmentation", "Structural variants for gene fusions",
+    "CiVIC GraphQL API — variant evidence, gene summaries, community-curated assertions",
+    "Li et al., J Mol Diagn 2017; combines OncoKB + CiVIC + VEP + ClinVar evidence")
 ) |>
   gt() |>
   tab_style(style = cell_text(weight = "bold"), locations = cells_body(columns = Component)) |>
@@ -531,7 +535,7 @@ if (nrow(gap_genes) > 0) {
 ---
 
 ::: {.callout-note appearance="minimal"}
-**Disclaimer:** This report is generated for research purposes following ESMO 2024 guidelines. Clinical decisions should be confirmed by a certified molecular pathology laboratory. OncoKB annotations provided under academic license. ESCAT classifications per Mateo et al., *Ann Oncol*, 2018.
+**Disclaimer:** This report is generated for research purposes following ESMO 2024 guidelines. Clinical decisions should be confirmed by a certified molecular pathology laboratory. OncoKB annotations provided under academic license. ESCAT classifications per Mateo et al., *Ann Oncol*, 2018. CiVIC annotations sourced from the open-access community knowledgebase (civicdb.org). AMP/ASCO/CAP classification per Li et al., J Mol Diagn 2017; 19(1):4-23.
 
-**Pipeline:** ngs-tertiary-analysis v0.1.0 | **Reference:** GRCh38 | **Panel:** TSO500 (523 genes, 1.94 Mb coding)
+**Pipeline:** ngs-tertiary-analysis v0.2.0 | **Reference:** GRCh38 | **Panel:** TSO500 (523 genes, 1.94 Mb coding)
 :::
