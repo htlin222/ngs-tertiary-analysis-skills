@@ -193,6 +193,144 @@ oncokb_annotate_fusion <- function(gene_a, gene_b, tumor_type,
   }, sample_id = sample_id)
 }
 
+#' Batch annotate mutations via OncoKB
+#' @param variants_df Tibble with gene, protein_change columns
+#' @param tumor_type OncoKB tumor type (e.g., "NSCLC", "MEL")
+#' @return List of annotation results (one per variant)
+oncokb_annotate_mutations_batch <- function(variants_df, tumor_type) {
+  token <- get_api_key("ONCOKB_API_KEY")
+
+  # Build request body — array of mutation query objects
+  body <- lapply(seq_len(nrow(variants_df)), function(i) {
+    list(
+      hugoSymbol = variants_df$gene[i],
+      alteration = variants_df$protein_change[i],
+      tumorType = tumor_type
+    )
+  })
+
+  log_info("OncoKB batch: annotating {length(body)} mutations in {tumor_type}")
+
+  resp <- request("https://www.oncokb.org/api/v1/annotate/mutations/byProteinChange") |>
+    req_headers(
+      Authorization = glue("Bearer {token}"),
+      Accept = "application/json"
+    ) |>
+    req_body_json(body) |>
+    req_method("POST") |>
+    req_retry(max_tries = 3, backoff = ~ 2^.x) |>
+    req_throttle(rate = 10 / 60) |>
+    req_perform()
+
+  raw_results <- resp_body_json(resp)
+
+  # Parse each result into our standard format
+  lapply(seq_along(raw_results), function(j) {
+    result <- raw_results[[j]]
+    list(
+      gene = variants_df$gene[j],
+      alteration = variants_df$protein_change[j],
+      tumor_type = tumor_type,
+      oncogenic = result$oncogenic %||% "Unknown",
+      mutation_effect = result$mutationEffect$knownEffect %||% "Unknown",
+      highest_sensitive_level = result$highestSensitiveLevel %||% NA_character_,
+      highest_resistance_level = result$highestResistanceLevel %||% NA_character_,
+      treatments = parse_oncokb_treatments(result$treatments %||% list()),
+      raw = result
+    )
+  })
+}
+
+#' Batch annotate copy number alterations via OncoKB
+#' @param cnas_df Tibble with gene, oncokb_type columns
+#' @param tumor_type OncoKB tumor type
+#' @return List of annotation results (one per CNA)
+oncokb_annotate_cnas_batch <- function(cnas_df, tumor_type) {
+  token <- get_api_key("ONCOKB_API_KEY")
+
+  body <- lapply(seq_len(nrow(cnas_df)), function(i) {
+    list(
+      hugoSymbol = cnas_df$gene[i],
+      copyNameAlterationType = cnas_df$oncokb_type[i],
+      tumorType = tumor_type
+    )
+  })
+
+  log_info("OncoKB batch: annotating {length(body)} CNAs in {tumor_type}")
+
+  resp <- request("https://www.oncokb.org/api/v1/annotate/copyNumberAlterations") |>
+    req_headers(
+      Authorization = glue("Bearer {token}"),
+      Accept = "application/json"
+    ) |>
+    req_body_json(body) |>
+    req_method("POST") |>
+    req_retry(max_tries = 3, backoff = ~ 2^.x) |>
+    req_throttle(rate = 10 / 60) |>
+    req_perform()
+
+  raw_results <- resp_body_json(resp)
+
+  lapply(seq_along(raw_results), function(j) {
+    result <- raw_results[[j]]
+    list(
+      gene = cnas_df$gene[j],
+      alteration = cnas_df$oncokb_type[j],
+      tumor_type = tumor_type,
+      oncogenic = result$oncogenic %||% "Unknown",
+      highest_sensitive_level = result$highestSensitiveLevel %||% NA_character_,
+      treatments = parse_oncokb_treatments(result$treatments %||% list()),
+      raw = result
+    )
+  })
+}
+
+#' Batch annotate structural variants / fusions via OncoKB
+#' @param fusions_df Tibble with gene_a, gene_b columns
+#' @param tumor_type OncoKB tumor type
+#' @return List of annotation results (one per fusion)
+oncokb_annotate_fusions_batch <- function(fusions_df, tumor_type) {
+  token <- get_api_key("ONCOKB_API_KEY")
+
+  body <- lapply(seq_len(nrow(fusions_df)), function(i) {
+    list(
+      hugoSymbolA = fusions_df$gene_a[i],
+      hugoSymbolB = fusions_df$gene_b[i],
+      structuralVariantType = "FUSION",
+      tumorType = tumor_type
+    )
+  })
+
+  log_info("OncoKB batch: annotating {length(body)} fusions in {tumor_type}")
+
+  resp <- request("https://www.oncokb.org/api/v1/annotate/structuralVariants") |>
+    req_headers(
+      Authorization = glue("Bearer {token}"),
+      Accept = "application/json"
+    ) |>
+    req_body_json(body) |>
+    req_method("POST") |>
+    req_retry(max_tries = 3, backoff = ~ 2^.x) |>
+    req_throttle(rate = 10 / 60) |>
+    req_perform()
+
+  raw_results <- resp_body_json(resp)
+
+  lapply(seq_along(raw_results), function(j) {
+    result <- raw_results[[j]]
+    list(
+      gene_a = fusions_df$gene_a[j],
+      gene_b = fusions_df$gene_b[j],
+      alteration = glue("{fusions_df$gene_a[j]}::{fusions_df$gene_b[j]}"),
+      tumor_type = tumor_type,
+      oncogenic = result$oncogenic %||% "Unknown",
+      highest_sensitive_level = result$highestSensitiveLevel %||% NA_character_,
+      treatments = parse_oncokb_treatments(result$treatments %||% list()),
+      raw = result
+    )
+  })
+}
+
 #' Parse OncoKB treatments list into a tidy tibble
 #' @param treatments List of treatment objects from OncoKB response
 #' @return Tibble with drug, level, description columns

@@ -87,13 +87,19 @@ search_pubmed_for_variants <- function(variants, config, sample_id) {
     ))
   }
 
-  # Search each variant
-  all_results <- map_dfr(seq_len(nrow(significant_variants)), function(i) {
-    var_row <- significant_variants[i, ]
+  # Deduplicate: one search per unique gene (gene-level is sufficient for literature)
+  unique_queries <- significant_variants |>
+    distinct(gene, .keep_all = TRUE)
+
+  log_info("Deduplicated {nrow(significant_variants)} variants to {nrow(unique_queries)} unique gene queries")
+
+  # Search each unique gene
+  gene_results <- map_dfr(seq_len(nrow(unique_queries)), function(i) {
+    var_row <- unique_queries[i, ]
     gene <- var_row$gene
     variant <- var_row$hgvsp
 
-    log_info("Searching PubMed [{i}/{nrow(significant_variants)}]: {gene} {variant}")
+    log_info("Searching PubMed [{i}/{nrow(unique_queries)}]: {gene} {variant}")
 
     tryCatch(
       {
@@ -129,6 +135,20 @@ search_pubmed_for_variants <- function(variants, config, sample_id) {
       }
     )
   })
+
+  # Join results back to all original variants by gene
+  variant_gene_map <- significant_variants |>
+    select(gene, hgvsp) |>
+    filter(!gene %in% unique_queries$gene | hgvsp != unique_queries$hgvsp[match(gene, unique_queries$gene)])
+
+  all_results <- gene_results
+  if (nrow(variant_gene_map) > 0 && nrow(gene_results) > 0) {
+    # Expand results to cover all variants that share a gene
+    extra_rows <- variant_gene_map |>
+      inner_join(gene_results |> select(-query_variant), by = c("gene" = "query_gene"), relationship = "many-to-many") |>
+      rename(query_gene = gene, query_variant = hgvsp)
+    all_results <- bind_rows(gene_results, extra_rows)
+  }
 
   # Add biomarker-specific searches if relevant
   biomarker_searches <- list()

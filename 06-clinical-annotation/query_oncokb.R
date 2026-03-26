@@ -97,48 +97,66 @@ query_mutations <- function(merged_annotations, tumor_type, cache_dir = NULL) {
 
   log_info("Querying OncoKB for {nrow(merged_annotations)} mutations")
 
-  results <- map(seq_len(nrow(merged_annotations)), function(i) {
-    row <- merged_annotations[i, ]
-
-    gene <- row$gene
-    hgvsp <- row$hgvsp
-
-    # Skip missing values
-    if (is.na(gene) || is.na(hgvsp)) {
-      log_debug("Skipping row {i}: missing gene or hgvsp")
-      return(NA)
-    }
-
-    # Extract protein change (strip "p." prefix if present)
-    protein_change <- str_remove(as.character(hgvsp), "^p\\.")
-
-    # Create cache key
-    cache_key <- glue("{gene}_{protein_change}_{tumor_type}")
-
-    # Check cache first
-    cached_result <- load_oncokb_cache(cache_key, cache_dir)
-    if (!is.null(cached_result)) {
-      return(cached_result)
-    }
-
-    # Query OncoKB API with error handling
-    result <- tryCatch(
-      {
-        oncokb_annotate_mutation(gene, protein_change, tumor_type)
-      },
-      error = function(e) {
-        log_warn("OncoKB annotation failed for {gene} {protein_change}: {e$message}")
-        return(NA)
-      }
+  # Prepare all variants
+  prepared <- merged_annotations |>
+    mutate(
+      row_idx = row_number(),
+      protein_change = str_remove(as.character(hgvsp), "^p\\."),
+      cache_key = glue("{gene}_{protein_change}_{tumor_type}"),
+      is_valid = !is.na(gene) & !is.na(hgvsp)
     )
 
-    # Cache successful result
-    if (!is.na(result)) {
-      save_oncokb_cache(result, cache_key, cache_dir)
-    }
+  # Check cache for all variants upfront
+  results <- vector("list", nrow(prepared))
+  uncached_idx <- integer(0)
 
-    return(result)
-  })
+  for (i in seq_len(nrow(prepared))) {
+    if (!prepared$is_valid[i]) {
+      results[[i]] <- NA
+      next
+    }
+    cached <- load_oncokb_cache(prepared$cache_key[i], cache_dir)
+    if (!is.null(cached)) {
+      results[[i]] <- cached
+    } else {
+      uncached_idx <- c(uncached_idx, i)
+    }
+  }
+
+  log_info("OncoKB mutations: {length(results) - length(uncached_idx)} cached, {length(uncached_idx)} to query")
+
+  if (length(uncached_idx) > 0) {
+    # Try batch endpoint first
+    batch_results <- tryCatch({
+      uncached_df <- prepared[uncached_idx, ]
+      oncokb_annotate_mutations_batch(uncached_df, tumor_type)
+    }, error = function(e) {
+      log_warn("Batch OncoKB mutations failed, falling back to sequential: {e$message}")
+      NULL
+    })
+
+    if (!is.null(batch_results) && length(batch_results) == length(uncached_idx)) {
+      # Batch succeeded — assign and cache results
+      for (j in seq_along(uncached_idx)) {
+        i <- uncached_idx[j]
+        results[[i]] <- batch_results[[j]]
+        save_oncokb_cache(batch_results[[j]], prepared$cache_key[i], cache_dir)
+      }
+    } else {
+      # Fallback to sequential
+      log_info("Using sequential OncoKB queries for {length(uncached_idx)} mutations")
+      for (i in uncached_idx) {
+        results[[i]] <- tryCatch({
+          r <- oncokb_annotate_mutation(prepared$gene[i], prepared$protein_change[i], tumor_type)
+          if (!is.na(r)) save_oncokb_cache(r, prepared$cache_key[i], cache_dir)
+          r
+        }, error = function(e) {
+          log_warn("OncoKB failed for {prepared$gene[i]} {prepared$protein_change[i]}: {e$message}")
+          NA
+        })
+      }
+    }
+  }
 
   # Filter out NA results but keep track of failures
   n_failed <- sum(is.na(results))
@@ -182,48 +200,67 @@ query_cnas <- function(parsed_cnv, tumor_type, cache_dir = NULL) {
 
   log_info("Querying OncoKB for {nrow(significant_cnv)} CNVs")
 
-  results <- map(seq_len(nrow(significant_cnv)), function(i) {
-    row <- significant_cnv[i, ]
-
-    gene <- row$gene
-    cna_type <- row$type
-
-    # Skip missing values
-    if (is.na(gene) || is.na(cna_type)) {
-      log_debug("Skipping row {i}: missing gene or type")
-      return(NA)
-    }
-
-    # Map local type to OncoKB format
-    oncokb_type <- if (cna_type == "AMP") "AMPLIFICATION" else "DELETION"
-
-    # Create cache key
-    cache_key <- glue("{gene}_{oncokb_type}_{tumor_type}")
-
-    # Check cache first
-    cached_result <- load_oncokb_cache(cache_key, cache_dir)
-    if (!is.null(cached_result)) {
-      return(cached_result)
-    }
-
-    # Query OncoKB API with error handling
-    result <- tryCatch(
-      {
-        oncokb_annotate_cna(gene, oncokb_type, tumor_type)
-      },
-      error = function(e) {
-        log_warn("OncoKB CNA annotation failed for {gene} {oncokb_type}: {e$message}")
-        return(NA)
-      }
+  # Prepare all CNAs with OncoKB type mapping
+  prepared <- significant_cnv |>
+    mutate(
+      row_idx = row_number(),
+      oncokb_type = if_else(type == "AMP", "AMPLIFICATION", "DELETION"),
+      cache_key = glue("{gene}_{oncokb_type}_{tumor_type}"),
+      is_valid = !is.na(gene) & !is.na(type)
     )
 
-    # Cache successful result
-    if (!is.na(result)) {
-      save_oncokb_cache(result, cache_key, cache_dir)
-    }
+  # Check cache for all CNAs upfront
+  results <- vector("list", nrow(prepared))
+  uncached_idx <- integer(0)
 
-    return(result)
-  })
+  for (i in seq_len(nrow(prepared))) {
+    if (!prepared$is_valid[i]) {
+      results[[i]] <- NA
+      next
+    }
+    cached <- load_oncokb_cache(prepared$cache_key[i], cache_dir)
+    if (!is.null(cached)) {
+      results[[i]] <- cached
+    } else {
+      uncached_idx <- c(uncached_idx, i)
+    }
+  }
+
+  log_info("OncoKB CNAs: {length(results) - length(uncached_idx)} cached, {length(uncached_idx)} to query")
+
+  if (length(uncached_idx) > 0) {
+    # Try batch endpoint first
+    batch_results <- tryCatch({
+      uncached_df <- prepared[uncached_idx, ]
+      oncokb_annotate_cnas_batch(uncached_df, tumor_type)
+    }, error = function(e) {
+      log_warn("Batch OncoKB CNAs failed, falling back to sequential: {e$message}")
+      NULL
+    })
+
+    if (!is.null(batch_results) && length(batch_results) == length(uncached_idx)) {
+      # Batch succeeded — assign and cache results
+      for (j in seq_along(uncached_idx)) {
+        i <- uncached_idx[j]
+        results[[i]] <- batch_results[[j]]
+        save_oncokb_cache(batch_results[[j]], prepared$cache_key[i], cache_dir)
+      }
+    } else {
+      # Fallback to sequential
+      log_info("Using sequential OncoKB queries for {length(uncached_idx)} CNAs")
+      for (i in uncached_idx) {
+        oncokb_type <- prepared$oncokb_type[i]
+        results[[i]] <- tryCatch({
+          r <- oncokb_annotate_cna(prepared$gene[i], oncokb_type, tumor_type)
+          if (!is.na(r)) save_oncokb_cache(r, prepared$cache_key[i], cache_dir)
+          r
+        }, error = function(e) {
+          log_warn("OncoKB CNA failed for {prepared$gene[i]} {oncokb_type}: {e$message}")
+          NA
+        })
+      }
+    }
+  }
 
   # Filter out NA results
   n_failed <- sum(is.na(results))
@@ -257,45 +294,65 @@ query_fusions <- function(parsed_fusions, tumor_type, cache_dir = NULL) {
 
   log_info("Querying OncoKB for {nrow(parsed_fusions)} fusions")
 
-  results <- map(seq_len(nrow(parsed_fusions)), function(i) {
-    row <- parsed_fusions[i, ]
-
-    gene_a <- row$gene_a
-    gene_b <- row$gene_b
-
-    # Skip missing values
-    if (is.na(gene_a) || is.na(gene_b)) {
-      log_debug("Skipping row {i}: missing gene_a or gene_b")
-      return(NA)
-    }
-
-    # Create cache key
-    cache_key <- glue("{gene_a}_{gene_b}_{tumor_type}")
-
-    # Check cache first
-    cached_result <- load_oncokb_cache(cache_key, cache_dir)
-    if (!is.null(cached_result)) {
-      return(cached_result)
-    }
-
-    # Query OncoKB API with error handling
-    result <- tryCatch(
-      {
-        oncokb_annotate_fusion(gene_a, gene_b, tumor_type)
-      },
-      error = function(e) {
-        log_warn("OncoKB fusion annotation failed for {gene_a}::{gene_b}: {e$message}")
-        return(NA)
-      }
+  # Prepare all fusions
+  prepared <- parsed_fusions |>
+    mutate(
+      row_idx = row_number(),
+      cache_key = glue("{gene_a}_{gene_b}_{tumor_type}"),
+      is_valid = !is.na(gene_a) & !is.na(gene_b)
     )
 
-    # Cache successful result
-    if (!is.na(result)) {
-      save_oncokb_cache(result, cache_key, cache_dir)
-    }
+  # Check cache for all fusions upfront
+  results <- vector("list", nrow(prepared))
+  uncached_idx <- integer(0)
 
-    return(result)
-  })
+  for (i in seq_len(nrow(prepared))) {
+    if (!prepared$is_valid[i]) {
+      results[[i]] <- NA
+      next
+    }
+    cached <- load_oncokb_cache(prepared$cache_key[i], cache_dir)
+    if (!is.null(cached)) {
+      results[[i]] <- cached
+    } else {
+      uncached_idx <- c(uncached_idx, i)
+    }
+  }
+
+  log_info("OncoKB fusions: {length(results) - length(uncached_idx)} cached, {length(uncached_idx)} to query")
+
+  if (length(uncached_idx) > 0) {
+    # Try batch endpoint first
+    batch_results <- tryCatch({
+      uncached_df <- prepared[uncached_idx, ]
+      oncokb_annotate_fusions_batch(uncached_df, tumor_type)
+    }, error = function(e) {
+      log_warn("Batch OncoKB fusions failed, falling back to sequential: {e$message}")
+      NULL
+    })
+
+    if (!is.null(batch_results) && length(batch_results) == length(uncached_idx)) {
+      # Batch succeeded — assign and cache results
+      for (j in seq_along(uncached_idx)) {
+        i <- uncached_idx[j]
+        results[[i]] <- batch_results[[j]]
+        save_oncokb_cache(batch_results[[j]], prepared$cache_key[i], cache_dir)
+      }
+    } else {
+      # Fallback to sequential
+      log_info("Using sequential OncoKB queries for {length(uncached_idx)} fusions")
+      for (i in uncached_idx) {
+        results[[i]] <- tryCatch({
+          r <- oncokb_annotate_fusion(prepared$gene_a[i], prepared$gene_b[i], tumor_type)
+          if (!is.na(r)) save_oncokb_cache(r, prepared$cache_key[i], cache_dir)
+          r
+        }, error = function(e) {
+          log_warn("OncoKB fusion failed for {prepared$gene_a[i]}::{prepared$gene_b[i]}: {e$message}")
+          NA
+        })
+      }
+    }
+  }
 
   # Filter out NA results
   n_failed <- sum(is.na(results))
