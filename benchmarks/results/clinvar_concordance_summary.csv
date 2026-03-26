@@ -1,0 +1,7 @@
+"metric","value"
+"total_variants",500
+"concordance_rate",0.6
+"cohens_kappa",0.4444
+"pathogenic_as_tier_i_ii",0
+"benign_as_tier_iv",1
+"vus_as_tier_iii",1

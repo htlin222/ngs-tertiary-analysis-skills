@@ -40,3 +40,6 @@ Thumbs.db
 *.html
 !docs/index.html
 !08-report/partials/*.qmd
+benchmarks/results/clinvar/
+benchmarks/datasets/seqc2/*.vcf.gz
+benchmarks/datasets/seqc2/*.tbi

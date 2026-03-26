@@ -1,0 +1,9 @@
+"metric","value"
+"total_variants",100
+"both_oncokb_civic",77
+"oncokb_only",22
+"civic_only",0
+"neither",1
+"jaccard_index",0.7778
+"oncokb_coverage_pct",99
+"civic_coverage_pct",77

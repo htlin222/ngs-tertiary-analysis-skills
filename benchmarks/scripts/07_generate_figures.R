@@ -294,8 +294,8 @@ if (file.exists(evidence_path)) {
 log_info("Generating Figure 5: Runtime benchmarks...")
 
 runtime_path <- file.path(results_dir, "runtime_benchmark.csv")
-if (file.exists(runtime_path)) {
-  runtime <- read.csv(runtime_path)
+if (file.exists(runtime_path) && file.size(runtime_path) > 10) {
+  runtime <- tryCatch(read.csv(runtime_path), error = function(e) data.frame())
 
   # Exclude TOTAL row for per-stage plot
   runtime_stages <- runtime |> filter(stage != "TOTAL")

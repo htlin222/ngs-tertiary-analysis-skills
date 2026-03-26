@@ -1,0 +1,7 @@
+"Tumor Type","N Variants","OncoKB","CiVIC","Both","OncoKB Only","CiVIC Only","Neither","OncoKB %","CiVIC %"
+"BRCA",20,20,16,16,4,0,0,100,80
+"COAD",20,19,16,16,3,0,1,95,80
+"MEL",20,20,16,16,4,0,0,100,80
+"NSCLC",20,20,17,17,3,0,0,100,85
+"OVT",20,20,12,12,8,0,0,100,60
+"TOTAL",100,NA,NA,77,22,0,1,99,77

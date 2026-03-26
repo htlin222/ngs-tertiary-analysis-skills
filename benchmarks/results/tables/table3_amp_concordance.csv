@@ -1,0 +1,5 @@
+"ClinVar Expected","Tier_III","Tier_IV","Total"
+"Tier_III",100,0,100
+"Tier_IV",0,200,200
+"Tier_I_or_II",200,0,200
+"Total",300,200,500

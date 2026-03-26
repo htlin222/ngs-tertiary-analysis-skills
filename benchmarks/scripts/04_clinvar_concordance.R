@@ -199,9 +199,10 @@ clinvar_subset <- clinvar_variants
 if (nrow(clinvar_subset) > max_oncokb_queries) {
   log_info("Sampling {max_oncokb_queries} variants for OncoKB annotation (set BENCHMARK_MAX_ONCOKB to change)")
   set.seed(42)
+  per_group <- max_oncokb_queries %/% 5
   clinvar_subset <- clinvar_subset |>
     group_by(clnsig_norm) |>
-    slice_sample(n = min(max_oncokb_queries %/% 5, n())) |>
+    slice_head(n = per_group) |>
     ungroup()
 }
 
@@ -276,9 +277,9 @@ classification_results <- classification_results |>
       TRUE ~ NA_character_
     ),
     amp_tier_group = case_when(
-      amp_tier %in% c("I", "II") ~ "Tier_I_or_II",
-      amp_tier == "III" ~ "Tier_III",
-      amp_tier == "IV" ~ "Tier_IV",
+      amp_tier %in% c("Tier I", "Tier II") ~ "Tier_I_or_II",
+      amp_tier == "Tier III" ~ "Tier_III",
+      amp_tier == "Tier IV" ~ "Tier_IV",
       TRUE ~ "Unclassified"
     ),
     concordant = (expected_tier == amp_tier_group)

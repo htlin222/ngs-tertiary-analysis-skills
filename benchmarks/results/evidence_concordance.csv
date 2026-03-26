@@ -1,0 +1,101 @@
+"gene","variant","tumor_type","has_oncokb_evidence","oncokb_oncogenic","oncokb_level","oncokb_mutation_effect","has_civic_evidence","civic_evidence_count","civic_variant_id"
+"EGFR","L858R","NSCLC",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,42,33
+"EGFR","T790M","NSCLC",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,41,34
+"EGFR","C797S","NSCLC",TRUE,"Resistance","LEVEL_1","Inconclusive",TRUE,7,415
+"EGFR","G719S","NSCLC",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,11,134
+"EGFR","L861Q","NSCLC",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,7,1020
+"EGFR","S768I","NSCLC",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",FALSE,0,5280
+"KRAS","G12C","NSCLC",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,57,78
+"KRAS","G12V","NSCLC",TRUE,"Oncogenic","LEVEL_3A","Gain-of-function",TRUE,1,147
+"KRAS","G12D","NSCLC",TRUE,"Oncogenic","LEVEL_3A","Gain-of-function",TRUE,59,79
+"ALK","F1174L","NSCLC",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,11,8
+"ROS1","G2032R","NSCLC",TRUE,"Likely Oncogenic","LEVEL_3A","Likely Gain-of-function",TRUE,6,1271
+"BRAF","V600E","NSCLC",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,192,12
+"MET","D1228N","NSCLC",TRUE,"Oncogenic",NA,"Gain-of-function",TRUE,1,649
+"MET","Y1003F","NSCLC",TRUE,"Oncogenic","LEVEL_3A","Gain-of-function",FALSE,0,NA
+"ERBB2","S310F","NSCLC",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,8,4492
+"PIK3CA","E545K","NSCLC",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,31,104
+"STK11","Q37*","NSCLC",TRUE,"Likely Oncogenic","LEVEL_4","Likely Loss-of-function",FALSE,0,NA
+"TP53","R175H","NSCLC",TRUE,"Oncogenic",NA,"Loss-of-function",TRUE,14,116
+"TP53","R248W","NSCLC",TRUE,"Likely Oncogenic",NA,"Loss-of-function",TRUE,4,118
+"RET","M918T","NSCLC",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,14,113
+"KRAS","G12D","COAD",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,59,79
+"KRAS","G12V","COAD",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,1,147
+"KRAS","G13D","COAD",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,35,81
+"KRAS","A146T","COAD",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,11,906
+"KRAS","Q61H","COAD",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,8,907
+"NRAS","Q61K","COAD",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,21,427
+"NRAS","Q61R","COAD",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,9,96
+"BRAF","V600E","COAD",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,192,12
+"PIK3CA","E545K","COAD",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,31,104
+"PIK3CA","H1047R","COAD",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,35,107
+"APC","R1450*","COAD",TRUE,"Likely Oncogenic",NA,"Likely Loss-of-function",FALSE,0,NA
+"TP53","R175H","COAD",TRUE,"Oncogenic",NA,"Loss-of-function",TRUE,14,116
+"TP53","R273H","COAD",TRUE,"Oncogenic",NA,"Loss-of-function",TRUE,13,122
+"SMAD4","R361H","COAD",TRUE,"Likely Oncogenic",NA,"Loss-of-function",FALSE,0,NA
+"PTEN","R130Q","COAD",TRUE,"Oncogenic","LEVEL_3B","Loss-of-function",TRUE,1,899
+"FBXW7","R465C","COAD",TRUE,"Oncogenic","LEVEL_4","Loss-of-function",TRUE,1,3671
+"ERBB2","S310F","COAD",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,8,4492
+"MET","T1010I","COAD",FALSE,"Unknown",NA,"Unknown",FALSE,0,4516
+"POLE","P286R","COAD",TRUE,"Oncogenic","LEVEL_2","Loss-of-function",TRUE,1,1830
+"MSH2","A636P","COAD",TRUE,"Likely Oncogenic",NA,"Likely Loss-of-function",FALSE,0,NA
+"BRAF","V600E","MEL",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,192,12
+"BRAF","V600K","MEL",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",FALSE,0,704
+"BRAF","V600R","MEL",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,7,16
+"BRAF","K601E","MEL",TRUE,"Likely Oncogenic","LEVEL_3A","Gain-of-function",TRUE,4,584
+"NRAS","Q61R","MEL",TRUE,"Oncogenic","LEVEL_3A","Gain-of-function",TRUE,9,96
+"NRAS","Q61K","MEL",TRUE,"Oncogenic","LEVEL_3A","Gain-of-function",TRUE,21,427
+"NRAS","Q61L","MEL",TRUE,"Oncogenic","LEVEL_3A","Gain-of-function",TRUE,7,95
+"KIT","D816V","MEL",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,19,65
+"KIT","L576P","MEL",TRUE,"Oncogenic","LEVEL_2","Gain-of-function",TRUE,7,72
+"KIT","V559D","MEL",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,3,964
+"MAP2K1","P124S","MEL",TRUE,"Oncogenic","LEVEL_3A","Gain-of-function",TRUE,2,82
+"MAP2K1","Q56P","MEL",TRUE,"Oncogenic","LEVEL_3A","Gain-of-function",TRUE,3,83
+"CTNNB1","S37F","MEL",TRUE,"Likely Oncogenic",NA,"Gain-of-function",FALSE,0,NA
+"GNA11","Q209L","MEL",TRUE,"Oncogenic",NA,"Gain-of-function",TRUE,1,4413
+"GNAQ","Q209P","MEL",TRUE,"Likely Oncogenic",NA,"Likely Gain-of-function",TRUE,2,604
+"IDH1","R132H","MEL",TRUE,"Oncogenic","LEVEL_3B","Switch-of-function",TRUE,8,420
+"TP53","R248W","MEL",TRUE,"Likely Oncogenic",NA,"Loss-of-function",TRUE,4,118
+"CDKN2A","R58*","MEL",TRUE,"Likely Oncogenic","LEVEL_4","Likely Loss-of-function",FALSE,0,NA
+"NF1","R1947*","MEL",TRUE,"Likely Oncogenic","LEVEL_3B","Likely Loss-of-function",FALSE,0,NA
+"PTEN","R130*","MEL",TRUE,"Oncogenic","LEVEL_3B","Loss-of-function",TRUE,1,636
+"PIK3CA","H1047R","BRCA",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,35,107
+"PIK3CA","E545K","BRCA",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,31,104
+"PIK3CA","E542K","BRCA",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,17,103
+"PIK3CA","H1047L","BRCA",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,7,1151
+"PIK3CA","N345K","BRCA",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,2,930
+"AKT1","E17K","BRCA",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,7,4
+"ERBB2","S310F","BRCA",TRUE,"Oncogenic","LEVEL_2","Gain-of-function",TRUE,8,4492
+"ERBB2","L755S","BRCA",TRUE,"Oncogenic","LEVEL_2","Gain-of-function",TRUE,11,39
+"ERBB2","V777L","BRCA",TRUE,"Oncogenic","LEVEL_2","Gain-of-function",TRUE,15,44
+"ESR1","D538G","BRCA",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,6,47
+"ESR1","Y537S","BRCA",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,7,50
+"TP53","R175H","BRCA",TRUE,"Oncogenic",NA,"Loss-of-function",TRUE,14,116
+"TP53","Y220C","BRCA",TRUE,"Oncogenic","LEVEL_3A","Loss-of-function",TRUE,10,922
+"BRCA1","C61G","BRCA",TRUE,"Oncogenic","LEVEL_3A","Loss-of-function",FALSE,0,1238
+"BRCA2","E3002K","BRCA",TRUE,"Likely Oncogenic","LEVEL_3A","Loss-of-function",TRUE,1,3621
+"CDH1","A617T","BRCA",TRUE,"Likely Oncogenic",NA,"Loss-of-function",FALSE,0,NA
+"GATA3","R330fs","BRCA",TRUE,"Likely Oncogenic",NA,"Likely Gain-of-function",FALSE,0,NA
+"MAP3K1","E303*","BRCA",TRUE,"Likely Oncogenic",NA,"Likely Loss-of-function",FALSE,0,NA
+"PTEN","R130Q","BRCA",TRUE,"Oncogenic","LEVEL_1","Loss-of-function",TRUE,1,899
+"KRAS","G12D","BRCA",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,59,79
+"BRCA1","C61G","OVT",TRUE,"Oncogenic","LEVEL_1","Loss-of-function",FALSE,0,1238
+"BRCA1","E23fs","OVT",TRUE,"Oncogenic","LEVEL_1","Loss-of-function",FALSE,0,NA
+"BRCA2","E3002K","OVT",TRUE,"Likely Oncogenic","LEVEL_1","Loss-of-function",TRUE,1,3621
+"BRCA2","S1982fs","OVT",TRUE,"Likely Oncogenic","LEVEL_1","Likely Loss-of-function",FALSE,0,NA
+"TP53","R175H","OVT",TRUE,"Oncogenic",NA,"Loss-of-function",TRUE,14,116
+"TP53","R248W","OVT",TRUE,"Likely Oncogenic",NA,"Loss-of-function",TRUE,4,118
+"TP53","R273H","OVT",TRUE,"Oncogenic",NA,"Loss-of-function",TRUE,13,122
+"TP53","Y220C","OVT",TRUE,"Oncogenic","LEVEL_3A","Loss-of-function",TRUE,10,922
+"PIK3CA","H1047R","OVT",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,35,107
+"PIK3CA","E545K","OVT",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,31,104
+"KRAS","G12D","OVT",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,59,79
+"KRAS","G12V","OVT",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,1,147
+"PTEN","R130Q","OVT",TRUE,"Oncogenic","LEVEL_3B","Loss-of-function",TRUE,1,899
+"ARID1A","Q563*","OVT",TRUE,"Likely Oncogenic","LEVEL_4","Likely Loss-of-function",FALSE,0,NA
+"CTNNB1","S37F","OVT",TRUE,"Likely Oncogenic",NA,"Gain-of-function",FALSE,0,NA
+"BRAF","V600E","OVT",TRUE,"Oncogenic","LEVEL_1","Gain-of-function",TRUE,192,12
+"ERBB2","S310F","OVT",TRUE,"Oncogenic","LEVEL_3B","Gain-of-function",TRUE,8,4492
+"NF1","R1947*","OVT",TRUE,"Likely Oncogenic","LEVEL_3B","Likely Loss-of-function",FALSE,0,NA
+"CDK12","K756fs","OVT",TRUE,"Likely Oncogenic","LEVEL_3B","Likely Loss-of-function",FALSE,0,NA
+"RB1","R445*","OVT",TRUE,"Likely Oncogenic",NA,"Likely Loss-of-function",FALSE,0,NA

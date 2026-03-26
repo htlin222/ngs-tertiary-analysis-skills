@@ -1,0 +1,501 @@
+"gene","protein_change","clinvar_sig","vep_impact","oncokb_oncogenic","oncokb_level","amp_tier","amp_level","amp_evidence","expected_tier","amp_tier_group","concordant"
+"MTOR",NA,"benign","MODIFIER",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODIFIER",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","MODIFIER",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","HIGH",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","MODIFIER",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","LOW",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_benign","MODERATE",NA,NA,"Tier IV","Benign","ClinVar: likely_benign","Tier_IV","Tier_IV",TRUE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"likely_pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: likely_pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","MODIFIER",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MPL",NA,"pathogenic","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: pathogenic","Tier_I_or_II","Tier_III",FALSE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","LOW",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","LOW",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","LOW",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","LOW",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","LOW",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","LOW",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","HIGH",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","LOW",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","LOW",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE
+"MTOR",NA,"uncertain_significance","MODERATE",NA,NA,"Tier III","VUS","Insufficient evidence for classification; ClinVar: uncertain_significance","Tier_III","Tier_III",TRUE

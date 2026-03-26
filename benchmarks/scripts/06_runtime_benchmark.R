@@ -227,7 +227,8 @@ for (i in seq_along(variant_counts)) {
     }
   }
 
-  log_info("Completed pipeline for {n} variants in {round(as.numeric(total_elapsed), 1)}s")
+  elapsed_val <- if (exists("total_elapsed")) round(as.numeric(total_elapsed), 1) else NA
+  log_info("Completed pipeline for {n} variants in {elapsed_val}s")
 }
 
 # --- Save results -------------------------------------------------------------

@@ -1,0 +1,18 @@
+##fileformat=VCFv4.2
+##source=ngs-tertiary-benchmark-synthetic-10
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Depth">
+##INFO=<ID=AF,Number=A,Type=Float,Description="Allele Frequency">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=AD,Number=R,Type=Integer,Description="Allelic Depth">
+##FORMAT=<ID=AF,Number=A,Type=Float,Description="Allele Frequency">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	SYNTHETIC
+chr1	156882077	synth_6	A	C	130.2	PASS	DP=430;AF=0.797	GT:AD:AF	0/1:87,343:0.797
+chr13	49053385	synth_7	C	G	178.4	PASS	DP=349;AF=0.206	GT:AD:AF	0/1:277,72:0.206
+chr17	29608584	synth_1	A	C	174.1	PASS	DP=249;AF=0.188	GT:AD:AF	0/1:202,47:0.188
+chr2	29321948	synth_10	G	A	143.2	PASS	DP=364;AF=0.384	GT:AD:AF	0/1:224,140:0.384
+chr2	29507308	synth_9	A	C	141.5	PASS	DP=288;AF=0.76	GT:AD:AF	0/1:69,219:0.76
+chr2	29702797	synth_4	C	T	147.8	PASS	DP=491;AF=0.422	GT:AD:AF	0/1:284,207:0.422
+chr2	29710074	synth_8	C	G	56.9	PASS	DP=236;AF=0.494	GT:AD:AF	0/1:119,117:0.494
+chr4	54733301	synth_2	G	GTAAAG	37.2	PASS	DP=84;AF=0.731	GT:AD:AF	0/1:23,61:0.731
+chr7	116447029	synth_5	A	C	79.7	PASS	DP=129;AF=0.926	GT:AD:AF	0/1:10,119:0.926
+chr7	140494856	synth_3	TGCCGA	A	75.9	PASS	DP=213;AF=0.92	GT:AD:AF	0/1:17,196:0.92
