@@ -29,6 +29,7 @@ tar_source("08-report/")
 # ── Pipeline configuration ───────────────────────────────────────────────────
 
 tar_option_set(
+  controller = crew::crew_controller_local(workers = 4L),
   packages = c(
     "dplyr", "tidyr", "purrr", "stringr", "glue", "fs",
     "yaml", "logger", "jsonlite", "httr2", "here",

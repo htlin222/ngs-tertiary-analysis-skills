@@ -68,6 +68,7 @@ run_annotation <- function(vcf_path, config, sample_id) {
     "  --symbol \\",
     "  --canonical \\",
     "  --biotype \\",
+    "  --fork {config$annotation$vep_fork %||% 4} \\",
     "  --af_gnomad",
     .sep = "\n"
   )

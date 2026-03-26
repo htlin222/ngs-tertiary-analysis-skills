@@ -121,6 +121,11 @@ run_mutect2 <- function(bam_path, config, sample_id) {
     log_debug("Added extra arguments: {paste(extra_args, collapse = ' ')}")
   }
 
+  # ── PairHMM threading ──────────────────────────────────────────────────
+  hmm_threads <- config$variant_calling$mutect2_threads %||% 4
+  args <- c(args, "--native-pair-hmm-threads", as.character(hmm_threads))
+  log_info("Using {hmm_threads} PairHMM threads")
+
   # ── Run Mutect2 ───────────────────────────────────────────────────────────
   run_tool(
     gatk_cmd,

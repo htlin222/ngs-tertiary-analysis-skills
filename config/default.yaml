@@ -25,6 +25,7 @@ variant_calling:
   min_alt_reads: 5
   min_base_quality: 20
   mutect2_extra_args: "--max-reads-per-alignment-start 0"
+  mutect2_threads: 4  # Threads for PairHMM in Mutect2
   gnomad_resource: "/path/to/af-only-gnomad.hg38.vcf.gz"
   panel_of_normals: "/path/to/pon.vcf.gz"
 
@@ -35,6 +36,7 @@ annotation:
   gnomad_af_threshold: 0.01
   include_clinvar: true
   include_cosmic: true
+  vep_fork: 4  # Number of parallel VEP processes
 
 cnv:
   method: "hybrid"
