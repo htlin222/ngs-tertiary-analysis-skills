@@ -233,7 +233,8 @@ list(
       cnv = parsed_cnv,
       fusions = parsed_fusions,
       config = config,
-      sample_id = sample_id
+      sample_id = sample_id,
+      oncokb = oncokb_results
     )
   }),
 

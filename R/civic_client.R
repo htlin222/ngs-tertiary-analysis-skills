@@ -381,13 +381,227 @@ civic_get_assertions <- function(gene) {
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
+# Batch GraphQL Helpers
+# ══════════════════════════════════════════════════════════════════════════════
+
+#' Batch-resolve gene symbols to CiVIC gene IDs using GraphQL aliases
+#'
+#' Resolves multiple gene symbols in a single GraphQL request using aliased
+#' subqueries. Falls back to sequential resolution on failure.
+#'
+#' @param gene_symbols Character vector of gene symbols.
+#' @return Named list mapping gene symbol -> integer gene ID. Genes not found
+#'   are mapped to NA_integer_.
+#' @keywords internal
+civic_batch_resolve_genes <- function(gene_symbols) {
+  gene_symbols <- unique(gene_symbols[!is.na(gene_symbols)])
+  if (length(gene_symbols) == 0) return(list())
+
+  log_debug("CiVIC batch: resolving {length(gene_symbols)} genes")
+
+  # Build aliased query: g0: genes(entrezSymbols: ["BRAF"]) { nodes { id name } }
+  aliases <- map_chr(seq_along(gene_symbols), function(i) {
+    sym <- gene_symbols[i]
+    glue('g{i - 1}: genes(entrezSymbols: ["{sym}"], first: 1) {{ nodes {{ id name }} }}')
+  })
+  query_str <- paste0("query {\n", paste(aliases, collapse = "\n"), "\n}")
+
+  result <- tryCatch(
+    civic_graphql(query_str),
+    error = function(e) {
+      log_warn("CiVIC batch gene resolution failed: {e$message}")
+      return(NULL)
+    }
+  )
+
+  gene_ids <- setNames(
+    rep(NA_integer_, length(gene_symbols)),
+    gene_symbols
+  )
+
+  if (is.null(result) || is.null(result$data)) return(as.list(gene_ids))
+
+  for (i in seq_along(gene_symbols)) {
+    alias <- paste0("g", i - 1)
+    nodes <- result$data[[alias]]$nodes
+    if (!is.null(nodes) && length(nodes) > 0) {
+      gene_ids[gene_symbols[i]] <- as.integer(nodes[[1]]$id)
+    }
+  }
+
+  as.list(gene_ids)
+}
+
+#' Batch-search variants in CiVIC using GraphQL aliases
+#'
+#' Searches multiple variants in a single GraphQL request, chunked to avoid
+#' query size limits. Each chunk uses aliased subqueries.
+#'
+#' @param variant_queries Tibble with columns: gene, variant, gene_id.
+#'   gene_id must be resolved (non-NA integer).
+#' @param chunk_size Integer. Max variants per GraphQL request (default: 15).
+#' @return Tibble with variant_id, gene, variant_name, evidence_count,
+#'   molecular_profile_id, query_gene, query_variant.
+#' @keywords internal
+civic_batch_search_variants <- function(variant_queries, chunk_size = 15L) {
+  if (nrow(variant_queries) == 0) return(tibble())
+
+  log_debug("CiVIC batch: searching {nrow(variant_queries)} variants")
+
+  # Split into chunks
+  chunks <- split(variant_queries, ceiling(seq_len(nrow(variant_queries)) / chunk_size))
+
+  results <- map_dfr(chunks, function(chunk) {
+    # Build aliased query for this chunk
+    aliases <- map_chr(seq_len(nrow(chunk)), function(i) {
+      gid <- chunk$gene_id[i]
+      vname <- gsub('"', '\\\\"', chunk$variant[i])
+      glue('v{i - 1}: variants(geneId: {gid}, name: "{vname}", first: 5) {{
+        nodes {{
+          id
+          name
+          singleVariantMolecularProfile {{
+            id
+            evidenceItems(first: 0) {{ totalCount }}
+          }}
+          feature {{ name }}
+        }}
+      }}')
+    })
+    query_str <- paste0("query {\n", paste(aliases, collapse = "\n"), "\n}")
+
+    batch_result <- tryCatch(
+      civic_graphql(query_str),
+      error = function(e) {
+        log_warn("CiVIC batch variant search failed: {e$message}")
+        return(NULL)
+      }
+    )
+
+    if (is.null(batch_result) || is.null(batch_result$data)) return(tibble())
+
+    map_dfr(seq_len(nrow(chunk)), function(i) {
+      alias <- paste0("v", i - 1)
+      nodes <- batch_result$data[[alias]]$nodes
+      if (is.null(nodes) || length(nodes) == 0) return(tibble())
+
+      map_dfr(nodes, function(node) {
+        mp <- node$singleVariantMolecularProfile
+        tibble(
+          variant_id = as.integer(node$id %||% NA_integer_),
+          gene = node$feature$name %||% chunk$gene[i],
+          variant_name = node$name %||% NA_character_,
+          evidence_count = as.integer(mp$evidenceItems$totalCount %||% 0L),
+          molecular_profile_id = as.integer(mp$id %||% NA_integer_),
+          query_gene = chunk$gene[i],
+          query_variant = chunk$variant[i]
+        )
+      })
+    })
+  })
+
+  results
+}
+
+#' Batch-fetch evidence for multiple molecular profiles using GraphQL aliases
+#'
+#' @param mp_ids Named integer vector. Names are "gene_variant" keys, values
+#'   are molecular_profile_ids.
+#' @param chunk_size Integer. Max profiles per request (default: 10).
+#' @return Tibble of evidence items with query_gene and query_variant columns.
+#' @keywords internal
+civic_batch_get_evidence <- function(mp_ids, chunk_size = 10L) {
+  if (length(mp_ids) == 0) return(tibble())
+
+  log_debug("CiVIC batch: fetching evidence for {length(mp_ids)} molecular profiles")
+
+  mp_keys <- names(mp_ids)
+  chunks <- split(seq_along(mp_ids), ceiling(seq_along(mp_ids) / chunk_size))
+
+  results <- map_dfr(chunks, function(idx_chunk) {
+    aliases <- map_chr(seq_along(idx_chunk), function(j) {
+      i <- idx_chunk[j]
+      mpid <- mp_ids[i]
+      glue('e{j - 1}: molecularProfile(id: {mpid}) {{
+        evidenceItems(first: 50) {{
+          nodes {{
+            id
+            evidenceType
+            evidenceLevel
+            evidenceDirection
+            significance
+            disease {{ name }}
+            therapies {{ name }}
+            source {{ citation sourceUrl }}
+            description
+            status
+          }}
+        }}
+      }}')
+    })
+    query_str <- paste0("query {\n", paste(aliases, collapse = "\n"), "\n}")
+
+    batch_result <- tryCatch(
+      civic_graphql(query_str),
+      error = function(e) {
+        log_warn("CiVIC batch evidence fetch failed: {e$message}")
+        return(NULL)
+      }
+    )
+
+    if (is.null(batch_result) || is.null(batch_result$data)) return(tibble())
+
+    map_dfr(seq_along(idx_chunk), function(j) {
+      i <- idx_chunk[j]
+      alias <- paste0("e", j - 1)
+      nodes <- batch_result$data[[alias]]$evidenceItems$nodes
+      if (is.null(nodes) || length(nodes) == 0) return(tibble())
+
+      # Filter to accepted evidence
+      nodes <- Filter(function(n) (n$status %||% "") == "accepted", nodes)
+      if (length(nodes) == 0) return(tibble())
+
+      # Parse the key back to gene + variant
+      key_parts <- strsplit(mp_keys[i], "\\|\\|")[[1]]
+      qgene <- key_parts[1]
+      qvariant <- if (length(key_parts) >= 2) key_parts[2] else NA_character_
+
+      map_dfr(nodes, function(node) {
+        therapy_names <- if (length(node$therapies) > 0) {
+          paste(map_chr(node$therapies, ~ .x$name %||% ""), collapse = " + ")
+        } else {
+          NA_character_
+        }
+        tibble(
+          evidence_id = as.integer(node$id %||% NA_integer_),
+          evidence_type = node$evidenceType %||% NA_character_,
+          evidence_level = node$evidenceLevel %||% NA_character_,
+          evidence_direction = node$evidenceDirection %||% NA_character_,
+          significance = node$significance %||% NA_character_,
+          disease = node$disease$name %||% NA_character_,
+          therapies = therapy_names,
+          source_citation = node$source$citation %||% NA_character_,
+          source_url = node$source$sourceUrl %||% NA_character_,
+          description = node$description %||% NA_character_,
+          query_gene = qgene,
+          query_variant = qvariant
+        )
+      })
+    })
+  })
+
+  results
+}
+
+# ══════════════════════════════════════════════════════════════════════════════
 # Batch Annotation
 # ══════════════════════════════════════════════════════════════════════════════
 
-#' Batch annotate variants with CiVIC evidence
+#' Batch annotate variants with CiVIC evidence using batched GraphQL queries
 #'
-#' Searches each variant in CiVIC, retrieves evidence items, gene summaries,
-#' and AMP/ASCO/CAP assertions.
+#' Optimized version that uses GraphQL aliases to batch gene resolution,
+#' variant search, and evidence fetches into fewer API calls. Falls back
+#' to the sequential approach on any failure.
 #'
 #' @param variants Tibble with at least columns: gene, variant. Can be empty.
 #' @param sample_id Character. Sample identifier for logging.
@@ -427,36 +641,18 @@ civic_annotate_variants <- function(variants, sample_id = "unknown") {
   unique_genes <- unique(variants$gene)
   unique_genes <- unique_genes[!is.na(unique_genes)]
 
-  # Search each variant and collect evidence
-  all_evidence <- map_dfr(seq_len(nrow(variants)), function(i) {
-    gene <- variants$gene[i]
-    variant <- variants$variant[i]
-    if (is.na(gene) || is.na(variant)) return(tibble())
-
-    search_result <- tryCatch(
-      civic_search_variant(gene, variant),
-      error = function(e) {
-        log_warn("CiVIC search failed for {gene} {variant}: {e$message}")
-        return(tibble())
-      }
-    )
-    if (nrow(search_result) == 0) return(tibble())
-
-    best <- search_result[1, ]
-    if (is.na(best$molecular_profile_id)) return(tibble())
-
-    evidence <- tryCatch(
-      civic_get_evidence(best$molecular_profile_id),
-      error = function(e) {
-        log_warn("CiVIC evidence fetch failed for {gene} {variant}: {e$message}")
-        return(tibble())
-      }
-    )
-    if (nrow(evidence) > 0) {
-      evidence <- evidence |> mutate(query_gene = gene, query_variant = variant)
-    }
-    evidence
+  # Try batch approach first, fallback to sequential
+  all_evidence <- tryCatch({
+    civic_batch_annotate_evidence(variants, unique_genes)
+  }, error = function(e) {
+    log_warn("CiVIC batch annotation failed, falling back to sequential: {e$message}")
+    NULL
   })
+
+  # Fallback: sequential variant search + evidence fetch
+  if (is.null(all_evidence)) {
+    all_evidence <- civic_sequential_annotate_evidence(variants)
+  }
 
   if (nrow(all_evidence) == 0) all_evidence <- empty_evidence
 
@@ -487,4 +683,95 @@ civic_annotate_variants <- function(variants, sample_id = "unknown") {
     gene_summaries = gene_summaries,
     assertions = all_assertions
   )
+}
+
+#' Batch evidence annotation using batched GraphQL queries
+#'
+#' @param variants Tibble with gene + variant columns.
+#' @param unique_genes Character vector of unique gene symbols.
+#' @return Tibble of evidence items, or empty tibble.
+#' @keywords internal
+civic_batch_annotate_evidence <- function(variants, unique_genes) {
+  # Step 1: Batch-resolve all gene symbols to IDs
+  gene_ids <- civic_batch_resolve_genes(unique_genes)
+  resolved <- gene_ids[!is.na(gene_ids)]
+
+  if (length(resolved) == 0) {
+    log_info("CiVIC batch: no genes resolved")
+    return(tibble())
+  }
+
+  log_info("CiVIC batch: resolved {length(resolved)}/{length(unique_genes)} genes")
+
+  # Step 2: Prepare variant queries with gene IDs
+  variant_queries <- variants |>
+    filter(!is.na(gene), !is.na(variant), gene %in% names(resolved)) |>
+    mutate(gene_id = as.integer(gene_ids[gene]))
+
+  if (nrow(variant_queries) == 0) return(tibble())
+
+  # Step 3: Batch-search all variants
+  search_results <- civic_batch_search_variants(variant_queries)
+  if (nrow(search_results) == 0) return(tibble())
+
+  # Pick best match per query (first result, highest evidence count)
+  best_matches <- search_results |>
+    filter(!is.na(molecular_profile_id)) |>
+    group_by(query_gene, query_variant) |>
+    slice_max(evidence_count, n = 1, with_ties = FALSE) |>
+    ungroup()
+
+  if (nrow(best_matches) == 0) return(tibble())
+
+  # Step 4: Batch-fetch evidence for all matched molecular profiles
+  mp_ids <- setNames(
+    best_matches$molecular_profile_id,
+    paste0(best_matches$query_gene, "||", best_matches$query_variant)
+  )
+  # Deduplicate by molecular_profile_id (same mp may appear for different queries)
+  mp_ids <- mp_ids[!duplicated(mp_ids)]
+
+  all_evidence <- civic_batch_get_evidence(mp_ids)
+
+  log_info("CiVIC batch: retrieved {nrow(all_evidence)} evidence items")
+  all_evidence
+}
+
+#' Sequential evidence annotation (fallback)
+#'
+#' @param variants Tibble with gene + variant columns.
+#' @return Tibble of evidence items.
+#' @keywords internal
+civic_sequential_annotate_evidence <- function(variants) {
+  log_info("CiVIC: using sequential annotation for {nrow(variants)} variants")
+
+  map_dfr(seq_len(nrow(variants)), function(i) {
+    gene <- variants$gene[i]
+    variant <- variants$variant[i]
+    if (is.na(gene) || is.na(variant)) return(tibble())
+
+    search_result <- tryCatch(
+      civic_search_variant(gene, variant),
+      error = function(e) {
+        log_warn("CiVIC search failed for {gene} {variant}: {e$message}")
+        return(tibble())
+      }
+    )
+    if (nrow(search_result) == 0) return(tibble())
+
+    best <- search_result[1, ]
+    if (is.na(best$molecular_profile_id)) return(tibble())
+
+    evidence <- tryCatch(
+      civic_get_evidence(best$molecular_profile_id),
+      error = function(e) {
+        log_warn("CiVIC evidence fetch failed for {gene} {variant}: {e$message}")
+        return(tibble())
+      }
+    )
+    if (nrow(evidence) > 0) {
+      evidence <- evidence |> mutate(query_gene = gene, query_variant = variant)
+    }
+    evidence
+  })
 }

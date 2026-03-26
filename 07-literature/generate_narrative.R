@@ -50,7 +50,7 @@ source("07-literature/search_scopus.R")
 #'   )
 #'   results <- generate_narrative(variants, cnv, fusions, config, "SAMPLE123")
 #' }
-generate_narrative <- function(variants, cnv, fusions, config, sample_id) {
+generate_narrative <- function(variants, cnv, fusions, config, sample_id, oncokb = NULL) {
   log_info("Starting literature narrative generation for sample: {sample_id}")
 
   # Validate inputs
@@ -190,34 +190,75 @@ generate_narrative <- function(variants, cnv, fusions, config, sample_id) {
 
     log_info("Generating narrative for {gene} {alteration}")
 
-    # Get OncoKB annotation
-    oncokb_data <- tryCatch(
-      {
-        if (alt_type == "SNV/Indel") {
-          oncokb_annotate_mutation(gene, alteration, tumor_type)
-        } else if (alt_type == "CNV") {
-          # Extract CNA type from alteration
-          cna_type <- sub(".*\\s", "", alteration)
-          if (!cna_type %in% c("AMPLIFICATION", "DELETION")) {
-            cna_type <- "AMPLIFICATION"
+    # Get OncoKB annotation — use pre-fetched results when available
+    oncokb_data <- NULL
+
+    # Try to look up from pre-fetched oncokb results first
+    if (!is.null(oncokb)) {
+      if (alt_type == "SNV/Indel" && !is.null(oncokb$mutations)) {
+        match <- Filter(function(m) {
+          isTRUE(m$gene == gene) && isTRUE(m$alteration == alteration)
+        }, oncokb$mutations)
+        if (length(match) > 0) {
+          oncokb_data <- match[[1]]
+          log_debug("Using pre-fetched OncoKB result for {gene} {alteration}")
+        }
+      } else if (alt_type == "CNV" && !is.null(oncokb$cnas)) {
+        cna_type <- sub(".*\\s", "", alteration)
+        if (!cna_type %in% c("AMPLIFICATION", "DELETION")) {
+          cna_type <- "AMPLIFICATION"
+        }
+        match <- Filter(function(m) {
+          isTRUE(m$gene == gene) && isTRUE(toupper(m$alteration) == cna_type)
+        }, oncokb$cnas)
+        if (length(match) > 0) {
+          oncokb_data <- match[[1]]
+          log_debug("Using pre-fetched OncoKB CNA result for {gene} {cna_type}")
+        }
+      } else if (alt_type == "Fusion" && !is.null(oncokb$fusions)) {
+        parts <- strsplit(alteration, "::")[[1]]
+        if (length(parts) == 2) {
+          match <- Filter(function(m) {
+            (isTRUE(m$gene_a == parts[1]) && isTRUE(m$gene_b == parts[2])) ||
+              (isTRUE(m$gene == parts[1]))
+          }, oncokb$fusions)
+          if (length(match) > 0) {
+            oncokb_data <- match[[1]]
+            log_debug("Using pre-fetched OncoKB fusion result for {alteration}")
           }
-          oncokb_annotate_cna(gene, cna_type, tumor_type)
-        } else if (alt_type == "Fusion") {
-          parts <- strsplit(alteration, "::")[[1]]
-          if (length(parts) == 2) {
-            oncokb_annotate_fusion(parts[1], parts[2], tumor_type)
+        }
+      }
+    }
+
+    # Fallback to API call if no pre-fetched result found
+    if (is.null(oncokb_data)) {
+      oncokb_data <- tryCatch(
+        {
+          if (alt_type == "SNV/Indel") {
+            oncokb_annotate_mutation(gene, alteration, tumor_type)
+          } else if (alt_type == "CNV") {
+            cna_type <- sub(".*\\s", "", alteration)
+            if (!cna_type %in% c("AMPLIFICATION", "DELETION")) {
+              cna_type <- "AMPLIFICATION"
+            }
+            oncokb_annotate_cna(gene, cna_type, tumor_type)
+          } else if (alt_type == "Fusion") {
+            parts <- strsplit(alteration, "::")[[1]]
+            if (length(parts) == 2) {
+              oncokb_annotate_fusion(parts[1], parts[2], tumor_type)
+            } else {
+              list(oncogenic = "Unknown", treatments = tibble())
+            }
           } else {
             list(oncogenic = "Unknown", treatments = tibble())
           }
-        } else {
+        },
+        error = function(e) {
+          log_warn("OncoKB annotation failed for {gene} {alteration}: {conditionMessage(e)}")
           list(oncogenic = "Unknown", treatments = tibble())
         }
-      },
-      error = function(e) {
-        log_warn("OncoKB annotation failed for {gene} {alteration}: {conditionMessage(e)}")
-        list(oncogenic = "Unknown", treatments = tibble())
-      }
-    )
+      )
+    }
 
     # Build oncogenic classification statement
     oncogenic <- oncokb_data$oncogenic %||% "Unknown"

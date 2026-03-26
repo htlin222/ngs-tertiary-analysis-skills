@@ -103,3 +103,58 @@ test_that("civic_annotate_variants handles empty input", {
   expect_s3_class(result$assertions, "tbl_df")
   expect_equal(nrow(result$assertions), 0)
 })
+
+# ── Batch GraphQL tests ──────────────────────────────────────────────────────
+
+test_that("civic_batch_resolve_genes resolves known genes", {
+  skip_if_offline()
+
+  result <- civic_batch_resolve_genes(c("BRAF", "TP53", "FAKEGENE999"))
+
+  expect_type(result, "list")
+  expect_false(is.na(result[["BRAF"]]))
+  expect_false(is.na(result[["TP53"]]))
+  expect_true(is.na(result[["FAKEGENE999"]]))
+})
+
+test_that("civic_batch_resolve_genes handles empty input", {
+  result <- civic_batch_resolve_genes(character(0))
+  expect_type(result, "list")
+  expect_equal(length(result), 0)
+})
+
+test_that("civic_batch_search_variants finds known variants", {
+  skip_if_offline()
+
+  gene_ids <- civic_batch_resolve_genes(c("BRAF"))
+  skip_if(is.na(gene_ids[["BRAF"]]), "BRAF not resolved")
+
+  queries <- tibble(
+    gene = "BRAF",
+    variant = "V600E",
+    gene_id = as.integer(gene_ids[["BRAF"]])
+  )
+  result <- civic_batch_search_variants(queries)
+
+  expect_s3_class(result, "tbl_df")
+  expect_gt(nrow(result), 0)
+  expect_true("molecular_profile_id" %in% names(result))
+  expect_true("query_gene" %in% names(result))
+  expect_true("query_variant" %in% names(result))
+})
+
+test_that("civic_batch_search_variants handles empty input", {
+  result <- civic_batch_search_variants(
+    tibble(gene = character(), variant = character(), gene_id = integer())
+  )
+  expect_s3_class(result, "tbl_df")
+  expect_equal(nrow(result), 0)
+})
+
+test_that("civic_sequential_annotate_evidence works as fallback", {
+  result <- civic_sequential_annotate_evidence(
+    tibble(gene = character(), variant = character())
+  )
+  expect_s3_class(result, "tbl_df")
+  expect_equal(nrow(result), 0)
+})
