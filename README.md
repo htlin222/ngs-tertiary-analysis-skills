@@ -1,3 +1,7 @@
+![GitHub stars](https://img.shields.io/github/stars/htlin222/ngs-tertiary-analysis-skills?style=flat-square)
+![Last commit](https://img.shields.io/github/last-commit/htlin222/ngs-tertiary-analysis-skills?style=flat-square)
+![License](https://img.shields.io/github/license/htlin222/ngs-tertiary-analysis-skills?style=flat-square)
+
 # NGS Tertiary Analysis Pipeline
 
 R-based pipeline for cancer genomics: **BAM &rarr; ESMO 2024-compliant HTML clinical report**.
