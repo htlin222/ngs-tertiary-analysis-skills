@@ -16,6 +16,12 @@ _targets/
 # API response cache
 .api_cache/
 
+# Agent runtime: inputs, outputs, and logs may contain prompts/responses;
+# treat as patient-adjacent even in benchmarks
+agents/inputs/
+agents/outputs/
+agents/logs/
+
 # Tools directory (GATK, VEP)
 tools/
 

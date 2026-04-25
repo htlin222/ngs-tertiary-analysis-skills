@@ -1,0 +1,52 @@
+{
+  "type": "object",
+  "properties": {
+    "unified_amp_tier": {
+      "type": "string",
+      "enum": [
+        "Tier I Level A",
+        "Tier I Level B",
+        "Tier II Level C",
+        "Tier II Level D",
+        "Tier III VUS",
+        "Tier IV Benign"
+      ],
+      "description": "Reconciled AMP/ASCO/CAP tier assignment."
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["high", "moderate", "low"]
+    },
+    "discordance_nature": {
+      "type": "string",
+      "enum": [
+        "concordant",
+        "therapeutic_level_mismatch",
+        "tumor_specificity_mismatch",
+        "oncogenicity_mismatch",
+        "evidence_age_mismatch",
+        "coverage_mismatch"
+      ]
+    },
+    "primary_evidence_source": {
+      "type": "string",
+      "enum": ["OncoKB", "CiVIC", "Combined", "Neither"]
+    },
+    "dissenting_evidence_noted": {
+      "type": "boolean"
+    },
+    "resolution_rationale": {
+      "type": "string",
+      "description": "Two to four sentences explaining why this tier was chosen and how discordance (if any) was resolved. Must reference evidence provided in the user turn."
+    }
+  },
+  "required": [
+    "unified_amp_tier",
+    "confidence",
+    "discordance_nature",
+    "primary_evidence_source",
+    "dissenting_evidence_noted",
+    "resolution_rationale"
+  ],
+  "additionalProperties": false
+}
