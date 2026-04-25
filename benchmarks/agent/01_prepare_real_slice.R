@@ -112,11 +112,14 @@ civic_assertions_long <- map_dfr(raw_nodes, function(n) {
 
 log_info("ACCEPTED + has-ampLevel + single-gene assertions: {nrow(civic_assertions_long)}")
 
-civic_norm <- civic_assertions_long |>
+# NB: do NOT dedup by (gene, variant_key) here — the SAME variant can have
+# different AMP-level assertions in different tumor types (e.g. BRAF V600E
+# Tier I A in CRC AND in MEL). Dedup later, after picking the disease-matched
+# entry per cohort row.
+civic_long <- civic_assertions_long |>
   filter(gene %in% cohort_genes) |>
   mutate(variant_key = str_remove(mp_name, paste0("^", gene, "\\s+"))) |>
   mutate(variant_key = str_remove(variant_key, "^p\\.")) |>
-  # Multiple assertions per (gene, variant) → keep the strongest level
   mutate(level_rank = case_when(
     grepl("TIER_I_LEVEL_A",  amp_level, fixed = TRUE) ~ 1L,
     grepl("TIER_I_LEVEL_B",  amp_level, fixed = TRUE) ~ 2L,
@@ -124,25 +127,67 @@ civic_norm <- civic_assertions_long |>
     grepl("TIER_II_LEVEL_D", amp_level, fixed = TRUE) ~ 4L,
     TRUE ~ 99L
   )) |>
-  arrange(gene, variant_key, level_rank) |>
-  distinct(gene, variant_key, .keep_all = TRUE) |>
-  select(gene, variant_key,
-         civic_amp_level = amp_level,
-         civic_disease   = disease)
+  select(gene, variant_key, amp_level, disease, level_rank)
 
-log_info("Cohort-matching CiVIC assertions after dedup: {nrow(civic_norm)}")
+log_info("Cohort-matching CiVIC assertions (long form, multi-disease): {nrow(civic_long)}")
 
-log_info("CiVIC AMP-level assertions after dedup: {nrow(civic_norm)}")
+# Map cohort OncoTree codes → CiVIC disease keywords for fuzzy matching.
+tumor_keywords <- list(
+  NSCLC = c("Lung", "Non-small", "NSCLC"),
+  COAD  = c("Colorectal", "Colon", "COAD"),
+  MEL   = c("Melanoma"),
+  BRCA  = c("Breast"),
+  OVT   = c("Ovarian")
+)
 
-# ── Join cohort → CiVIC AMP-level ─────────────────────────────────────────────
+# For each (gene, variant_key, tumor_type), pick the disease-matched CiVIC
+# entry if any; otherwise pick the strongest cross-tumor entry and flag it.
+civic_match_for <- function(gene_, vk_, tumor_) {
+  cands <- civic_long |> filter(gene == gene_, variant_key == vk_)
+  if (nrow(cands) == 0) {
+    return(tibble(civic_amp_level = NA_character_,
+                  civic_disease   = NA_character_,
+                  civic_evidence_in_different_tumor = NA))
+  }
+  kws <- tumor_keywords[[tumor_]] %||% character()
+  # Disease-matched candidates first
+  if (length(kws) > 0) {
+    pat <- paste0("(?i)", paste(kws, collapse = "|"))
+    matched <- cands |> filter(grepl(pat, disease, perl = TRUE))
+    if (nrow(matched) > 0) {
+      best <- matched |> arrange(level_rank) |> slice(1)
+      return(tibble(civic_amp_level = best$amp_level,
+                    civic_disease   = best$disease,
+                    civic_evidence_in_different_tumor = FALSE))
+    }
+  }
+  # No matched disease — fall back to strongest cross-tumor entry (flagged)
+  best <- cands |> arrange(level_rank) |> slice(1)
+  tibble(civic_amp_level = best$amp_level,
+         civic_disease   = best$disease,
+         civic_evidence_in_different_tumor = TRUE)
+}
+
+log_info("CiVIC long-form rows ready for tumor-context join: {nrow(civic_long)}")
+
+# ── Join cohort → CiVIC AMP-level (tumor-context-aware) ─────────────────────
 
 joined <- have_oncokb |>
   mutate(variant_key = str_remove(variant, "^p\\.")) |>
-  left_join(civic_norm, by = c("gene", "variant_key"))
+  rowwise() |>
+  mutate(civic = list(civic_match_for(gene, variant_key, tumor_type))) |>
+  ungroup() |>
+  unnest(civic)
 
 # Diagnostics
-n_with_civic_amp <- sum(!is.na(joined$civic_amp_level))
-log_info("Cohort variants with both OncoKB level + CiVIC AMP-level: {n_with_civic_amp}")
+n_with_civic_amp     <- sum(!is.na(joined$civic_amp_level))
+n_with_civic_matched <- sum(!is.na(joined$civic_amp_level) &
+                            !joined$civic_evidence_in_different_tumor)
+n_with_civic_xtumor  <- sum(!is.na(joined$civic_amp_level) &
+                            joined$civic_evidence_in_different_tumor)
+log_info("Cohort variants with CiVIC AMP-level: {n_with_civic_amp}")
+log_info("  - tumor-matched : {n_with_civic_matched}")
+log_info("  - different tumor (cross-tumor evidence): {n_with_civic_xtumor}")
 
 # ── Identify discordances ────────────────────────────────────────────────────
 #
@@ -172,8 +217,14 @@ flagged <- joined |>
   mutate(
     oncokb_expected_amp = oncokb_to_amp(oncokb_level),
     civic_amp           = civic_to_amp(civic_amp_level),
+    # NB: isTRUE() is scalar-only — use ` & !is.na(...)` for vector logic
     discordant = case_when(
-      # Both have a tier but they differ
+      # CiVIC evidence is in a DIFFERENT tumor type than queried — real tumor-
+      # specificity discordance regardless of nominal tier match
+      !is.na(civic_amp_level) &
+        !is.na(civic_evidence_in_different_tumor) &
+        civic_evidence_in_different_tumor ~ TRUE,
+      # Same-tumor: tiers differ
       !is.na(oncokb_expected_amp) & !is.na(civic_amp) & oncokb_expected_amp != civic_amp ~ TRUE,
       # OncoKB Neutral but CiVIC has Tier I/II assertion (oncogenicity mismatch)
       oncokb_oncogenic %in% c("Neutral", "Inconclusive") & !is.na(civic_amp) ~ TRUE,
@@ -182,10 +233,13 @@ flagged <- joined |>
   )
 
 n_discordant <- sum(flagged$discordant)
-log_info("Identified {n_discordant} discordant variants out of {nrow(flagged)}")
+log_info("Of {nrow(flagged)} cohort variants: {n_discordant} discordant, {nrow(flagged) - n_discordant} concordant")
 
+# Write inputs for ALL OncoKB-positive variants (not just discordant). The
+# concordant majority lets us measure the agent's false-positive rate (does it
+# wrongly overrule a correct baseline?), which is the safety metric reviewers
+# expect alongside discordance recall.
 discordant <- flagged |>
-  filter(discordant) |>
   mutate(case_id = paste0("real_",
                           str_replace_all(gene, "[^A-Za-z0-9]", ""), "_",
                           str_replace_all(variant, "[^A-Za-z0-9]", ""), "_",
@@ -220,15 +274,29 @@ walk(seq_len(nrow(discordant)), function(i) {
       "Tumor type queried: {row$tumor_type}."
     )
   )
+  # Make tumor-context mismatch explicit in the evidence text so the agent does
+  # not have to guess whether 'Colorectal Cancer' matches the queried 'NSCLC'.
+  civic_text <- if (is.na(row$civic_amp_level)) {
+    glue::glue("No tumor-matched CiVIC AMP-level assertion found for this variant ",
+               "in the queried tumor context ({row$tumor_type}). ",
+               "Total supporting evidence items in CiVIC (any disease): ",
+               "{row$civic_evidence_count}.")
+  } else if (isTRUE(row$civic_evidence_in_different_tumor)) {
+    glue::glue("CiVIC AMP-level assertion: {row$civic_amp_level} ",
+               "but in a DIFFERENT tumor context: '{row$civic_disease}'. ",
+               "(Queried tumor: {row$tumor_type}.) ",
+               "No same-tumor AMP-level assertion exists in CiVIC. ",
+               "Total supporting evidence items: {row$civic_evidence_count}.")
+  } else {
+    glue::glue("CiVIC AMP-level assertion: {row$civic_amp_level} ",
+               "in tumor-matched disease context '{row$civic_disease}'. ",
+               "Total supporting evidence items: {row$civic_evidence_count}.")
+  }
   civic_evidence <- list(
     amp_level       = row$civic_amp_level,
     evidence_count  = row$civic_evidence_count,
     tumor_context   = row$civic_disease,
-    evidence_text   = glue::glue(
-      "CiVIC AMP-level assertion: {row$civic_amp_level %||% 'NA'} ",
-      "in disease context '{row$civic_disease %||% 'NA'}'. ",
-      "Total supporting evidence items: {row$civic_evidence_count}."
-    )
+    evidence_text   = civic_text
   )
 
   user_turn <- format_reconciler_input(
@@ -250,15 +318,21 @@ walk(seq_len(nrow(discordant)), function(i) {
     clinvar          = NA_character_
   )
 
+  expected_discordant <- isTRUE(row$discordant)
   metadata <- list(
     gene              = row$gene,
     variant           = row$variant,
     tumor_type        = row$tumor_type,
     oncokb_level      = row$oncokb_level %||% NA_character_,
     civic_amp_level   = row$civic_amp_level %||% NA_character_,
+    civic_disease     = row$civic_disease %||% NA_character_,
+    civic_evidence_in_different_tumor = row$civic_evidence_in_different_tumor %||% NA,
     oncokb_expected_amp_tier = row$oncokb_expected_amp %||% NA_character_,
     civic_mapped_amp_tier    = row$civic_amp %||% NA_character_,
-    discordance_signal       = if (row$oncokb_oncogenic %in% c("Neutral", "Inconclusive")) {
+    expected_stratum  = if (expected_discordant) "discordant" else "concordant",
+    discordance_signal = if (!expected_discordant) {
+      "concordant"
+    } else if (row$oncokb_oncogenic %in% c("Neutral", "Inconclusive")) {
       "oncogenicity"
     } else {
       "tier_level"
