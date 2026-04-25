@@ -1,0 +1,5 @@
+"metric","value"
+"n_cases",10
+"cross_model_unanimous_opus_sonnet_haiku",6
+"all_5_runs_unanimous",6
+"fleiss_kappa_5_raters",0.717

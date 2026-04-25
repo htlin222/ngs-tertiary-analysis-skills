@@ -1,0 +1,11 @@
+"case_id","opus_r1_tier","opus_r2_tier","opus_r3_tier","sonnet_tier","haiku_tier","cross_model_unanimous","all_5_runs_unanimous"
+"real_KRAS_G12C_NSCLC","Tier I Level A","Tier I Level A","Tier I Level A","Tier I Level A","Tier I Level A",TRUE,TRUE
+"real_BRAF_V600E_MEL","Tier I Level A","Tier I Level A","Tier I Level A","Tier I Level A","Tier I Level A",TRUE,TRUE
+"real_TP53_R175H_BRCA","Tier II Level D","Tier II Level D","Tier II Level D","Tier II Level D","Tier III VUS",FALSE,FALSE
+"real_TP53_R273H_OVT","Tier II Level D","Tier II Level D","Tier II Level D","Tier II Level D","Tier III VUS",FALSE,FALSE
+"real_APC_R1450_COAD","Tier II Level D","Tier II Level D","Tier II Level D","Tier III VUS","Tier III VUS",FALSE,FALSE
+"real_GATA3_R330fs_BRCA","Tier II Level D","Tier II Level D","Tier II Level D","Tier III VUS","Tier III VUS",FALSE,FALSE
+"real_RET_M918T_NSCLC","Tier II Level C","Tier II Level C","Tier II Level C","Tier II Level C","Tier II Level C",TRUE,TRUE
+"real_AKT1_E17K_BRCA","Tier I Level A","Tier I Level A","Tier I Level A","Tier I Level A","Tier I Level A",TRUE,TRUE
+"real_ALK_F1174L_NSCLC","Tier II Level C","Tier II Level C","Tier II Level C","Tier II Level C","Tier II Level C",TRUE,TRUE
+"stress_FLT3_ITD_AML_38","Tier I Level A","Tier I Level A","Tier I Level A","Tier I Level A","Tier I Level A",TRUE,TRUE

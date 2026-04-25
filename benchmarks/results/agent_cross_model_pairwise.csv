@@ -1,0 +1,5 @@
+"comparison","tier_agreement","cohen_kappa"
+"Opus r1 vs Opus r2",1,1
+"Opus r1 vs Opus r3",1,1
+"Opus r1 vs Sonnet 4.6",0.8,0.722
+"Opus r1 vs Haiku 4.5",0.6,0.5
