@@ -1,0 +1,113 @@
+"case_id","stratum","gene","variant","tumor_type","oncokb_level","baseline_tier","agent_tier","agent_confidence","agent_discordance_nature","primary_source","dissenting_noted","valid","errors","civic_amp_level","civic_evidence_in_different_tumor","agrees_with_baseline"
+"real_AKT1_E17K_BRCA","cohort","AKT1","E17K","BRCA","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_ALK_F1174L_NSCLC","cohort","ALK","F1174L","NSCLC","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_APC_R1450_COAD","cohort","APC","R1450*","COAD",,"Tier III VUS","Tier II Level D","moderate","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_ARID1A_Q563_OVT","cohort","ARID1A","Q563*","OVT","LEVEL_4","Tier II Level D","Tier II Level D","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_BRAF_K601E_MEL","cohort","BRAF","K601E","MEL","LEVEL_3A","Tier I Level B","Tier I Level B","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_BRAF_V600E_COAD","cohort","BRAF","V600E","COAD","LEVEL_1","Tier I Level A","Tier I Level A","high","concordant","Combined",FALSE,TRUE,,"TIER_I_LEVEL_A",FALSE,TRUE
+"real_BRAF_V600E_MEL","cohort","BRAF","V600E","MEL","LEVEL_1","Tier I Level A","Tier I Level A","high","concordant","Combined",FALSE,TRUE,,"TIER_I_LEVEL_A",FALSE,TRUE
+"real_BRAF_V600E_NSCLC","cohort","BRAF","V600E","NSCLC","LEVEL_1","Tier I Level A","Tier I Level A","high","tumor_specificity_mismatch","OncoKB",FALSE,TRUE,,"TIER_I_LEVEL_A",TRUE,TRUE
+"real_BRAF_V600E_OVT","cohort","BRAF","V600E","OVT","LEVEL_1","Tier I Level A","Tier I Level A","high","tumor_specificity_mismatch","OncoKB",FALSE,TRUE,,"TIER_I_LEVEL_A",TRUE,TRUE
+"real_BRAF_V600K_MEL","cohort","BRAF","V600K","MEL","LEVEL_1","Tier I Level A","Tier I Level A","high","concordant","Combined",FALSE,TRUE,,"TIER_I_LEVEL_A",FALSE,TRUE
+"real_BRAF_V600R_MEL","cohort","BRAF","V600R","MEL","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_BRCA1_C61G_BRCA","cohort","BRCA1","C61G","BRCA","LEVEL_3A","Tier I Level B","Tier I Level B","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_BRCA1_C61G_OVT","cohort","BRCA1","C61G","OVT","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_BRCA1_E23fs_OVT","cohort","BRCA1","E23fs","OVT","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_BRCA2_E3002K_BRCA","cohort","BRCA2","E3002K","BRCA","LEVEL_3A","Tier I Level B","Tier I Level B","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_BRCA2_E3002K_OVT","cohort","BRCA2","E3002K","OVT","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_BRCA2_S1982fs_OVT","cohort","BRCA2","S1982fs","OVT","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_CDH1_A617T_BRCA","cohort","CDH1","A617T","BRCA",,"Tier III VUS","Tier II Level D","moderate","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_CDK12_K756fs_OVT","cohort","CDK12","K756fs","OVT","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_CDKN2A_R58_MEL","cohort","CDKN2A","R58*","MEL","LEVEL_4","Tier II Level D","Tier II Level D","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_CTNNB1_S37F_MEL","cohort","CTNNB1","S37F","MEL",,"Tier III VUS","Tier II Level D","moderate","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_CTNNB1_S37F_OVT","cohort","CTNNB1","S37F","OVT",,"Tier III VUS","Tier II Level D","moderate","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_EGFR_C797S_NSCLC","cohort","EGFR","C797S","NSCLC","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_EGFR_G719S_NSCLC","cohort","EGFR","G719S","NSCLC","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_EGFR_L858R_NSCLC","cohort","EGFR","L858R","NSCLC","LEVEL_1","Tier I Level A","Tier I Level A","high","concordant","Combined",FALSE,TRUE,,"TIER_I_LEVEL_A",FALSE,TRUE
+"real_EGFR_L861Q_NSCLC","cohort","EGFR","L861Q","NSCLC","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_EGFR_S768I_NSCLC","cohort","EGFR","S768I","NSCLC","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_EGFR_T790M_NSCLC","cohort","EGFR","T790M","NSCLC","LEVEL_1","Tier I Level A","Tier I Level A","high","concordant","Combined",FALSE,TRUE,,"TIER_I_LEVEL_A",FALSE,TRUE
+"real_ERBB2_L755S_BRCA","cohort","ERBB2","L755S","BRCA","LEVEL_2","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_ERBB2_S310F_BRCA","cohort","ERBB2","S310F","BRCA","LEVEL_2","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_ERBB2_S310F_COAD","cohort","ERBB2","S310F","COAD","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_ERBB2_S310F_NSCLC","cohort","ERBB2","S310F","NSCLC","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_ERBB2_S310F_OVT","cohort","ERBB2","S310F","OVT","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_ERBB2_V777L_BRCA","cohort","ERBB2","V777L","BRCA","LEVEL_2","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_ESR1_D538G_BRCA","cohort","ESR1","D538G","BRCA","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_ESR1_Y537S_BRCA","cohort","ESR1","Y537S","BRCA","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_FBXW7_R465C_COAD","cohort","FBXW7","R465C","COAD","LEVEL_4","Tier II Level D","Tier II Level D","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_GATA3_R330fs_BRCA","cohort","GATA3","R330fs","BRCA",,"Tier III VUS","Tier II Level D","moderate","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_GNA11_Q209L_MEL","cohort","GNA11","Q209L","MEL",,"Tier III VUS","Tier II Level D","moderate","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_GNAQ_Q209P_MEL","cohort","GNAQ","Q209P","MEL",,"Tier III VUS","Tier II Level D","moderate","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_IDH1_R132H_MEL","cohort","IDH1","R132H","MEL","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_KIT_D816V_MEL","cohort","KIT","D816V","MEL","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_KIT_L576P_MEL","cohort","KIT","L576P","MEL","LEVEL_2","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_KIT_V559D_MEL","cohort","KIT","V559D","MEL","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_KRAS_A146T_COAD","cohort","KRAS","A146T","COAD","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_KRAS_G12C_NSCLC","cohort","KRAS","G12C","NSCLC","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_KRAS_G12D_BRCA","cohort","KRAS","G12D","BRCA","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_KRAS_G12D_COAD","cohort","KRAS","G12D","COAD","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_KRAS_G12D_NSCLC","cohort","KRAS","G12D","NSCLC","LEVEL_3A","Tier I Level B","Tier I Level B","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_KRAS_G12D_OVT","cohort","KRAS","G12D","OVT","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_KRAS_G12V_COAD","cohort","KRAS","G12V","COAD","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_KRAS_G12V_NSCLC","cohort","KRAS","G12V","NSCLC","LEVEL_3A","Tier I Level B","Tier I Level B","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_KRAS_G12V_OVT","cohort","KRAS","G12V","OVT","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_KRAS_G13D_COAD","cohort","KRAS","G13D","COAD","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_KRAS_Q61H_COAD","cohort","KRAS","Q61H","COAD","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_MAP2K1_P124S_MEL","cohort","MAP2K1","P124S","MEL","LEVEL_3A","Tier I Level B","Tier I Level B","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_MAP2K1_Q56P_MEL","cohort","MAP2K1","Q56P","MEL","LEVEL_3A","Tier I Level B","Tier I Level B","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_MAP3K1_E303_BRCA","cohort","MAP3K1","E303*","BRCA",,"Tier III VUS","Tier III VUS","moderate","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_MET_D1228N_NSCLC","cohort","MET","D1228N","NSCLC",,"Tier III VUS","Tier II Level D","moderate","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_MET_Y1003F_NSCLC","cohort","MET","Y1003F","NSCLC","LEVEL_3A","Tier I Level B","Tier I Level B","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_MSH2_A636P_COAD","cohort","MSH2","A636P","COAD",,"Tier III VUS","Tier II Level D","moderate","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_NF1_R1947_MEL","cohort","NF1","R1947*","MEL","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_NF1_R1947_OVT","cohort","NF1","R1947*","OVT","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_NRAS_Q61K_COAD","cohort","NRAS","Q61K","COAD","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_NRAS_Q61K_MEL","cohort","NRAS","Q61K","MEL","LEVEL_3A","Tier I Level B","Tier I Level B","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_NRAS_Q61L_MEL","cohort","NRAS","Q61L","MEL","LEVEL_3A","Tier I Level B","Tier I Level B","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_NRAS_Q61R_COAD","cohort","NRAS","Q61R","COAD","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_NRAS_Q61R_MEL","cohort","NRAS","Q61R","MEL","LEVEL_3A","Tier I Level B","Tier I Level B","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_PIK3CA_E542K_BRCA","cohort","PIK3CA","E542K","BRCA","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_PIK3CA_E545K_BRCA","cohort","PIK3CA","E545K","BRCA","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_PIK3CA_E545K_COAD","cohort","PIK3CA","E545K","COAD","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_PIK3CA_E545K_NSCLC","cohort","PIK3CA","E545K","NSCLC","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_PIK3CA_E545K_OVT","cohort","PIK3CA","E545K","OVT","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_PIK3CA_H1047L_BRCA","cohort","PIK3CA","H1047L","BRCA","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_PIK3CA_H1047R_BRCA","cohort","PIK3CA","H1047R","BRCA","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_PIK3CA_H1047R_COAD","cohort","PIK3CA","H1047R","COAD","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_PIK3CA_H1047R_OVT","cohort","PIK3CA","H1047R","OVT","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_PIK3CA_N345K_BRCA","cohort","PIK3CA","N345K","BRCA","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_POLE_P286R_COAD","cohort","POLE","P286R","COAD","LEVEL_2","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_PTEN_R130_MEL","cohort","PTEN","R130*","MEL","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_PTEN_R130Q_BRCA","cohort","PTEN","R130Q","BRCA","LEVEL_1","Tier I Level A","Tier I Level A","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_PTEN_R130Q_COAD","cohort","PTEN","R130Q","COAD","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_PTEN_R130Q_OVT","cohort","PTEN","R130Q","OVT","LEVEL_3B","Tier II Level C","Tier II Level C","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_RB1_R445_OVT","cohort","RB1","R445*","OVT",,"Tier III VUS","Tier II Level D","moderate","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_RET_M918T_NSCLC","cohort","RET","M918T","NSCLC","LEVEL_3B","Tier I Level A","Tier II Level C","high","tumor_specificity_mismatch","OncoKB",TRUE,TRUE,,"TIER_I_LEVEL_A",TRUE,FALSE
+"real_ROS1_G2032R_NSCLC","cohort","ROS1","G2032R","NSCLC","LEVEL_3A","Tier I Level B","Tier I Level B","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_SMAD4_R361H_COAD","cohort","SMAD4","R361H","COAD",,"Tier III VUS","Tier II Level D","moderate","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_STK11_Q37_NSCLC","cohort","STK11","Q37*","NSCLC","LEVEL_4","Tier II Level D","Tier II Level D","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_TP53_R175H_BRCA","cohort","TP53","R175H","BRCA",,"Tier III VUS","Tier II Level D","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_TP53_R175H_COAD","cohort","TP53","R175H","COAD",,"Tier III VUS","Tier II Level D","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_TP53_R175H_NSCLC","cohort","TP53","R175H","NSCLC",,"Tier III VUS","Tier II Level D","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_TP53_R175H_OVT","cohort","TP53","R175H","OVT",,"Tier III VUS","Tier II Level D","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_TP53_R248W_MEL","cohort","TP53","R248W","MEL",,"Tier III VUS","Tier II Level D","moderate","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_TP53_R248W_NSCLC","cohort","TP53","R248W","NSCLC",,"Tier III VUS","Tier II Level D","moderate","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_TP53_R248W_OVT","cohort","TP53","R248W","OVT",,"Tier III VUS","Tier II Level D","moderate","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_TP53_R273H_COAD","cohort","TP53","R273H","COAD",,"Tier III VUS","Tier II Level D","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_TP53_R273H_OVT","cohort","TP53","R273H","OVT",,"Tier III VUS","Tier II Level D","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,FALSE
+"real_TP53_Y220C_BRCA","cohort","TP53","Y220C","BRCA","LEVEL_3A","Tier I Level B","Tier I Level B","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"real_TP53_Y220C_OVT","cohort","TP53","Y220C","OVT","LEVEL_3A","Tier I Level B","Tier I Level B","high","coverage_mismatch","OncoKB",FALSE,TRUE,,,,TRUE
+"stress_ACVR1_G328V_GLIOMA_9","stress","ACVR1","G328V","GLIOMA",,"Tier II Level C","Tier II Level C","moderate","coverage_mismatch","CiVIC",FALSE,TRUE,,"TIER_II_LEVEL_C",FALSE,TRUE
+"stress_AR_ARV7_PRAD_180","stress","AR","AR-V7","PRAD",,"Tier I Level A","Tier I Level A","high","coverage_mismatch","CiVIC",FALSE,TRUE,,"TIER_I_LEVEL_A",FALSE,TRUE
+"stress_BCOR_ITD_RCC_80","stress","BCOR","ITD ","RCC",,"Tier I Level A","Tier II Level C","moderate","tumor_specificity_mismatch","Combined",FALSE,TRUE,,"TIER_I_LEVEL_A",FALSE,FALSE
+"stress_CEBPA_Mutation_AML_146","stress","CEBPA","Mutation","AML",,"Tier I Level A","Tier I Level A","high","coverage_mismatch","CiVIC",FALSE,TRUE,,"TIER_I_LEVEL_A",FALSE,TRUE
+"stress_EPOR_rearrangements_LYMPH_167","stress","EPOR","rearrangements","LYMPH",,"Tier I Level A","Tier I Level A","high","coverage_mismatch","CiVIC",FALSE,TRUE,,"TIER_I_LEVEL_A",FALSE,TRUE
+"stress_FGFR1_Amplification_BRCA_203","stress","FGFR1","Amplification","BRCA",,"Tier II Level C","Tier II Level C","high","coverage_mismatch","CiVIC",FALSE,TRUE,,"TIER_II_LEVEL_C",FALSE,TRUE
+"stress_FLT3_D835_AML_33","stress","FLT3","D835","AML","LEVEL_1","Tier I Level A","Tier I Level A","high","concordant","Combined",FALSE,TRUE,,"TIER_I_LEVEL_A",FALSE,TRUE
+"stress_FLT3_ITD_AML_38","stress","FLT3","ITD","AML","LEVEL_1","Tier I Level A","Tier I Level A","high","concordant","Combined",FALSE,TRUE,,"TIER_I_LEVEL_A",FALSE,TRUE
+"stress_MECOM_rearrangement_AML_168","stress","MECOM","rearrangement","AML",,"Tier I Level A","Tier I Level A","high","coverage_mismatch","CiVIC",FALSE,TRUE,,"TIER_I_LEVEL_A",FALSE,TRUE
+"stress_MYB_Rearrangement_GLIOMA_113","stress","MYB","Rearrangement","GLIOMA",,"Tier I Level A","Tier I Level A","high","coverage_mismatch","CiVIC",FALSE,TRUE,,"TIER_I_LEVEL_A",FALSE,TRUE
+"stress_MYBL1_Rearrangement_GLIOMA_115","stress","MYBL1","Rearrangement","GLIOMA",,"Tier I Level A","Tier I Level A","high","coverage_mismatch","CiVIC",FALSE,TRUE,,"TIER_I_LEVEL_A",FALSE,TRUE
+"stress_NPM1_MUTATION_AML_185","stress","NPM1","MUTATION","AML",,"Tier I Level A","Tier I Level A","high","coverage_mismatch","CiVIC",FALSE,TRUE,,"TIER_I_LEVEL_A",FALSE,TRUE
+"stress_PAX5_P80R_LYMPH_91","stress","PAX5","P80R","LYMPH",,"Tier I Level A","Tier I Level A","high","coverage_mismatch","CiVIC",FALSE,TRUE,,"TIER_I_LEVEL_A",FALSE,TRUE

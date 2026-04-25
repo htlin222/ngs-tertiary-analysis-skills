@@ -1,0 +1,7 @@
+"metric","value"
+"n_cases",10
+"tier_unanimous",10
+"tier_unanimous_pct",100
+"confidence_unanimous",10
+"discordance_unanimous",3
+"fleiss_kappa_tier",1

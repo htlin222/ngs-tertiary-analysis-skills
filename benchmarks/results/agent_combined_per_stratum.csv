@@ -1,0 +1,3 @@
+"stratum","n_total","n_valid","n_agree","pct_agree","n_high_conf","n_moderate_conf","n_low_conf","n_concordant_flagged","n_tumor_specificity","n_therapeutic_level","n_oncogenicity","n_coverage_mismatch"
+"cohort",99,99,78,78.8,84,15,0,5,3,0,0,91
+"stress",13,13,12,92.3,11,2,0,2,1,0,0,10
