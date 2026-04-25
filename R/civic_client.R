@@ -287,15 +287,14 @@ civic_get_gene_summary <- function(gene) {
 civic_get_assertions <- function(gene) {
   log_debug("CiVIC: fetching assertions for {gene}")
 
-  # Fetch assertions sorted by evidence count without gene filter, then filter
-
-  # in R. CiVIC has ~200 accepted assertions total, so fetching 100 is safe.
+  # Fetch all accepted assertions, then filter by gene in R. CiVIC has ~200
+  # accepted assertions total, so a single page is enough.
+  # NB: sortBy was removed because CiVIC's AssertionSortColumns enum no longer
+  # accepts EVIDENCE_ITEM_COUNT (returns 422). Default ordering is fine since
+  # we filter and dedup by (gene, variant_name) downstream.
   query <- '
     query GetAssertions {
-      assertions(
-        sortBy: { column: EVIDENCE_ITEM_COUNT, direction: DESC }
-        first: 100
-      ) {
+      assertions(first: 500) {
         nodes {
           id
           ampLevel
@@ -342,8 +341,9 @@ civic_get_assertions <- function(gene) {
   nodes <- result$data$assertions$nodes
   if (length(nodes) == 0) return(empty_tbl)
 
-  # Filter to accepted assertions only
-  nodes <- Filter(function(n) (n$status %||% "") == "accepted", nodes)
+  # Filter to accepted assertions only.
+  # NB: CiVIC now returns status as uppercase ("ACCEPTED"); compare case-insensitively.
+  nodes <- Filter(function(n) toupper(n$status %||% "") == "ACCEPTED", nodes)
 
   # Filter by gene: check if any variant's gene matches the requested gene
   if (!is.null(gene)) {

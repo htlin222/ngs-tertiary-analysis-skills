@@ -1,0 +1,2 @@
+"case_id","gene","variant","tumor_type","oncokb_level","civic_amp_level","discordance_signal","baseline_tier","agent_tier","agent_confidence","agent_discordance_nature","primary_source","dissenting_noted","valid","errors","agrees_with_baseline"
+"real_RET_M918T_NSCLC","RET","M918T","NSCLC","LEVEL_3B","TIER_I_LEVEL_A","tier_level","Tier I Level A","Tier II Level C","moderate","tumor_specificity_mismatch","Combined",TRUE,TRUE,,FALSE
