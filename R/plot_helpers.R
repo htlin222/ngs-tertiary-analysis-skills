@@ -67,6 +67,8 @@ plot_vaf_distribution <- function(variants, min_vaf = 0.05) {
         levels = names(pathogenicity_colors))
     ) |>
     arrange(desc(vaf)) |>
+    slice_head(n = 40) |>
+    mutate(label = make.unique(label, sep = " #")) |>
     mutate(label = factor(label, levels = rev(label)))
 
   p <- ggplot(df, aes(x = vaf, y = label, color = pathogenicity)) +

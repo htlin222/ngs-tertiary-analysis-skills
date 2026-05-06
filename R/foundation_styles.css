@@ -1,0 +1,217 @@
+/* foundation_styles.css — Print-first stylesheet for the actionable report.
+   Loaded inline by render_actionable_report() so the HTML stays portable. */
+
+@page {
+  size: A4;
+  margin: 12mm 12mm 14mm 12mm;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
+               Helvetica, Arial, sans-serif;
+  color: #1a1a1a;
+  line-height: 1.42;
+  font-size: 10.5pt;
+  margin: 0;
+  background: #fff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+h1, h2, h3, h4 { color: #0d2c54; margin: 0 0 .35em 0; line-height: 1.18; }
+h1 { font-size: 22pt; font-weight: 700; }
+h2 { font-size: 14pt; font-weight: 700; border-bottom: 2px solid #0d2c54;
+     padding-bottom: 3px; margin-top: 18pt; }
+h3 { font-size: 11.5pt; color: #1a3e7c; margin-top: 14pt; }
+h4 { font-size: 10pt; color: #444; margin-top: 8pt; }
+
+section { page-break-inside: avoid; margin-bottom: 14pt; }
+section.therapies-hero,
+section.variant-cards,
+section.gene-narratives,
+section.figures,
+section.vus { page-break-before: auto; }
+
+/* ── Cover ─────────────────────────────────────────────────────────────── */
+section.cover { padding-top: 8mm; page-break-after: always; }
+section.cover h1 { color: #0d2c54; }
+section.cover .subtitle { color: #666; font-size: 11.5pt; margin: 0 0 28pt 0; }
+section.cover .cover-meta table { width: 100%; border-collapse: collapse;
+  background: #f7f9fc; border: 1px solid #d9e2ee; }
+section.cover .cover-meta th { text-align: left; width: 32%; padding: 8pt 10pt;
+  background: #eef3fb; color: #0d2c54; font-weight: 600; vertical-align: top; }
+section.cover .cover-meta td { padding: 8pt 10pt; vertical-align: top; }
+
+/* ── Biomarker snapshot ────────────────────────────────────────────────── */
+section.biomarkers .bm-grid { display: grid;
+  grid-template-columns: repeat(3, 1fr); gap: 10pt; }
+.biomarker-card { padding: 12pt 12pt 14pt; border-radius: 6pt;
+  border-left: 5pt solid #1a3e7c; background: #f5f7fb; }
+.biomarker-card.high { background: #ffefef; border-left-color: #c62828; }
+.biomarker-card.med  { background: #fff7e6; border-left-color: #ef6c00; }
+.biomarker-card.low  { background: #f1f8e9; border-left-color: #558b2f; }
+.bm-label  { font-size: 9pt; color: #555; letter-spacing: .04em;
+             text-transform: uppercase; }
+.bm-value  { font-size: 17pt; font-weight: 700; color: #0d2c54;
+             margin-top: 2pt; }
+.biomarker-card.high .bm-value { color: #b71c1c; }
+.biomarker-card.med  .bm-value { color: #d84315; }
+.biomarker-card.low  .bm-value { color: #2e7d32; }
+.bm-status { font-size: 9.5pt; color: #444; margin-top: 1pt; font-weight: 600; }
+.bm-blurb  { font-size: 9pt; color: #333; margin-top: 6pt; line-height: 1.32; }
+
+/* ── Therapy hero tables ───────────────────────────────────────────────── */
+.section-lede { color: #555; margin: 4pt 0 8pt 0; font-size: 10pt; }
+.empty-section { color: #888; font-style: italic; padding: 6pt 0; font-size: 9.5pt; }
+
+table.therapy-table { width: 100%; border-collapse: collapse;
+  font-size: 9.5pt; margin-bottom: 6pt; }
+table.therapy-table thead th { background: #0d2c54; color: #fff;
+  text-align: left; padding: 6pt 8pt; font-weight: 600; }
+table.therapy-table tbody td { padding: 6pt 8pt; vertical-align: top;
+  border-bottom: 1px solid #e0e6ef; }
+table.therapy-table tbody tr:nth-child(even) td { background: #fafbfd; }
+.drug-cell  { width: 26%; }
+.driver-cell { width: 22%; }
+.level-cell { width: 22%; }
+.note-cell  { width: 30%; color: #555; font-size: 9pt; }
+
+.lvl-badge { display: inline-block; padding: 1.5pt 6pt; border-radius: 3pt;
+             color: #fff; font-weight: 600; font-size: 8.5pt;
+             white-space: nowrap; }
+.lvl-badge.lvl-1   { background: #c62828; }
+.lvl-badge.lvl-2   { background: #d84315; }
+.lvl-badge.lvl-3a  { background: #ef6c00; }
+.lvl-badge.lvl-3b  { background: #f9a825; color: #333; }
+.lvl-badge.lvl-4   { background: #1565c0; }
+.lvl-badge.lvl-r1  { background: #4a148c; }
+.lvl-badge.lvl-r2  { background: #6a1b9a; }
+
+tr.lvl-1   td:first-child { border-left: 4pt solid #c62828; }
+tr.lvl-2   td:first-child { border-left: 4pt solid #d84315; }
+tr.lvl-3a  td:first-child { border-left: 4pt solid #ef6c00; }
+tr.lvl-3b  td:first-child { border-left: 4pt solid #f9a825; }
+tr.lvl-4   td:first-child { border-left: 4pt solid #1565c0; }
+
+/* ── Variant cards ─────────────────────────────────────────────────────── */
+.variant-card { border: 1px solid #d9e2ee; border-radius: 5pt;
+  padding: 9pt 11pt; margin: 8pt 0; background: #fff;
+  page-break-inside: avoid; }
+.variant-card .vc-head { display: flex; align-items: center; gap: 10pt;
+  border-bottom: 1px solid #eef2f8; padding-bottom: 5pt; margin-bottom: 5pt; }
+.vc-gene { font-size: 12.5pt; font-weight: 700; color: #0d2c54; }
+.vc-alt  { font-size: 10.5pt; color: #444; font-family: ui-monospace,
+           SFMono-Regular, Menlo, monospace; }
+
+.amp-badge { margin-left: auto; padding: 1.5pt 8pt; border-radius: 3pt;
+  color: #fff; font-weight: 600; font-size: 8.5pt; }
+.amp-badge.tier-i   { background: #c62828; }
+.amp-badge.tier-ii  { background: #ef6c00; }
+.amp-badge.tier-iii { background: #f9a825; color: #333; }
+.amp-badge.tier-iv  { background: #757575; }
+
+.vc-meta { font-size: 9pt; color: #444; margin-bottom: 5pt; }
+.vc-meta > span { display: inline-block; margin-right: 8pt;
+  background: #eef2f8; padding: 1pt 6pt; border-radius: 3pt; }
+.vc-meta .vc-onc { background: #fff3e0; }
+.vc-meta .vc-eff { background: #e8f5e9; }
+.vc-meta .vc-hot { background: #ffebee; color: #b71c1c; font-weight: 600; }
+
+.vc-evidence { font-size: 9pt; color: #333; margin: 4pt 0; line-height: 1.35; }
+.vc-blurb { font-size: 9pt; color: #444; margin: 4pt 0;
+  background: #f7f9fc; padding: 6pt 8pt; border-radius: 3pt;
+  border-left: 3pt solid #1a3e7c; }
+.civic-cite { margin: 5pt 0 2pt 0; }
+.civic-cite h4 { color: #6a1b9a; font-size: 8.5pt; text-transform: uppercase;
+  letter-spacing: .05em; margin: 3pt 0; }
+.civic-cite ul { margin: 0; padding-left: 16pt; font-size: 9pt; }
+
+/* ── CNV table ─────────────────────────────────────────────────────────── */
+table.cnv-table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+table.cnv-table thead th { background: #0d2c54; color: #fff;
+  text-align: left; padding: 5pt 8pt; }
+table.cnv-table tbody td { padding: 4pt 8pt; border-bottom: 1px solid #eee; }
+tr.cnv-amplification td:first-child { border-left: 4pt solid #c62828; }
+tr.cnv-deletion td:first-child       { border-left: 4pt solid #1565c0; }
+tr.cnv-gain td:first-child           { border-left: 4pt solid #ef6c00; }
+tr.cnv-loss td:first-child           { border-left: 4pt solid #42a5f5; }
+
+/* ── Figures ───────────────────────────────────────────────────────────── */
+section.figures figure { margin: 10pt 0; text-align: center;
+  page-break-inside: avoid; }
+section.figures figure img { max-width: 100%; height: auto;
+  border: 1px solid #e0e6ef; border-radius: 3pt; }
+section.figures figcaption { font-size: 8.5pt; color: #666;
+  margin-top: 4pt; font-style: italic; }
+
+/* ── Literature Review (OpenEvidence) ─────────────────────────────────── */
+section.lit-review { page-break-before: auto; }
+section.lit-review .lit-body { font-size: 9.5pt; line-height: 1.5; color: #1a1a1a; }
+section.lit-review .lit-body h1,
+section.lit-review .lit-body h2,
+section.lit-review .lit-body h3 { color: #0d2c54; margin-top: 14pt; font-size: 11pt; }
+section.lit-review .lit-body p  { margin: 5pt 0; }
+section.lit-review .lit-body strong { color: #0d2c54; }
+section.lit-review .lit-body hr {
+  border: 0; border-top: 1px dashed #cdd5e1; margin: 10pt 0;
+}
+section.lit-review .lit-body a { color: #1565c0; text-decoration: underline; }
+section.lit-review .lit-body code { background: #eceff1; padding: 1px 4px;
+  border-radius: 2pt; font-size: 8.8pt; }
+section.lit-review .lit-body ul,
+section.lit-review .lit-body ol { padding-left: 18pt; margin: 4pt 0; }
+section.lit-review .lit-disclaimer { font-size: 8pt; color: #888;
+  margin-top: 10pt; font-style: italic; }
+section.lit-review .lit-refs { margin-top: 14pt; padding-top: 8pt;
+  border-top: 1px dashed #cdd5e1; }
+section.lit-review .lit-refs h3 { color: #444; font-size: 10pt;
+  text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6pt; }
+ol.ama-refs { font-size: 8.5pt; padding-left: 22pt; line-height: 1.42; }
+ol.ama-refs li { margin: 2.5pt 0; padding-left: 2pt;
+  page-break-inside: avoid; }
+ol.ama-refs .cit-authors { color: #1a3e7c; }
+ol.ama-refs .cit-title { color: #222; font-style: italic; }
+ol.ama-refs .cit-pub { color: #444; }
+ol.ama-refs a { color: #1565c0; text-decoration: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 8pt; background: #f0f4f8; padding: 0 4px; border-radius: 2pt; }
+ol.ama-refs a:hover { text-decoration: underline; }
+
+/* ── Gene narratives + refs ────────────────────────────────────────────── */
+.gene-narrative { margin: 12pt 0; padding: 8pt 12pt; background: #f7f9fc;
+  border-radius: 4pt; page-break-inside: avoid; }
+.gene-narrative h3 { margin-top: 0; color: #0d2c54; }
+.gene-narrative p  { font-size: 9.5pt; line-height: 1.42; margin: 4pt 0; }
+.pm-refs { margin-top: 14pt; }
+.pm-refs h3 { color: #444; }
+.pm-refs ol { font-size: 8.5pt; padding-left: 22pt; }
+.pm-refs li { margin: 3pt 0; line-height: 1.35; }
+
+/* ── VUS ───────────────────────────────────────────────────────────────── */
+table.vus-table { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+table.vus-table thead th { background: #424242; color: #fff;
+  text-align: left; padding: 4pt 6pt; }
+table.vus-table tbody td { padding: 3pt 6pt; border-bottom: 1px solid #eee; }
+table.vus-table tbody tr:nth-child(even) td { background: #fafafa; }
+
+/* ── Footer ────────────────────────────────────────────────────────────── */
+.report-footer { margin-top: 18pt; padding-top: 8pt;
+  border-top: 1px solid #ccc; }
+.report-footer .fine { font-size: 7.5pt; color: #888; margin: 2pt 0;
+  font-style: italic; }
+
+/* Print-specific tweaks */
+@media print {
+  body { font-size: 9.5pt; }
+  section { page-break-inside: avoid; }
+  section.cover { page-break-after: always; }
+  section.therapies-hero { page-break-before: always; }
+  section.variant-cards  { page-break-before: always; }
+  section.gene-narratives { page-break-before: always; }
+  .variant-card { page-break-inside: avoid; }
+  .biomarker-card { page-break-inside: avoid; }
+  a { color: inherit; text-decoration: none; }
+  /* Hide nothing; the doc is print-first by default. */
+}

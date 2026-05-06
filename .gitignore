@@ -1,5 +1,6 @@
 # Patient data - NEVER commit
 reports/
+inputs/
 
 # Test data (large BAM files)
 testdata/*.bam
@@ -13,8 +14,21 @@ testdata/*.bai
 # R targets cache
 _targets/
 
-# API response cache
+# API response cache (OncoKB / CiVIC / PubMed live answers — may carry
+# tumor-type-resolved annotations tied to a patient sample)
 .api_cache/
+reports/.oncokb_cache/
+reports/.openevidence_cache/
+
+# Netlify CLI working directory (per-machine deploy state)
+.netlify/
+
+# Per-machine Claude Code settings + agent transcripts
+.claude/settings.local.json
+.claude/transcripts/
+
+# Personal/private plan files
+*.private.md
 
 # Agent runtime: inputs, outputs, and logs may contain prompts/responses;
 # treat as patient-adjacent even in benchmarks

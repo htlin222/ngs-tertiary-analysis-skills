@@ -64,6 +64,11 @@ load_config <- function(config_path = here::here("config/default.yaml"),
   }
   config <- read_yaml(config_path)
 
+  env_tumor <- Sys.getenv("TUMOR_TYPE", unset = "")
+  if (nchar(env_tumor) > 0) config$sample$tumor_type <- env_tumor
+  env_sid <- Sys.getenv("SAMPLE_ID", unset = "")
+  if (nchar(env_sid) > 0) config$sample$id <- env_sid
+
   # Apply overrides (dot-separated keys like "qc.min_mean_coverage")
   for (key in names(overrides)) {
     parts <- str_split_1(key, "\\.")

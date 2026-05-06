@@ -63,11 +63,12 @@ civic <- tryCatch(
 )
 has_civic <- nrow(civic$variant_evidence) > 0 || nrow(civic$assertions) > 0
 
-tumor_type_label <- "High-Grade Serous Ovarian Carcinoma (HGSOC)"
+source(here::here("R/tso500_parser.R"))
+tumor_type_label <- tumor_type_display(config$sample$tumor_type %||% "Unknown")
 ```
 
 ::: {.callout-note appearance="minimal"}
-**Sample:** `r params$sample_id` | **Tumor:** `r tumor_type_label` | **Panel:** TSO500 (523 genes, 1.94 Mb) | **Source:** EGA EGAD50000001451
+**Sample:** `r params$sample_id` | **Tumor:** `r tumor_type_label` | **Panel:** TSO500 (523 genes, 1.94 Mb)
 :::
 
 # Patient & Sample Information

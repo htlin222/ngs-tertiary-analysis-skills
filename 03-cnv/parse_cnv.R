@@ -72,8 +72,10 @@ parse_cnv <- function(cnvkit_results, config, sample_id) {
     config$cnv$min_log2_loss <- -0.42
   }
 
-  log_info("CNV thresholds - Amplification: {config$cnv$amplification_threshold}, "
-    "Gain: {config$cnv$min_log2_gain}, Loss: {config$cnv$min_log2_loss}")
+  log_info(paste0(
+    "CNV thresholds - Amplification: {config$cnv$amplification_threshold}, ",
+    "Gain: {config$cnv$min_log2_gain}, Loss: {config$cnv$min_log2_loss}"
+  ))
 
   # ── Read CNVkit gene-level calls ──────────────────────────────────────────
   log_info("Reading CNVkit gene-level calls: {cnvkit_results$call_cns}")
@@ -117,8 +119,10 @@ parse_cnv <- function(cnvkit_results, config, sample_id) {
       chromosome, start, end, gene, log2_ratio, copy_number, length, type
     )
 
-  log_info("Classified CNVs: {sum(cna_classified$type != 'NEUTRAL')} significant, "
-    "{sum(cna_classified$type == 'NEUTRAL')} neutral")
+  log_info(paste0(
+    "Classified CNVs: {sum(cna_classified$type != 'NEUTRAL')} significant, ",
+    "{sum(cna_classified$type == 'NEUTRAL')} neutral"
+  ))
 
   # ── Filter to clinically significant CNAs ─────────────────────────────────
   cna_significant <- cna_classified %>%
@@ -218,9 +222,11 @@ parse_cnv <- function(cnvkit_results, config, sample_id) {
       title = glue("Genome-Wide Copy Number Profile - {sample_id}"),
       x = "Chromosome",
       y = "Log2 Copy Number Ratio",
-      caption = glue("Significant CNAs (n={nrow(cna_plot_data)}) | "
-        "Amplification >= {config$cnv$amplification_threshold}, "
-        "Deletion <= {config$cnv$min_log2_loss}")
+      caption = glue(paste0(
+        "Significant CNAs (n={nrow(cna_plot_data)}) | ",
+        "Amplification >= {config$cnv$amplification_threshold}, ",
+        "Deletion <= {config$cnv$min_log2_loss}"
+      ))
     ) +
     theme_minimal() +
     theme(

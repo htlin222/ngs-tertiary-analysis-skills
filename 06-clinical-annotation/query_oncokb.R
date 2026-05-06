@@ -11,6 +11,7 @@ suppressPackageStartupMessages({
 # Source required functions
 source(here::here("R/api_clients.R"))
 source(here::here("R/utils.R"))
+source(here::here("R/oncokb_helpers.R"))
 
 #' Check and load cached OncoKB results
 #'
@@ -97,13 +98,14 @@ query_mutations <- function(merged_annotations, tumor_type, cache_dir = NULL) {
 
   log_info("Querying OncoKB for {nrow(merged_annotations)} mutations")
 
-  # Prepare all variants
+  # Prepare all variants. OncoKB only matches 1-letter HGVS.p (e.g. "G12S");
+  # the 3-letter form silently degrades to "Other Biomarkers" with no annotation.
   prepared <- merged_annotations |>
     mutate(
       row_idx = row_number(),
-      protein_change = str_remove(as.character(hgvsp), "^p\\."),
+      protein_change = hgvsp_to_short(as.character(hgvsp)),
       cache_key = glue("{gene}_{protein_change}_{tumor_type}"),
-      is_valid = !is.na(gene) & !is.na(hgvsp)
+      is_valid = !is.na(gene) & !is.na(hgvsp) & !is.na(protein_change)
     )
 
   # Check cache for all variants upfront
@@ -189,9 +191,11 @@ query_cnas <- function(parsed_cnv, tumor_type, cache_dir = NULL) {
     return(list())
   }
 
-  # Filter to significant events only (AMP or DEL, skip GAIN/LOSS)
+  # Filter to significant events only. Accept both legacy short codes
+  # (AMP/DEL) and the full forms emitted by tso500_parser ("AMPLIFICATION",
+  # "DELETION"). Skip GAIN / LOSS — too noisy for OncoKB CNA queries.
   significant_cnv <- parsed_cnv %>%
-    filter(type %in% c("AMP", "DEL"))
+    filter(type %in% c("AMP", "DEL", "AMPLIFICATION", "DELETION"))
 
   if (nrow(significant_cnv) == 0) {
     log_info("No significant CNVs (AMP/DEL) found to annotate")
@@ -204,7 +208,8 @@ query_cnas <- function(parsed_cnv, tumor_type, cache_dir = NULL) {
   prepared <- significant_cnv |>
     mutate(
       row_idx = row_number(),
-      oncokb_type = if_else(type == "AMP", "AMPLIFICATION", "DELETION"),
+      oncokb_type = if_else(type %in% c("AMP", "AMPLIFICATION"),
+                            "AMPLIFICATION", "DELETION"),
       cache_key = glue("{gene}_{oncokb_type}_{tumor_type}"),
       is_valid = !is.na(gene) & !is.na(type)
     )

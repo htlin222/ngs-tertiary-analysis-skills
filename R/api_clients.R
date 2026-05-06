@@ -200,12 +200,14 @@ oncokb_annotate_fusion <- function(gene_a, gene_b, tumor_type,
 oncokb_annotate_mutations_batch <- function(variants_df, tumor_type) {
   token <- get_api_key("ONCOKB_API_KEY")
 
-  # Build request body — array of mutation query objects
+  # Build request body — array of AnnotateMutationByProteinChangeQuery objects.
+  # The batch endpoint requires the gene as a nested object; a flat
+  # `hugoSymbol` field is silently downgraded to "Other Biomarkers".
   body <- lapply(seq_len(nrow(variants_df)), function(i) {
     list(
-      hugoSymbol = variants_df$gene[i],
-      alteration = variants_df$protein_change[i],
-      tumorType = tumor_type
+      gene = list(hugoSymbol = jsonlite::unbox(variants_df$gene[i])),
+      alteration = jsonlite::unbox(variants_df$protein_change[i]),
+      tumorType = jsonlite::unbox(tumor_type)
     )
   })
 
@@ -250,9 +252,9 @@ oncokb_annotate_cnas_batch <- function(cnas_df, tumor_type) {
 
   body <- lapply(seq_len(nrow(cnas_df)), function(i) {
     list(
-      hugoSymbol = cnas_df$gene[i],
-      copyNameAlterationType = cnas_df$oncokb_type[i],
-      tumorType = tumor_type
+      gene = list(hugoSymbol = jsonlite::unbox(cnas_df$gene[i])),
+      copyNameAlterationType = jsonlite::unbox(cnas_df$oncokb_type[i]),
+      tumorType = jsonlite::unbox(tumor_type)
     )
   })
 
@@ -294,10 +296,10 @@ oncokb_annotate_fusions_batch <- function(fusions_df, tumor_type) {
 
   body <- lapply(seq_len(nrow(fusions_df)), function(i) {
     list(
-      hugoSymbolA = fusions_df$gene_a[i],
-      hugoSymbolB = fusions_df$gene_b[i],
-      structuralVariantType = "FUSION",
-      tumorType = tumor_type
+      geneA = list(hugoSymbol = jsonlite::unbox(fusions_df$gene_a[i])),
+      geneB = list(hugoSymbol = jsonlite::unbox(fusions_df$gene_b[i])),
+      structuralVariantType = jsonlite::unbox("FUSION"),
+      tumorType = jsonlite::unbox(tumor_type)
     )
   })
 
