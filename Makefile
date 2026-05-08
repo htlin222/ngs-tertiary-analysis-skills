@@ -144,7 +144,6 @@ clean-cache: ## wipe OncoKB / OpenEvidence / API caches (asks before deleting)
 	@read -p "Confirm? (y/N) " ans && [ "$$ans" = "y" ] && \
 	  rip reports/.oncokb_cache reports/.openevidence_cache .api_cache && \
 	  echo "Caches cleared." || echo "Aborted."
-
 # ─────────────────────────────────────────────────────────────────────────────
 #  Multi-batch operation (all batches under inputs/TSO500-HRD/)
 # ─────────────────────────────────────────────────────────────────────────────
@@ -169,3 +168,17 @@ all-deploy: ## netlify deploy --prod (all-batches handoff)
 	  --dir $(ALL_HANDOFF_DIR) \
 	  --prod \
 	  --message "All batches — TSO500 actionable reports"
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  ESMO abstract submission helpers
+# ─────────────────────────────────────────────────────────────────────────────
+
+abstract-charcount: ## count ESMO abstract chars (limit 2000, excl spaces)
+	@count=$$(awk '/^## Title/,/^## How to verify/' docs/abstract_esmo_2026.md \
+	  | sed '/^---$$/d;/^## /d;/^$$/d' \
+	  | tr -d ' \n' | wc -c); \
+	  echo "Abstract chars (excl spaces): $$count / 2000"; \
+	  if [ $$count -gt 2000 ]; then echo "OVER LIMIT"; exit 1; fi
+
+abstract-metrics: ## print every number cited in the ESMO abstract from the bench CSVs
+	Rscript --vanilla scripts/extract_abstract_metrics.R
