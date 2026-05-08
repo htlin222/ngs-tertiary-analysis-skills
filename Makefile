@@ -1,6 +1,7 @@
 .PHONY: setup-all setup-system setup-gatk setup-vep setup-cnvkit setup-r setup-quarto run test clean \
         help batch-pipeline batch-render batch-index batch-audit batch-deploy batch-all \
-        oe-queue oe-citations clean-cache
+        oe-queue oe-citations clean-cache \
+        manifest all-batches all-index all-deploy
 
 # Setup all dependencies
 setup-all: setup-system setup-gatk setup-vep setup-cnvkit setup-r setup-quarto
@@ -143,3 +144,28 @@ clean-cache: ## wipe OncoKB / OpenEvidence / API caches (asks before deleting)
 	@read -p "Confirm? (y/N) " ans && [ "$$ans" = "y" ] && \
 	  rip reports/.oncokb_cache reports/.openevidence_cache .api_cache && \
 	  echo "Caches cleared." || echo "Aborted."
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  Multi-batch operation (all batches under inputs/TSO500-HRD/)
+# ─────────────────────────────────────────────────────────────────────────────
+
+ALL_HANDOFF_DIR ?= reports/_handoff_all_batches
+
+manifest: ## (re)build the master sample-→-tumor manifest by parsing every batch xlsx
+	uvx --with openpyxl python3 scripts/build_batch_manifest.py
+
+all-batches: manifest ## run pipeline + Foundation One render for every sample, skipping completed
+	bash scripts/run_all_batches.sh
+
+all-index: ## stage every produced report into _handoff_all_batches/ + grouped index
+	Rscript --vanilla scripts/build_unified_index.R
+
+all-deploy: ## netlify deploy --prod (all-batches handoff)
+	@if ! command -v netlify >/dev/null 2>&1; then \
+	  echo "ERROR: netlify CLI not installed (brew install netlify-cli)"; exit 1; \
+	fi
+	netlify deploy \
+	  --site $(SITE_ID) \
+	  --dir $(ALL_HANDOFF_DIR) \
+	  --prod \
+	  --message "All batches — TSO500 actionable reports"

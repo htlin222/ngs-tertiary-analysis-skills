@@ -26,6 +26,11 @@ reports/.openevidence_cache/
 # Per-machine Claude Code settings + agent transcripts
 .claude/settings.local.json
 .claude/transcripts/
+.claude/scheduled_tasks.lock
+
+# Raw patient-data uploads (zips of TSO500 deliverables)
+TSO500*.zip
+TSO500HRD*.zip
 
 # Personal/private plan files
 *.private.md
