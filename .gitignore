@@ -1,6 +1,7 @@
 # Patient data - NEVER commit
 reports/
 inputs/
+annotation/
 
 # Test data (large BAM files)
 testdata/*.bam

@@ -35,7 +35,7 @@ Deterministic AMP/ASCO/CAP tiering (Li 2017) takes the higher tier between OncoK
 
 We built a targets-orchestrated R pipeline (DRAGEN VCF to printable report) integrating VEP, OncoKB, CiVIC, ESCAT, and AMP/ASCO/CAP tiering. Concordant variants resolve deterministically; KB-discordant variants escalate to a markdown-specified, model-agnostic agent emitting a unified tier, confidence, and rationale (JSON-schema validated). We benchmarked it against the deterministic baseline on 112 real variant-tumor cases (99 COSMIC plus 13 cross-tumor stress), measured within-model (3 runs) and cross-model reproducibility (Opus 4.7, Sonnet 4.6, Haiku 4.5), and prospectively deployed it on 62 consecutive late-stage cancer patients (8 monthly TruSight Oncology 500 batches, 11 cancer types).
 
-112 of 112 agent calls produced schema-valid JSON. Agent-baseline tier agreement was 80.4% (90 of 112), concentrated at documented rule blind spots: in the 25-case OncoKB-only subset the agent never overrode baseline (0 of 25); when CiVIC carried different-tumor evidence, the agent correctly down-tiered RET M918T NSCLC from Tier IA to IIC. The dominant disagreement (20 of 112) was the Tier III variant of uncertain significance to Tier IID boundary for oncogenic variants lacking therapeutic level. Within-model reproducibility was perfect (Fleiss kappa 1.000); cross-model was substantial (0.717), with the RET catch and Tier IA concordances preserved in all three. All 62 deployed cases completed end-to-end with auditable per-case reconciliation logs.
+112 of 112 agent calls produced schema-valid JSON. Agent-baseline tier agreement was 80.4% (90 of 112), concentrated at documented rule blind spots: in 70 Tier I/II OncoKB-only safety-critical cases the agent never overrode baseline (0 of 70); when CiVIC carried different-tumor evidence, the agent correctly down-tiered RET M918T NSCLC from Tier IA to IIC. The dominant disagreement (20 of 112) was the Tier III variant of uncertain significance to Tier IID boundary for oncogenic variants lacking therapeutic level. Within-model reproducibility was perfect (Fleiss kappa 1.000); cross-model was substantial (0.717), with the RET catch and Tier IA concordances preserved in all three. All 62 deployed cases completed end-to-end with auditable per-case reconciliation logs.
 
 Confining LLM invocation to KB-discordant variants matches deterministic reproducibility on safety-critical cases while detecting tumor-specificity errors the rule cannot encode, supporting deployment as second-opinion decision support in molecular tumor boards. Code, prompts, and schemas are open source.
 
@@ -52,7 +52,7 @@ Numbers to confirm:
 
 - 112 of 112 schema-valid → `agent_combined_summary.csv` rows where `valid == TRUE`
 - 80.4% agent-baseline agreement → combined cohort+stress in `agent_combined_per_stratum.csv`
-- 0 of 25 OncoKB-only override → cohort cases where `civic_amp_level` is NA
+- 0 of 70 safety-critical OncoKB-only override → cohort cases where `civic_amp_level` is NA AND baseline_tier starts with "Tier I" or "Tier II"
 - Tier III VUS to Tier IID boundary count → `baseline_tier == "Tier III VUS" & agent_tier == "Tier II Level D"`
 - Fleiss kappa within-model → `agent_consistency_summary.csv` `fleiss_kappa_tier`
 - Fleiss kappa cross-model → `agent_cross_model_summary.csv`

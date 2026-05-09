@@ -7,7 +7,7 @@
 | Artefact | State | Path |
 |---|---|---|
 | Title (descriptive, no results) | ✅ drafted | `docs/abstract_esmo_2026.md` line "Title" |
-| 2 000-character body | ✅ **1983 / 2000 chars** | `docs/abstract_esmo_2026.md` "Body" |
+| 2 000-character body | ✅ **1997 / 2000 chars** | `docs/abstract_esmo_2026.md` "Body" |
 | Metrics extractor (every cited number) | ✅ verified | `Rscript scripts/extract_abstract_metrics.R` (or `make abstract-metrics`) |
 | Char-count guard | ✅ wired | `make abstract-charcount` |
 | Source manuscript | ✅ exists | `benchmarks/manuscript/main.qmd` (4 127 w) |
@@ -19,7 +19,7 @@ The body, in plain text (oral-targeted edit, 2026-05-09: prospective n=62, "open
 >
 > We built a targets-orchestrated R pipeline (DRAGEN VCF to printable report) integrating VEP, OncoKB, CiVIC, ESCAT, and AMP/ASCO/CAP tiering. Concordant variants resolve deterministically; KB-discordant variants escalate to a markdown-specified, model-agnostic agent emitting a unified tier, confidence, and rationale (JSON-schema validated). We benchmarked it against the deterministic baseline on 112 real variant-tumor cases (99 COSMIC plus 13 cross-tumor stress), measured within-model (3 runs) and cross-model reproducibility (Opus 4.7, Sonnet 4.6, Haiku 4.5), and prospectively deployed it on 62 consecutive late-stage cancer patients (8 monthly TruSight Oncology 500 batches, 11 cancer types).
 >
-> 112 of 112 agent calls produced schema-valid JSON. Agent–baseline tier agreement was 80.4 % (90 of 112), concentrated at documented rule blind spots: in the 25-case OncoKB-only subset the agent never overrode baseline (0 of 25); when CiVIC carried different-tumor evidence, the agent correctly down-tiered RET M918T NSCLC from Tier IA to IIC. The dominant disagreement (20 of 112) was the Tier III variant of uncertain significance to Tier IID boundary for oncogenic variants lacking therapeutic level. Within-model reproducibility was perfect (Fleiss κ 1.000); cross-model was substantial (0.717), with the RET catch and Tier IA concordances preserved in all three. All 62 deployed cases completed end-to-end with auditable per-case reconciliation logs.
+> 112 of 112 agent calls produced schema-valid JSON. Agent–baseline tier agreement was 80.4 % (90 of 112), concentrated at documented rule blind spots: in 70 Tier I/II OncoKB-only safety-critical cases the agent never overrode baseline (0 of 70); when CiVIC carried different-tumor evidence, the agent correctly down-tiered RET M918T NSCLC from Tier IA to IIC. The dominant disagreement (20 of 112) was the Tier III variant of uncertain significance to Tier IID boundary for oncogenic variants lacking therapeutic level. Within-model reproducibility was perfect (Fleiss κ 1.000); cross-model was substantial (0.717), with the RET catch and Tier IA concordances preserved in all three. All 62 deployed cases completed end-to-end with auditable per-case reconciliation logs.
 >
 > Confining LLM invocation to KB-discordant variants matches deterministic reproducibility on safety-critical cases while detecting tumor-specificity errors the rule cannot encode, supporting deployment as second-opinion decision support in molecular tumor boards. Code, prompts, and schemas are open source.
 
@@ -87,7 +87,7 @@ make abstract-metrics
 #    Expected:
 #    - Schema-valid JSON: 112 / 112
 #    - Agent–baseline agreement: 80.4 % (90 / 112)
-#    - OncoKB-only override: 0 / 25
+#    - OncoKB-only Tier I/II override (safety-critical): 0 / 70
 #    - Tier III VUS ↔ Tier II Level D boundary: 20
 #    - Within-model Fleiss κ: 1.000
 #    - Cross-model Fleiss κ: 0.717

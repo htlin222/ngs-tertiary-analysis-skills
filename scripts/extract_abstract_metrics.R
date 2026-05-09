@@ -35,12 +35,24 @@ cat("\n--- Discordance breakdown (cohort) ---\n")
 cohort <- combined %>% filter(stratum == "cohort")
 print(cohort %>% count(agent_discordance_nature, sort = TRUE))
 
-cat("\n--- Safety-critical: OncoKB-only cases (no CiVIC evidence) ---\n")
+cat("\n--- OncoKB-only cases (no CiVIC evidence) — full breakdown ---\n")
 oncokb_only <- cohort %>% filter(is.na(civic_amp_level))
 n_oo <- nrow(oncokb_only)
 n_oo_override <- sum(!oncokb_only$agrees_with_baseline, na.rm = TRUE)
-cat(sprintf("OncoKB-only cases           : %d\n", n_oo))
-cat(sprintf("Agent overrode baseline     : %d / %d\n", n_oo_override, n_oo))
+cat(sprintf("OncoKB-only cases (any tier)  : %d\n", n_oo))
+cat(sprintf("  Agent overrode baseline     : %d / %d   (mostly Tier III VUS <-> IID boundary)\n",
+            n_oo_override, n_oo))
+
+# Safety-critical = OncoKB-only AND baseline tier is clinically actionable (I or II).
+# Overrides on Tier III VUS in this subset are the documented Tier III<->IID
+# boundary, not a safety risk; the abstract reports those separately.
+safety_critical <- oncokb_only %>%
+  filter(grepl("^Tier I[ A-]|^Tier II[ A-]", baseline_tier))
+n_sc <- nrow(safety_critical)
+n_sc_override <- sum(!safety_critical$agrees_with_baseline, na.rm = TRUE)
+cat(sprintf("\nSafety-critical (Tier I/II)   : %d\n", n_sc))
+cat(sprintf("  Agent overrode baseline     : %d / %d   <- abstract cites this number\n",
+            n_sc_override, n_sc))
 
 cat("\n--- Tumor-specificity mismatches (cross-tumor CiVIC evidence) ---\n")
 ts <- cohort %>% filter(agent_discordance_nature == "tumor_specificity_mismatch")
