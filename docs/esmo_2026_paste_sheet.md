@@ -1,9 +1,9 @@
-# ESMO Congress 2026 — submission-page paste sheet
+# ESMO Congress 2026 — submission-page paste sheet (with table)
 
-Final version of the abstract, split into the four sections ESMO requires
-(regulation 6.3: Background / Methods / Results / Conclusions). Copy each
-block into the corresponding portal field. Total body = 1997 / 2000 chars
-excl. spaces.
+Final version. Body split into the four ESMO portal sections (regulation 6.3)
+plus a standalone HTML table for the reproducibility + safety numbers
+(regulation 6.8 allows one table, counted into the 2000-char budget).
+Total title + body + table visible text = ~1940 / 2000 chars excl. spaces.
 
 Deadline: **12 May 2026, 21:00 CEST** (= 03:00 Wed 13 May Taipei).
 
@@ -25,7 +25,7 @@ We built a targets-orchestrated R pipeline (DRAGEN VCF to printable report) inte
 
 ## Results
 
-112 of 112 agent calls produced schema-valid JSON. Agent-baseline tier agreement was 80.4% (90 of 112), concentrated at documented rule blind spots: in 70 Tier I/II OncoKB-only safety-critical cases the agent never overrode baseline (0 of 70); when CiVIC carried different-tumor evidence, the agent correctly down-tiered RET M918T NSCLC from Tier IA to IIC. The dominant disagreement (20 of 112) was the Tier III variant of uncertain significance to Tier IID boundary for oncogenic variants lacking therapeutic level. Within-model reproducibility was perfect (Fleiss kappa 1.000); cross-model was substantial (0.717), with the RET catch and Tier IA concordances preserved in all three. All 62 deployed cases completed end-to-end with auditable per-case reconciliation logs.
+Output structure and reproducibility are summarised in the Table. Disagreements concentrated at documented rule blind spots: when CiVIC carried different-tumor evidence the agent correctly down-tiered RET M918T NSCLC from Tier IA to IIC; the dominant disagreement (20 of 112) was the Tier III VUS to Tier IID boundary for oncogenic variants lacking therapeutic level. The RET catch and Tier IA concordances were preserved across all three models. All 62 deployed cases completed end-to-end with auditable per-case reconciliation logs.
 
 ## Conclusions
 
@@ -33,10 +33,45 @@ Confining LLM invocation to KB-discordant variants matches deterministic reprodu
 
 ---
 
+## Table (paste into the portal's table-HTML field — standalone, copy as-is)
+
+```html
+<table border="1" cellpadding="3" cellspacing="0" style="border-collapse:collapse">
+ <tbody>
+  <tr>
+   <td><b>Metric</b></td>
+   <td><b>Value</b></td>
+  </tr>
+  <tr>
+   <td>Schema-valid JSON output</td>
+   <td>112 / 112</td>
+  </tr>
+  <tr>
+   <td>Agent-baseline tier agreement</td>
+   <td>90 / 112 (80.4%)</td>
+  </tr>
+  <tr>
+   <td>OncoKB-only Tier I/II override</td>
+   <td>0 / 70</td>
+  </tr>
+  <tr>
+   <td>Within-model reproducibility (Fleiss kappa)</td>
+   <td>1.000</td>
+  </tr>
+  <tr>
+   <td>Cross-model reproducibility (Opus / Sonnet / Haiku)</td>
+   <td>0.717</td>
+  </tr>
+ </tbody>
+</table>
+```
+
+---
+
 ## Submission portal checklist (do these in the same session)
 
 - [ ] Category / track: **AI for diagnostics and profiling (pathology, radiology, molecular biology)** (backup: AI for clinical workflows and decision-making)
-- [ ] Presentation type preference: **Proffered Paper (oral)** primary, **Mini Oral** fallback
+- [ ] Presentation type preference: **Mini Oral** primary, **Proffered Paper (Oral)** fallback
 - [ ] Author list (≤20, no degrees, no titles, ordered as you want it published)
 - [ ] Affiliations (numbered, linked to authors)
 - [ ] Declaration of Interest from every author (no DOI → author dropped)
