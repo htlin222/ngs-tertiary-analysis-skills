@@ -21,11 +21,11 @@ Deterministic AMP/ASCO/CAP tiering (Li 2017) takes the higher tier between OncoK
 
 ## Methods
 
-We built a targets-orchestrated R pipeline (DRAGEN VCF to printable report) integrating VEP, OncoKB, CiVIC, ESCAT, and AMP/ASCO/CAP tiering. Concordant variants resolve deterministically; KB-discordant variants escalate to a markdown-specified, model-agnostic agent emitting a unified tier, confidence, and rationale (JSON-schema validated). We benchmarked it against the deterministic baseline on 112 real variant-tumor cases (99 COSMIC plus 13 cross-tumor stress), measured within-model (3 runs) and cross-model reproducibility (Opus 4.7, Sonnet 4.6, Haiku 4.5), and prospectively deployed it on 62 consecutive late-stage cancer patients (8 monthly TruSight Oncology 500 batches, 11 cancer types).
+We built a targets-orchestrated R pipeline integrating VEP, OncoKB, CiVIC, ESCAT, and AMP/ASCO/CAP tiering. Concordant variants resolve deterministically; KB-discordant variants escalate to a model-agnostic agent emitting a unified tier, confidence, and rationale (JSON-schema validated). We benchmarked it against the deterministic baseline on 112 real variant-tumor cases (99 COSMIC plus 13 cross-tumor stress), measured within-model (3 runs) and cross-model reproducibility (Opus 4.7, Sonnet 4.6, Haiku 4.5), and prospectively deployed it on 62 consecutive late-stage cancer patients (8 monthly TruSight Oncology 500 batches, 11 cancer types).
 
 ## Results
 
-Output structure and reproducibility are summarised in the Table. Disagreements concentrated at documented rule blind spots: when CiVIC carried different-tumor evidence the agent correctly down-tiered RET M918T NSCLC from Tier IA to IIC; the dominant disagreement (20 of 112) was the Tier III VUS to Tier IID boundary for oncogenic variants lacking therapeutic level. The RET catch and Tier IA concordances were preserved across all three models. All 62 deployed cases completed end-to-end with auditable per-case reconciliation logs.
+Output structure and reproducibility are summarised in the Table. Disagreements concentrated at documented rule blind spots: when CiVIC carried different-tumor evidence the agent correctly down-tiered RET M918T NSCLC from Tier IA to IIC; the dominant disagreement (20 of 112) was the Tier III VUS to Tier IID boundary for oncogenic variants lacking therapeutic level. All 62 deployed cases completed end-to-end with auditable per-case reconciliation logs.
 
 ## Conclusions
 
