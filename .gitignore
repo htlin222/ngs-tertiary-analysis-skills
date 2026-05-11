@@ -32,6 +32,7 @@ reports/.openevidence_cache/
 # Raw patient-data uploads (zips of TSO500 deliverables)
 TSO500*.zip
 TSO500HRD*.zip
+annotation_*.zip
 
 # Personal/private plan files
 *.private.md
